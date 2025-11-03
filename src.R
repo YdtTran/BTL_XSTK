@@ -2,7 +2,7 @@ setwd('./')
 
 getwd()
 
-df <- read.csv("./data_sets/Intel_CPUs.csv")
+df <- read.csv("./data_sets/All_GPUs.csv")
 
 head(df, 5)
 
