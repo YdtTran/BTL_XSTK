@@ -1,1 +1,26 @@
 \section{Tổng quan dữ liệu}
+
+Trong thời đại công nghệ phát triển nhanh chóng, bộ xử lý đồ họa (GPU – Graphics Processing Unit) đã trở thành một trong những thành phần quan trọng nhất của máy tính hiện đại. Ban đầu, GPU được thiết kế với mục đích chính là xử lý hình ảnh và đồ họa trong các trò chơi điện tử, phần mềm thiết kế và dựng phim. Tuy nhiên, cùng với sự tiến bộ của công nghệ, vai trò của GPU đã vượt xa khỏi phạm vi đồ họa thuần túy. Ngày nay, GPU đóng vai trò cốt lõi trong các lĩnh vực như trí tuệ nhân tạo (AI), học sâu (Deep Learning), mô phỏng khoa học, và xử lý dữ liệu lớn. Nhờ vào cấu trúc song song mạnh mẽ với hàng nghìn lõi xử lý, GPU có thể thực hiện hàng loạt phép tính phức tạp cùng lúc, giúp rút ngắn đáng kể thời gian xử lý so với CPU truyền thống. Dưới đây là tập dữ liệu khảo sát các yếu tố về GPU cung cấp những thông tin chi tiết như tốc độ xung nhịp, nhiệt độ tối đa, mức tiêu thụ điện năng, kích thước khuôn chip, ngày phát hành, giá bán, và nhiều đặc trưng kỹ thuật khác. Việc phân tích các dữ liệu này giúp ta hiểu rõ hơn về sự phát triển của công nghệ GPU qua các giai đoạn, từ đó đánh giá xu hướng tiến hóa về hiệu năng, giá thành, và mức độ tối ưu năng lượng. Bên cạnh đó, người nghiên cứu có thể khám phá mối quan hệ giữa giá thành và hiệu suất hoạt động, tìm hiểu xem liệu có nhà sản xuất nào nổi bật trong một phân khúc nhất định hay không. Thông qua việc khai thác và phân tích dữ liệu GPU, chúng ta có thể dự đoán xu hướng của các thế hệ GPU tương lai, phục vụ cho các ứng dụng như học máy, đồ họa máy tính, và tính toán hiệu năng cao.
+
+
+Tập dữ liệu All\_GPUs, bao gồm 34 thông số của 3406 bộ xử lý đồ hoạ (GPU) khác nhau đến từ 3 nhà sản xuất chính là NVIDIA, AMD và Intel. Dữ liệu được quan sát và thu thập từ trang web \href{https://www.kaggle.com/datasets/iliassekkaf/computerparts/data}{Kaggle}. Tập dữ liệu này có tương đối nhiều thông số, trong đó có thể kể đến một số thông số như sau:
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|l|p{3cm}|p{7cm}|} % <-- đổi đây nè
+        \hline
+        \textbf{STT} & \textbf{Tên biến} & \textbf{Đơn vị}      & \textbf{Mô tả}                                                                                           \\ \hline
+        1            & Manufacturer      &                      & Hãng của sản xuất GPU                                                                                    \\ \hline
+        2            & Release\_Date     &                      & Năm sản xuất của GPU                                                                                     \\ \hline
+        3            & Memory\_Bandwidth & Gigabyte/giây (GB/s) & Lượng dữ liệu tối đa mà bộ nhớ GPU có thể truyền tải trong mỗi giây                                      \\ \hline
+        4            & Memory\_Speed     & MHz                  & Độ rộng của bus bộ nhớ, ảnh hưởng đến tốc độ truy cập và hiệu suất của bộ nhớ GPU                        \\ \hline
+        5            & L2\_Cache         & KB                   & Bộ nhớ đệm cấp 2 giúp GPU truy cập nhanh hơn vào dữ liệu được sử dụng thường xuyên, tối ưu hóa hiệu suất \\ \hline
+        6            & Memory\_Bus       & Bit                  & Độ rộng của kênh truyền dữ liệu trong RAM (Memory).                                                      \\ \hline
+        7            & Memory            &                      & Dung lượng bộ nhớ đồ họa (VRAM) của GPU, quyết định khả năng xử lý và lưu trữ dữ liệu hình
+        \\ \hline
+    \end{tabular}
+    \caption{Bảng mô tả một vài thông số quan trọng của tập dữ liệu GPU}
+    \label{tab:variables_gpu}
+\end{table}
+
+Như đã đề cập ở trên, tập dữ liệu có tổng cộng 34 thông số khác nhau, tuy nhiên nếu liệt kê hết ở bảng \ref{tab:variables_gpu} thì sẽ rất dài. Ngoài ra, trong các thông số đó, có nhiều thông số mang tính kỹ thuật cao và không phổ biến, những dữ liệu này sẽ được sử lý sau để dễ dàng hơn trong việc phân tích và trực quan hoá dữ liệu.
