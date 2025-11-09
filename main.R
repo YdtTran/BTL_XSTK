@@ -30,3 +30,5 @@ ordered_cols <- c(
 
 ordered_cols <- intersect(ordered_cols, colnames(main_df))
 main_df <- main_df[, c(ordered_cols, setdiff(colnames(main_df), ordered_cols))]
+
+print(colnames(main_df))
