@@ -17,7 +17,7 @@
 \RequirePackage[super,square,sort]{natbib}
 
 % Change to '[english,vietnamese]' to use Vietnamese labels
-\RequirePackage[english]{babel}
+\RequirePackage[vietnamese]{babel}
 
 % Custom commands
 \newcommand{\Month}{
@@ -37,10 +37,10 @@
   \fi
 }
 
-\newcommand{\@upperuniname}{Vietnam National University Ho Chi Minh City}
-\newcommand{\@uniname}{Ho Chi Minh City University of Technology}
+\newcommand{\@upperuniname}{Đại học quốc gia Thành phố Hồ Chí Minh}
+\newcommand{\@uniname}{Trường Đại học Bách Khoa Thành phố Hồ Chí Minh}
 
-\newcommand{\@deptname}{Faculty of Computer Science and Engineering}
+\newcommand{\@deptname}{Khoa khoa học và kỹ thuật máy tính}
 \newcommand{\deptname}[1]{\renewcommand{\@deptname}{#1}}
 
 \newcommand{\@coursename}{Course name}
@@ -51,16 +51,22 @@
 
 \renewcommand{\@title}{Report title}
 
-\newcommand{\@advisor}{Advisor}
+\newcommand{\@advisor}{ADVISOR}
 \newcommand{\advisor}[1]{\renewcommand{\@advisor}{#1}}
 
 \newcommand{\@stuname}{STUDENT:\ H (xxxxxxx)}
 \newcommand{\stuname}[1]{\renewcommand{\@stuname}{#1}}
 
-\newcommand{\@reportplace}{Ho Chi Minh City}
+\newcommand{\@reportplace}{Hồ Chí Minh}
 \newcommand{\reportplace}[1]{\renewcommand{\@reportplace}{#1}}
 
-\newcommand{\@reporttime}{\Month \the\year}
+% \newcommand{\@reporttime}{\Month \the\year}
+\newcommand{\@reporttime}{%
+  \ifcase\month
+    0/\or Tháng 1/\or Tháng 2/\or Tháng 3/\or Tháng 4/\or Tháng 5/\or Tháng 6/%
+  \or Tháng 7/\or Tháng 8/\or Tháng 9/\or Tháng 10/\or Tháng 11/\or Tháng 12/%
+  \fi\space\the\year
+}
 \newcommand{\reporttime}[1]{\renewcommand{\@reporttime}{#1}}
 
 % Configurations
@@ -117,7 +123,7 @@
         \put(0,-8pt){\includegraphics[width=20pt]{graphics/hcmut.png}}
       \end{picture}
       \begin{tabular}{l}
-        \ttfamily\@uniname \\
+        \ttfamily\@uniname  \\
         \ttfamily\@deptname \\
       \end{tabular}
     \end{tabular}
@@ -126,7 +132,7 @@
     \bfseries
     \begin{tabular}{rl}
       \begin{tabular}{r}
-        \ttfamily\@uniname \\
+        \ttfamily\@uniname  \\
         \ttfamily\@deptname \\
       \end{tabular}
       \begin{picture}(25pt,15pt)
@@ -139,7 +145,7 @@
     \bfseries
     \begin{tabular}{rl}
       \begin{tabular}{r}
-        \ttfamily\@uniname \\
+        \ttfamily\@uniname  \\
         \ttfamily\@deptname \\
       \end{tabular}
       \begin{picture}(25pt,15pt)
@@ -180,8 +186,8 @@
     \vfill
     \mdseries
     \begin{tabular}{rll}
-      Advisor(s): \@advisor \\
-      Student(s): \@stuname \\
+      GVHD: \@advisor    \\
+      Mã nhóm: \@stuname \\
     \end{tabular}
     \vfill
     \MakeUppercase{\@reportplace, \@reporttime}
