@@ -18,7 +18,7 @@ missing_counts = freq.na(df)
 ggplot(missing_counts, aes(x = rownames(missing_counts), y = missing_counts[,2], )) +
   geom_bar(stat = "identity", fill = "cyan") +
   geom_text(aes(label = paste0(missing_counts[,2], "%")), vjust = -0.5, size = 2) +
-  labs(title = "Tỷ lệ dữ liệu khuyết của các đặc điểm thống kê", x = "Đặc điểm thống kê", y = "Tỷ lệ dữ liệu khuyết (%)") +
+  labs(title = "Missing rate", x = "Feature", y = "Rate(%)") +
   theme_minimal() +
   theme(axis.text.x = element_text(
     size = 10,
@@ -46,6 +46,7 @@ df_filtered <- df[, cols_to_keep, drop = FALSE]
 
 head(df_filtered, 5)
 df_filtered <- na.omit(df_filtered)
+print(names(df_filtered))
 
 # Xoá đơn vị
 remove_unit_cols <- c("Memory_Bandwidth", "Memory_Speed", "Memory_Bus", "Direct_X")
