@@ -114,15 +114,13 @@
 \else
   % One-sided document
   \fancyhead[R]{%
-    \makebox[\textwidth][l]{%
-      \begin{minipage}{0.75\textwidth}
-        \raggedright
-        \ttfamily\@uniname\\
-        \ttfamily\@deptname
-      \end{minipage}
-      \hfill
-      \HCMUTlogoSmall
-    }
+    \begin{tabular}{rl}
+      \begin{tabular}{l}
+        \ttfamily\@uniname \\
+        \hspace{6.3em}\ttfamily\@deptname
+      \end{tabular}
+       & \HCMUTlogoSmall
+    \end{tabular}
   }
 \fi
 

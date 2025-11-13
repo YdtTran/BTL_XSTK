@@ -1,0 +1,35 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{codespace-listings}[2025/02/10 Mã nguồn + Danh sách mã nguồn cho minted]
+
+% --- Dependencies ---
+\RequirePackage{minted}
+\RequirePackage{newfloat}
+\RequirePackage{caption}
+\RequirePackage{xcolor}
+\RequirePackage{mdframed}
+
+% --- Colors ---
+\definecolor{codebg}{rgb}{0.97,0.97,0.97}
+\definecolor{codeborder}{rgb}{0.80,0.80,0.80}
+
+% --- Tạo môi trường floating mới (như figure) ---
+\DeclareFloatingEnvironment[
+    fileext=lol,              % tạo file lưu danh sách: .lol
+    listname={Danh sách mã nguồn}, % tiêu đề danh sách
+    name=Mã nguồn,            % prefix: “Mã nguồn 1.1”
+    placement=htbp            % vị trí float
+]{listing}
+
+\captionsetup[listing]{labelfont=bf}
+
+% --- Môi trường code ---
+\newenvironment{code}[3][]{
+    \begin{listing}[#1]
+        \caption{#2}
+        \begin{mdframed}[backgroundcolor=codebg, linecolor=codeborder]
+            \begin{minted}[fontsize=\small, breaklines, autogobble, tabsize=2]{#3}
+}{
+    \end{minted}
+        \end{mdframed}
+    \end{listing}
+}
