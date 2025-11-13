@@ -1,49 +1,83 @@
 % Speed-up compilation
-\documentclass[article,final]{hcmut-report}
+\documentclass[final]{hcmut-report}
 
-% Load minted only once
-\usepackage[frozencache=true, cachedir=_minted-cache]{minted}
-
-% Load codespace AFTER minted
-\usepackage{codespace}
-
-% Extra packages
-\usepackage{gensymb,textcomp}
-\usepackage{array,longtable,multicol,multirow,siunitx,tabularx}
+% ===================================================
+% CÁC GÓI BỔ SUNG (Chỉ nạp những gói class chưa có)
+% ===================================================
+\usepackage{gensymb}
+\usepackage{array,longtable,multicol,multirow,tabularx}
+\usepackage{siunitx} % Xử lý đơn vị đo lường
 \usepackage{enumitem}
-\usepackage{caption,float}
+\usepackage{float}   % Để dùng [H] cho hình
 \usepackage[export]{adjustbox}
+
+% Cleveref phải được load CUỐI CÙNG trong preamble
 \usepackage[nameinlink]{cleveref}
 
-% Configurations
+% ===================================================
+% CẤU HÌNH MÀU SẮC CODE (Giữ style của bạn)
+% ===================================================
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Dùng \lstset trực tiếp để KHÔNG ghi đè cấu hình tiếng Việt trong .cls
+\lstset{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,       % Hiện số dòng bên trái
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+% ===================================================
+% THÔNG TIN BÁO CÁO
+% ===================================================
 \coursename{XÁC SUẤT THỐNG KÊ (MT2013)}
 \reporttype{Bài tập lớn}
 \title{Đánh giá hiệu năng GPU}
 
-% Must NOT use &
 \advisor{Nguyễn Thị Kiều Dung}
 
-% This is allowed (tabular environment inside argument)
 \stuname{
   \begin{tabular}{lll}
-    & Student 1 & ID 1 \\
-    & Student 2 & ID 2 \\
-    & Student 3 & ID 3 \\
+    & Nguyễn Văn A & 1234567 \\
+    & Trần Văn B   & 1234568 \\
+    & Lê Văn C     & 1234569 \\
   \end{tabular}
 }
 
-\AtBeginDocument{\counterwithin{lstlisting}{section}}
-
+% ===================================================
+% NỘI DUNG CHÍNH
+% ===================================================
 \begin{document}
+
 \coverpage
 
+% Tạo mục lục và các danh sách
 \tableofcontents
 \listoffigures
 \listoftables
 \lstlistoflistings
 
 \clearpage
+
+% Nội dung các chương
 \input{chapters/1_tongquandulieu.tex}
+
+\clearpage
 \input{chapters/2_tienxuly.tex}
 
 \end{document}

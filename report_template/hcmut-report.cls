@@ -1,24 +1,51 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{hcmut-report}
+\ProvidesClass{hcmut-report}[2025/01/01 Clean class with UTF8 listings for LuaLaTeX]
 
+% ==========================================
+% PASS OPTIONS -> article
+% ==========================================
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 \LoadClass[12pt,a4paper]{article}
 
-% Only keep what is needed
-\RequirePackage[T5]{fontenc}
+% ==========================================
+% PACKAGES
+% ==========================================
 \RequirePackage{anyfontsize,amsmath,amssymb}
 \RequirePackage{geometry,graphicx,indentfirst,setspace}
 \RequirePackage{booktabs}
-\RequirePackage[center]{caption}
+
+% Caption setup
+\RequirePackage{caption}
+\captionsetup{justification=centering}
+
 \RequirePackage{fancyhdr,hyperref}
 \RequirePackage[super,square,sort]{natbib}
-\RequirePackage[vietnamese]{babel}
 
-% Preload logo
+% ==========================================
+% LANGUAGE & FONTS
+% ==========================================
+\RequirePackage[vietnamese]{babel}
+\RequirePackage{fontspec}
+
+% Font cho Code (Monospace)
+\setmonofont{JetBrains Mono}[
+  Scale=0.9,
+  Contextuals=Alternate
+]
+
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+
+% ==========================================
+% LOGO DEFINITIONS
+% ==========================================
 \newcommand{\HCMUTlogoSmall}{\includegraphics[width=20pt]{graphics/hcmut.png}}
 \newcommand{\HCMUTlogoBig}{\includegraphics[scale=0.4]{graphics/hcmut.png}}
-% Commands
+
+% ==========================================
+% USER FIELDS
+% ==========================================
 \newcommand{\@upperuniname}{Đại học quốc gia Thành phố Hồ Chí Minh}
 \newcommand{\@uniname}{Trường Đại học Bách Khoa Thành phố Hồ Chí Minh}
 \newcommand{\@deptname}{Khoa khoa học và kỹ thuật máy tính}
@@ -35,7 +62,7 @@
 \newcommand{\@advisor}{ADVISOR}
 \newcommand{\advisor}[1]{\renewcommand{\@advisor}{#1}}
 
-\newcommand{\@stuname}{STUDENT:\ H (xxxxxxx)}
+\newcommand{\@stuname}{STUDENT: H (xxxxxxx)}
 \newcommand{\stuname}[1]{\renewcommand{\@stuname}{#1}}
 
 \newcommand{\@reportplace}{Hồ Chí Minh}
@@ -48,14 +75,16 @@
 }
 \newcommand{\reporttime}[1]{\renewcommand{\@reporttime}{#1}}
 
-% Geometry
+% ==========================================
+% LAYOUT SETUP
+% ==========================================
 \geometry{
   paper=a4paper,
   left=3cm,
   right=2cm,
   vmargin=2cm,
   includeheadfoot=true,
-  headheight=35pt
+  headheight=38pt
 }
 
 \onehalfspacing
@@ -65,13 +94,14 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
-% Numbering
 \AtBeginDocument{\counterwithin{equation}{section}}
 \AtBeginDocument{\counterwithin{table}{section}}
 \AtBeginDocument{\counterwithin{figure}{section}}
-\AtBeginDocument{\renewcommand*\bibname{References}}
+\AtBeginDocument{\counterwithin{lstlisting}{section}}
 
-% Hyperref
+% ==========================================
+% HYPERREF SETUP
+% ==========================================
 \hypersetup{
   colorlinks=true,
   linkcolor=black,
@@ -79,55 +109,91 @@
   urlcolor=blue
 }
 
-% fancyhdr
+% ==========================================
+% LISTINGS SETUP
+% ==========================================
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+columns=fullflexible,
+breaklines=true,
+postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+keepspaces=true,
+showstringspaces=false,
+commentstyle=\color{green!50!black},
+keywordstyle=\color{blue},
+stringstyle=\color{red},
+columns=fullflexible,
+literate=
+  {á}{{á}}1 {à}{{à}}1 {ả}{{ả}}1 {ã}{{ã}}1 {ạ}{{ạ}}1
+{ă}{{ă}}1 {ắ}{{ắ}}1 {ằ}{{ằ}}1 {ẳ}{{ẳ}}1 {ẵ}{{ẵ}}1 {ặ}{{ặ}}1
+{â}{{â}}1 {ấ}{{ấ}}1 {ầ}{{ầ}}1 {ẩ}{{ẩ}}1 {ẫ}{{ẫ}}1 {ậ}{{ậ}}1
+{Á}{{Á}}1 {À}{{À}}1 {Ả}{{Ả}}1 {Ã}{{Ã}}1 {Ạ}{{Ạ}}1
+{Ă}{{Ă}}1 {Ắ}{{Ắ}}1 {Ằ}{{Ằ}}1 {Ẳ}{{Ẳ}}1 {Ẵ}{{Ẵ}}1 {Ặ}{{Ặ}}1
+{Â}{{Â}}1 {Ấ}{{Ấ}}1 {Ầ}{{Ầ}}1 {Ẩ}{{Ẩ}}1 {Ẫ}{{Ẫ}}1 {Ậ}{{Ậ}}1
+{đ}{{đ}}1 {Đ}{{Đ}}1
+{é}{{é}}1 {è}{{è}}1 {ẻ}{{ẻ}}1 {ẽ}{{ẽ}}1 {ẹ}{{ẹ}}1
+{ê}{{ê}}1 {ế}{{ế}}1 {ề}{{ề}}1 {ể}{{ể}}1 {ễ}{{ễ}}1 {ệ}{{ệ}}1
+{É}{{É}}1 {È}{{È}}1 {Ẻ}{{Ẻ}}1 {Ẽ}{{Ẽ}}1 {Ẹ}{{Ẹ}}1
+{Ê}{{Ê}}1 {Ế}{{Ế}}1 {Ề}{{Ề}}1 {Ể}{{Ể}}1 {Ễ}{{Ễ}}1 {Ệ}{{Ệ}}1
+{í}{{í}}1 {ì}{{ì}}1 {ỉ}{{ỉ}}1 {ĩ}{{ĩ}}1 {ị}{{ị}}1
+{Í}{{Í}}1 {Ì}{{Ì}}1 {Ỉ}{{Ỉ}}1 {Ĩ}{{Ĩ}}1 {Ị}{{Ị}}1
+{ó}{{ó}}1 {ò}{{ò}}1 {ỏ}{{ỏ}}1 {õ}{{õ}}1 {ọ}{{ọ}}1
+{ô}{{ô}}1 {ố}{{ố}}1 {ồ}{{ồ}}1 {ổ}{{ổ}}1 {ỗ}{{ỗ}}1 {ộ}{{ộ}}1
+{ơ}{{ơ}}1 {ớ}{{ớ}}1 {ờ}{{ờ}}1 {ở}{{ở}}1 {ỡ}{{ỡ}}1 {ợ}{{ợ}}1
+{Ó}{{Ó}}1 {Ò}{{Ò}}1 {Ỏ}{{Ỏ}}1 {Õ}{{Õ}}1 {Ọ}{{Ọ}}1
+{Ô}{{Ô}}1 {Ố}{{Ố}}1 {Ồ}{{Ồ}}1 {Ổ}{{Ổ}}1 {Ỗ}{{ỗ}}1 {Ộ}{{Ộ}}1
+{Ơ}{{Ơ}}1 {Ớ}{{Ớ}}1 {Ờ}{{Ờ}}1 {Ở}{{Ở}}1 {Ỡ}{{Ỡ}}1 {Ợ}{{Ợ}}1
+{ú}{{ú}}1 {ù}{{ù}}1 {ủ}{{ủ}}1 {ũ}{{ũ}}1 {ụ}{{ụ}}1
+{ư}{{ư}}1 {ứ}{{ứ}}1 {ừ}{{ừ}}1 {ử}{{ử}}1 {ữ}{{ữ}}1 {ự}{{ự}}1
+{Ú}{{Ú}}1 {Ù}{{Ù}}1 {Ủ}{{Ủ}}1 {Ũ}{{Ũ}}1 {Ụ}{{Ụ}}1
+{Ư}{{Ư}}1 {Ứ}{{Ứ}}1 {Ừ}{{Ừ}}1 {Ử}{{Ử}}1 {Ữ}{{Ữ}}1 {Ự}{{Ự}}1
+{ý}{{ý}}1 {ỳ}{{ỳ}}1 {ỷ}{{ỷ}}1 {ỹ}{{ỹ}}1 {ỵ}{{ỵ}}1
+{Ý}{{Ý}}1 {Ỳ}{{Ỳ}}1 {Ỷ}{{Ỷ}}1 {Ỹ}{{Ỹ}}1 {Ỵ}{{Ỵ}}1
+}
+
+% ==========================================
+% HEADER & FOOTER
+% ==========================================
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0.3pt}
 \renewcommand{\footrulewidth}{0pt}
 
-\if@twoside
-  % Even page (left header)
-  \fancyhead[EL]{%
-    \makebox[\textwidth][l]{%
-      \begin{minipage}{0.75\textwidth}
-        \raggedright
-        \ttfamily\@uniname\\
-        \ttfamily\@deptname
-      \end{minipage}
-      \hfill
-      \HCMUTlogoSmall
-    }
-  }
+\pagestyle{fancy}
+\fancyhf{} % Xóa sạch header/footer cũ
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
 
-  % Odd page (right header)
-  \fancyhead[OR]{%
-    \makebox[\textwidth][l]{%
-      \begin{minipage}{0.75\textwidth}
-        \raggedright
-        \ttfamily\@uniname\\
-        \ttfamily\@deptname
-      \end{minipage}
-      \hfill
-      \HCMUTlogoSmall
-    }
-  }
-\else
-  % One-sided document
-  \fancyhead[R]{%
-    \begin{tabular}{rl}
-      \begin{tabular}{l}
-        \ttfamily\@uniname \\
-        \hspace{6.3em}\ttfamily\@deptname
-      \end{tabular}
-       & \HCMUTlogoSmall
+% Định nghĩa khối nội dung Header (để đỡ phải viết lại 2 lần)
+\newcommand{\@HeaderContent}{
+  \begin{tabular}{rl}
+    \begin{tabular}{l}
+      \ttfamily\@uniname \\[2pt]
+      \hspace{6.5em}\ttfamily\@deptname
     \end{tabular}
-  }
+     & \HCMUTlogoSmall
+  \end{tabular}
+}
+
+% Kiểm tra chế độ in (Twoside hay Oneside)
+\if@twoside
+  % --- TRƯỜNG HỢP TWOSIDE (In 2 mặt) ---
+  % RO = Right Odd (Phải trang lẻ), LE = Left Even (Trái trang chẵn)
+  \fancyhead[RO,LE]{\@HeaderContent}
+\else
+  % --- TRƯỜNG HỢP ONESIDE (Mặc định) ---
+  % Luôn nằm bên phải
+  \fancyhead[R]{\@HeaderContent}
 \fi
 
-
+% Số trang luôn nằm giữa
 \fancyfoot[C]{\thepage}
 
-% Cover page
+
+
+% ==========================================
+% COVER PAGE COMMAND
+% ==========================================
 \newcommand{\coverpage}{
   \pagestyle{empty}
   \vspace*{-3\baselineskip}
@@ -136,28 +202,72 @@
     \MakeUppercase{\@uniname}\\
     \MakeUppercase{\@deptname}
 
-    \vfill
-    \HCMUTlogoBig
-    \vfill
+    \vfill \HCMUTlogoBig \vfill
 
     \bfseries
     \begin{tabular}{c}
-      \Large\@coursename                                 \\
-      {}                                                 \\ \midrule \\ {}\\
-      \Large\@reporttype                                 \\
-      {}                                                 \\
-      \Huge\parbox[c]{0.8\linewidth}{\centering \@title} \\
-      {}                                                 \\ \bottomrule
+      \Large\@coursename                                 \\[4pt] \midrule \\[4pt]
+      \Large\@reporttype                                 \\[8pt]
+      \Huge\parbox[c]{0.8\linewidth}{\centering \@title} \\[6pt] \bottomrule
     \end{tabular}
-    \vfill
 
-    \mdseries
+    \vfill
     GVHD: \@advisor\\
     Mã nhóm: \@stuname\\
-
     \vfill
     \MakeUppercase{\@reportplace, \@reporttime}
   \end{center}
   \cleardoublepage
   \pagestyle{fancy}
 }
+
+% ==========================================
+% LIST COMMANDS (SỬA LỖI TOC/BABEL)
+% ==========================================
+\makeatletter
+
+% 1. Đặt tên tiếng Việt (Dùng AtBeginDocument để ghi đè Babel)
+\AtBeginDocument{
+  \renewcommand{\listfigurename}{Danh sách hình vẽ}
+  \renewcommand{\listtablename}{Danh sách bảng}
+  \renewcommand{\lstlistlistingname}{Danh sách đoạn mã}
+  \renewcommand{\contentsname}{Mục lục}
+}
+
+% 2. Định nghĩa lại lệnh in danh sách để:
+%    - Tự động thêm vào Mục lục (TOC)
+%    - Ngắt trang
+\renewcommand{\listoffigures}{%
+  \cleardoublepage
+  \phantomsection % Tạo neo cho hyperref
+  \addcontentsline{toc}{section}{\listfigurename}
+  \section*{\listfigurename}
+  \@starttoc{lof}
+}
+
+\renewcommand{\listoftables}{%
+  \cleardoublepage
+  \phantomsection
+  \addcontentsline{toc}{section}{\listtablename}
+  \section*{\listtablename}
+  \@starttoc{lot}
+}
+
+\renewcommand{\lstlistoflistings}{%
+  \cleardoublepage
+  \phantomsection
+  \addcontentsline{toc}{section}{\lstlistlistingname}
+  \section*{\lstlistlistingname}
+  \@starttoc{lol}
+}
+
+% 3. Sửa lệnh TOC để nó có bookmark đúng
+\renewcommand{\tableofcontents}{%
+  \cleardoublepage
+  \phantomsection
+  \section*{\contentsname}
+  \@starttoc{toc}
+}
+
+\makeatother
+

@@ -1,2 +1,122 @@
 \section{Tiền xử lý dữ liệu}
-\subsubsection{Đọc dữ liệu vào R}
+\subsection{Đọc dữ liệu vào R}
+
+Ta đọc dữ liệu từ file dữ liệu đã cho dưới định dạng CSV vào R bằng hàm \verb|read.csv()| như sau:
+
+\begin{lstlisting}[language=R, caption={Đọc dữ liệu từ file trong R}]
+df <- read.csv("./data_sets/All_GPUs.csv")
+head(df, 5)
+\end{lstlisting}
+
+
+Sau khi đọc dữ liệu xong, ta có thể sử dụng hàm \verb|head()| để hiển thị 5 dòng đầu tiên của dữ liệu nhằm kiểm tra xem dữ liệu đã được đọc đúng chưa (Hình \ref{fig:head_data}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphics/2_1_data.jpg}
+    \caption{Hiển thị 5 dòng đầu tiên của dữ liệu sau khi đọc vào R}
+    \label{fig:head_data}
+\end{figure}
+
+
+Như vậy, ta đã hoàn thành việc đọc dữ liệu từ file CSV vào R và có thể tiến hành các bước tiền xử lý dữ liệu tiếp theo.
+\newpage
+\subsection{Làm sạch dữ liệu}
+
+
+Vì trong file dữ liệu ban đầu, có thể tồn tại các giá trị bị thiếu (NA) hoặc các giá trị không hợp lệ, ta cần thực hiện các bước làm sạch dữ liệu để đảm bảo tính chính xác và độ tin cậy của phân tích sau này.
+
+
+Trước tiên, ta sẽ phải thay thế tất cả các giá trị rác, không hợp lệ thành giá trị $NA$ trong R. Ví dụ, nếu một ô bất kì có giá trị là chuỗi rỗng \verb|""| hoặc ký tự đặc biệt như \verb|"N/A"|, ta sẽ thay thế chúng bằng $NA$ như sau:
+
+\begin{lstlisting}[language=R, caption={Thay thế giá trị rác thành NA}]
+df <- df %>%
+  mutate(across(where(is.character), trimws))
+df[df == ""] <- NA
+df[df == "N/A"] <- NA
+df[df == "NA"] <- NA
+df[df == "-"] <- NA
+df[df == "Unknown Release Date"] <- NA
+# Chi lay nam san xuat, khong lay ngay cu the
+df$Release_Date <- as.Date(df$Release_Date, format = "%d-%b-%Y")
+df$Release_Date <- format(df$Release_Date, "%Y")
+\end{lstlisting}
+
+
+Sau khi thay thế các giá trị rác, nhóm nhận thấy rằng có rất nhiều yếu tố có số lượng $NA$ lớn, điều này buộc nhóm phải lựa chọn giữa loại bỏ và chuẩn hoá. Trong nội dung bài báo cáo này, nhóm sẽ loại bỏ những đăc điểm (cột) có số lượng giá trị $NA$ vượt quá 10\% tổng số dòng dữ liệu. Để thực hiện việc này, ta có thể sử dụng đoạn mã sau:
+
+\begin{lstlisting}[language=R, caption={Loại bỏ các cột có tỷ lệ NA > 10\%}]
+# Dem so luong gia tri NA trong moi cot
+missing_counts = freq.na(df)
+
+# Ve do thi ty le du lieu khuyet
+ggplot(missing_counts, aes(x = rownames(missing_counts), y = missing_counts[,2], )) +
+  geom_bar(stat = "identity", fill = "cyan") +
+  geom_text(aes(label = paste0(missing_counts[,2], "%")), vjust = -0.5, size = 2) +
+  labs(title = "Missing rate", x = "Feature", y = "Rate (%)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(
+    size = 10,
+    angle = 90,
+    hjust = 1
+  ))
+\end{lstlisting}
+
+
+Kết quả trực quan hóa tỷ lệ dữ liệu khuyết thiếu được thể hiện trong Hình \ref{fig:missing_rate}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{graphics/2_2_missing_rate.jpg}
+    \caption{Tỷ lệ dữ liệu khuyết thiếu trong các đặc trưng}
+    \label{fig:missing_rate}
+\end{figure}
+
+
+Tiếp theo sau đó, ta sẽ loại bỏ các cột có tỷ lệ giá trị $NA$ vượt quá 10\% tổng số dòng dữ liệu như sau:
+
+\begin{lstlisting}[language=R, caption={Loại bỏ các cột có tỷ lệ NA > 10\%}]
+missing_counts_df <- data.frame(
+  feature = rownames(missing_counts),
+  percent = missing_counts[,2]
+)
+
+cols_to_keep <- missing_counts_df$feature[missing_counts_df$percent <= 10 & missing_counts_df$feature != "Architecture" & missing_counts_df$feature != "Name"]
+df_filtered <- df[, cols_to_keep, drop = FALSE]
+
+head(df_filtered, 5)
+df_filtered <- na.omit(df_filtered)
+\end{lstlisting}
+
+
+Bằng câu lệnh \verb|print(names(df_filtered))|, ta có thể kiểm tra lại các cột còn lại sau khi đã loại bỏ các cột có tỷ lệ giá trị $NA$ vượt quá 10\% (Hình \ref{fig:final_columns}).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphics/2_2_final_columns.jpg}
+    \caption{Các cột còn lại sau khi loại bỏ các cột có tỷ lệ NA > 10\%}
+    \label{fig:final_columns}
+\end{figure}
+
+
+Mặc dù đã làm sạch dữ liệu bằng cách loại bỏ các cột có tỷ lệ khuyết hoặc số lượng giá trị $NA$ cao, vẫn còn một yếu tố khiến việc phân tích dữ liệu trở nên khó khăn, đó là các đơn vị đo, do đó ta cần chuẩn hoá các đơn vị đo trong dữ liệu bằng cách loại bỏ chúng.
+
+\begin{lstlisting}[language=R, caption={Chuẩn hoá các đơn vị đo trong dữ liệu}]
+# Chuan hoa don vi do trong cac cot
+remove_unit_cols <- c("Memory_Bandwidth", "Memory_Speed", "Memory_Bus", "Direct_X")
+
+main_df <- df_filtered
+
+# print(df_filtered[remove_unit_cols])
+main_df[remove_unit_cols] <- lapply(df_filtered[remove_unit_cols], function(x) {
+  as.numeric(gsub("[^0-9.]", "", x))
+})
+
+clean_cache <- function(x) {
+  main <- as.numeric(sub("KB.*", "", x))      # 2304
+  mult      <- as.numeric(sub(".*\\(x([0-9]+)\\)", "\\1", x))  # 2
+  if (is.na(mult)) mult <- 1
+  return(main * mult)
+}
+
+main_df$L2_Cache <- sapply(main_df$L2_Cache, clean_cache)
+\end{lstlisting}

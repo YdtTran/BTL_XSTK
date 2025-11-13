@@ -20,24 +20,21 @@
     "latex-workshop.latex.autoBuild.run": "onSave",
     "latex-workshop.latex.tools": [
         {
-            "name": "latexmk",
-            "command": "latexmk",
+            "name": "lualatex",
+            "command": "lualatex",
             "args": [
-                "-pdf",
-                "-file-line-error",
-                "-interaction=errorstopmode",
-                "-halt-on-error",
                 "-synctex=1",
-                "-shell-escape",
+                "-interaction=nonstopmode",
                 "%DOC%"
             ]
         }
     ],
+    "latex-workshop.latex.recipeDefault": "lualatex",
     "latex-workshop.latex.recipes": [
         {
-            "name": "Build on save (stop on error)",
+            "name": "LuaLaTeX",
             "tools": [
-                "latexmk"
+                "lualatex"
             ]
         }
     ],
