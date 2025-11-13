@@ -17,12 +17,17 @@
         "**/*.lot": true,
         "**/*.lol   ": true,
     },
+    "latex-workshop.latex.autoBuild.run": "onSave",
     "latex-workshop.latex.tools": [
         {
-            "name": "latexmk (shell escape)",
+            "name": "latexmk",
             "command": "latexmk",
             "args": [
                 "-pdf",
+                "-file-line-error",
+                "-interaction=errorstopmode",
+                "-halt-on-error",
+                "-synctex=1",
                 "-shell-escape",
                 "%DOC%"
             ]
@@ -30,10 +35,13 @@
     ],
     "latex-workshop.latex.recipes": [
         {
-            "name": "latexmk (shell escape)",
+            "name": "Build on save (stop on error)",
             "tools": [
-                "latexmk (shell escape)"
+                "latexmk"
             ]
         }
-    ]
+    ],
+    "latex-workshop.view.pdf.viewer": "tab",
+    // "latex-workshop.latex.clean.enabled": true,
+    // "latex-workshop.latex.clean.onBuild": true
 }

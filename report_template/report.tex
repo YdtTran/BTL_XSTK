@@ -1,88 +1,49 @@
-% 'draft' mode can be used to speed up compilation
-\documentclass[twoside,final]{hcmut-report}
+% Speed-up compilation
+\documentclass[article,final]{hcmut-report}
+
+% Load minted only once
+\usepackage[frozencache=true, cachedir=_minted-cache]{minted}
+
+% Load codespace AFTER minted
 \usepackage{codespace}
 
-% Draft watermark
-% https://github.com/callegar/LaTeX-draftwatermark
-
-% Encodings
+% Extra packages
 \usepackage{gensymb,textcomp}
-
-% Better tables
-% Wide tables go to https://tex.stackexchange.com/q/332902
 \usepackage{array,longtable,multicol,multirow,siunitx,tabularx}
-
-% Better enum
 \usepackage{enumitem}
-
-% Graphics
 \usepackage{caption,float}
-
-% Add options for figures, like max width, framing, etc.
 \usepackage[export]{adjustbox}
-
-% References
-% Use \Cref{} instead of \ref{}
 \usepackage[nameinlink]{cleveref}
-
-% FOR DEMONSTRATION PURPOSES, REMOVE IN PRODUCTION
-\usepackage{mwe}
-
-% Sub-preambles
-% https://github.com/MartinScharrer/standalone
 
 % Configurations
 \coursename{XÁC SUẤT THỐNG KÊ (MT2013)}
 \reporttype{Bài tập lớn}
 \title{Đánh giá hiệu năng GPU}
-\advisor{& Nguyễn Thị Kiều Dung &}
-\stuname{%
-  & Student 1 & ID 1 \\
-  & Student 2 & ID 2 \\
-  & Student 3 & ID 3 \\
+
+% Must NOT use &
+\advisor{Nguyễn Thị Kiều Dung}
+
+% This is allowed (tabular environment inside argument)
+\stuname{
+  \begin{tabular}{lll}
+    & Student 1 & ID 1 \\
+    & Student 2 & ID 2 \\
+    & Student 3 & ID 3 \\
+  \end{tabular}
 }
 
-% Allow page breaks inside align* environment
-%\allowdisplaybreaks{}
-
-% Makes a lot of things blue, avoid at all costs
-%\everymath{\color{blue}}
-
-% Set depth of numbering for counters
 \AtBeginDocument{\counterwithin{lstlisting}{section}}
 
-% Rename some sections
-%\AtBeginDocument{\renewcommand*{\contentsname}{Contents}}
-%\AtBeginDocument{\renewcommand*{\refname}{References}}
-%\AtBeginDocument{\renewcommand*{\bibname}{References}}
-
-% Custom commands
-%\newcommand*\mean[1]{\bar{#1}}
-
 \begin{document}
-\coverpage%
-
-%\section*{Member list \& Workload}
-%\newcounter{memberrowno}
-%\setcounter{memberrowno}{0}
-%\begin{center}
-%  \begin{tabular}{>{\stepcounter{memberrowno}\thememberrowno}llcc}
-%    \toprule
-%    \multicolumn{1}{c}{\textbf{No.}} & \textbf{Full name} & \textbf{Student ID} & \textbf{Contribution} \\
-%    \midrule
-%                                     & h                  & xxxxxxx             & 100\%                       \\
-%                                     & h                  & xxxxxxx             & 100\%                       \\
-%    \bottomrule
-%  \end{tabular}
-%\end{center}
-%\clearpage
+\coverpage
 
 \tableofcontents
 \listoffigures
 \listoftables
-\lstlistoflistings{}
+\lstlistoflistings
 
 \clearpage
-\input{chapters/tongquandulieu.tex}
+\input{chapters/1_tongquandulieu.tex}
+\input{chapters/2_tienxuly.tex}
 
 \end{document}

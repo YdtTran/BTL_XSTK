@@ -5,41 +5,22 @@
 \ProcessOptions\relax
 \LoadClass[12pt,a4paper]{article}
 
-\RequirePackage[utf8]{vntex,inputenc}
-\RequirePackage{anyfontsize,amsmath,amssymb}
+% Only keep what is needed
 \RequirePackage[T5]{fontenc}
-
+\RequirePackage{anyfontsize,amsmath,amssymb}
 \RequirePackage{geometry,graphicx,indentfirst,setspace}
 \RequirePackage{booktabs}
 \RequirePackage[center]{caption}
-
 \RequirePackage{fancyhdr,hyperref}
 \RequirePackage[super,square,sort]{natbib}
-
-% Change to '[english,vietnamese]' to use Vietnamese labels
 \RequirePackage[vietnamese]{babel}
 
-% Custom commands
-\newcommand{\Month}{
-  \ifcase \the\month
-  \or January
-  \or February
-  \or March
-  \or April
-  \or May
-  \or June
-  \or July
-  \or August
-  \or September
-  \or October
-  \or November
-  \or December
-  \fi
-}
-
+% Preload logo
+\newcommand{\HCMUTlogoSmall}{\includegraphics[width=20pt]{graphics/hcmut.png}}
+\newcommand{\HCMUTlogoBig}{\includegraphics[scale=0.4]{graphics/hcmut.png}}
+% Commands
 \newcommand{\@upperuniname}{Đại học quốc gia Thành phố Hồ Chí Minh}
 \newcommand{\@uniname}{Trường Đại học Bách Khoa Thành phố Hồ Chí Minh}
-
 \newcommand{\@deptname}{Khoa khoa học và kỹ thuật máy tính}
 \newcommand{\deptname}[1]{\renewcommand{\@deptname}{#1}}
 
@@ -60,18 +41,14 @@
 \newcommand{\@reportplace}{Hồ Chí Minh}
 \newcommand{\reportplace}[1]{\renewcommand{\@reportplace}{#1}}
 
-% \newcommand{\@reporttime}{\Month \the\year}
 \newcommand{\@reporttime}{%
-  \ifcase\month
-    0/\or Tháng 1/\or Tháng 2/\or Tháng 3/\or Tháng 4/\or Tháng 5/\or Tháng 6/%
+  \ifcase\month 0/\or Tháng 1/\or Tháng 2/\or Tháng 3/\or Tháng 4/\or Tháng 5/\or Tháng 6/%
   \or Tháng 7/\or Tháng 8/\or Tháng 9/\or Tháng 10/\or Tháng 11/\or Tháng 12/%
   \fi\space\the\year
 }
 \newcommand{\reporttime}[1]{\renewcommand{\@reporttime}{#1}}
 
-% Configurations
-%\graphicspath{{subdir1/}{subdir2/}{subdir3/}...{subdirn/}}
-
+% Geometry
 \geometry{
   paper=a4paper,
   left=3cm,
@@ -85,17 +62,16 @@
 \raggedbottom
 \renewcommand{\arraystretch}{1.2}
 
-% Set depth of numbering for sections and table of contents
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
-% Set depth of numbering for counters
+% Numbering
 \AtBeginDocument{\counterwithin{equation}{section}}
 \AtBeginDocument{\counterwithin{table}{section}}
 \AtBeginDocument{\counterwithin{figure}{section}}
-
 \AtBeginDocument{\renewcommand*\bibname{References}}
 
+% Hyperref
 \hypersetup{
   colorlinks=true,
   linkcolor=black,
@@ -103,96 +79,87 @@
   urlcolor=blue
 }
 
+% fancyhdr
+\pagestyle{fancy}
+\fancyhf{}
 \renewcommand{\headrulewidth}{0.3pt}
 \renewcommand{\footrulewidth}{0pt}
 
-\pagestyle{fancy}
-\fancyhf{}
-
-%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection.\ #1}}
-
-% The drawing units are interpreted as multiples of \unitlength
-% unless a unit is given
-%\setlength{\unitlength}{1pt}
-
 \if@twoside
-  \fancyhead[EL]{
-    \bfseries
-    \begin{tabular}{rl}
-      \begin{picture}(25pt,15pt)
-        \put(0,-8pt){\includegraphics[width=20pt]{graphics/hcmut.png}}
-      \end{picture}
-      \begin{tabular}{l}
-        \ttfamily\@uniname  \\
-        \ttfamily\@deptname \\
-      \end{tabular}
-    \end{tabular}
+  % Even page (left header)
+  \fancyhead[EL]{%
+    \makebox[\textwidth][l]{%
+      \begin{minipage}{0.75\textwidth}
+        \raggedright
+        \ttfamily\@uniname\\
+        \ttfamily\@deptname
+      \end{minipage}
+      \hfill
+      \HCMUTlogoSmall
+    }
   }
-  \fancyhead[OR]{
-    \bfseries
-    \begin{tabular}{rl}
-      \begin{tabular}{r}
-        \ttfamily\@uniname  \\
-        \ttfamily\@deptname \\
-      \end{tabular}
-      \begin{picture}(25pt,15pt)
-        \put(0,-8pt){\includegraphics[width=20pt]{graphics/hcmut.png}}
-      \end{picture}
-    \end{tabular}
+
+  % Odd page (right header)
+  \fancyhead[OR]{%
+    \makebox[\textwidth][l]{%
+      \begin{minipage}{0.75\textwidth}
+        \raggedright
+        \ttfamily\@uniname\\
+        \ttfamily\@deptname
+      \end{minipage}
+      \hfill
+      \HCMUTlogoSmall
+    }
   }
 \else
-  \fancyhead[R]{
-    \bfseries
-    \begin{tabular}{rl}
-      \begin{tabular}{r}
-        \ttfamily\@uniname  \\
-        \ttfamily\@deptname \\
-      \end{tabular}
-      \begin{picture}(25pt,15pt)
-        \put(0,-8pt){\includegraphics[width=20pt]{graphics/hcmut.png}}
-      \end{picture}
-    \end{tabular}
+  % One-sided document
+  \fancyhead[R]{%
+    \makebox[\textwidth][l]{%
+      \begin{minipage}{0.75\textwidth}
+        \raggedright
+        \ttfamily\@uniname\\
+        \ttfamily\@deptname
+      \end{minipage}
+      \hfill
+      \HCMUTlogoSmall
+    }
   }
 \fi
 
+
 \fancyfoot[C]{\thepage}
 
-% Custom pages and sections
+% Cover page
 \newcommand{\coverpage}{
   \pagestyle{empty}
-
   \vspace*{-3\baselineskip}
   \begin{center}
-    \MakeUppercase{\@upperuniname}
-
-    \MakeUppercase{\@uniname}
-
+    \MakeUppercase{\@upperuniname}\\
+    \MakeUppercase{\@uniname}\\
     \MakeUppercase{\@deptname}
+
     \vfill
-    \includegraphics[scale=0.4]{graphics/hcmut.png}
+    \HCMUTlogoBig
     \vfill
+
     \bfseries
     \begin{tabular}{c}
       \Large\@coursename                                 \\
-      {}                                                 \\
-      \midrule                                           \\
-      {}                                                 \\
+      {}                                                 \\ \midrule \\ {}\\
       \Large\@reporttype                                 \\
       {}                                                 \\
       \Huge\parbox[c]{0.8\linewidth}{\centering \@title} \\
-      {}                                                 \\
-      \bottomrule
+      {}                                                 \\ \bottomrule
     \end{tabular}
     \vfill
+
     \mdseries
-    \begin{tabular}{rll}
-      GVHD: \@advisor    \\
-      Mã nhóm: \@stuname \\
-    \end{tabular}
+    GVHD: \@advisor\\
+    Mã nhóm: \@stuname\\
+
     \vfill
     \MakeUppercase{\@reportplace, \@reporttime}
   \end{center}
-
   \cleardoublepage
   \pagestyle{fancy}
 }
