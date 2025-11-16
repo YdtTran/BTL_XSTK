@@ -1,0 +1,195 @@
+\section{Kiến thức nền}
+
+\subsection{Thống kê mô tả và thống kê suy diễn}
+
+\textbf{Thống kê mô tả (descriptive statistics):} là quá trình thu thập, biểu diễn, tổng hợp và xử lý dữ liệu để biến đổi dữ liệu thành thông tin.
+
+\textbf{Thống kê suy diễn (Inferential statistics):} xử lý các thông tin có được từ thống kê mô tả, từ đó đưa ra các cơ sở cho những dự đoán (predictions), dự báo (forecasts) và các ước lượng (estimations).
+\subsection{Các đặc trưng của tổng thể và mẫu}
+
+\subsubsection{Khái niệm}
+
+\textbf{Tổng thể thống kê (population):} là tập hợp các phần tử thuộc đối tượng nghiên cứu, cần được quan sát, thu thập và phân tích theo một hoặc một số đặc trưng nào đó. Các phần tử tạo thành tổng thể thống kê được gọi là đơn vị tổng thể.
+
+\textbf{Mẫu (sample):} là một số đơn vị được chọn ra từ tổng thể theo một phương pháp lấy mẫu nào đó. Các đặc trưng mẫu được sử dụng để suy rộng ra các đặc trưng của tổng thể nói chung.
+
+\textbf{Đặc điểm thống kê (dấu hiệu nghiên cứu):} là các tính chất quan trọng liên quan trực tiếp đến nội dung nghiên cứu và khảo sát cần thu thập dữ liệu trên các đơn vị tổng thể. Người ta chia làm 2 loại: đặc điểm thuộc tính và đặc điểm số lượng.
+
+\subsubsection{Tỷ lệ}
+
+Với một tổng thể có N phần tử và M phần tử mang tính chất A nào đó. Tỷ lệ tổng thể (kí hiệu: p) được tính bởi công thức:
+\[ p = \frac{M}{N} \]
+
+Với một mẫu có n phần tử và có m phần tử mang tính chất A nào đó. Tỷ lệ mẫu (kí hiệu: f hay $\bar{p}$) được tính bởi công thức:
+\[ p = \bar{f} = \frac{m}{n} \]
+
+\subsubsection{Trung bình}
+
+\textbf{Trung bình (mean):} là đại lượng thường được sử dụng nhất để đo giá trị trung tâm của dữ liệu (Trung bình bị ảnh hưởng bởi các giá trị ngoại lai). Với một tổng thể có $N$ phần tử, trung bình tổng thể (kí hiệu: $\mu$ hay $\bar{X}$) tính bởi công thức:
+\[ \mu = \frac{1}{N} \sum_{i=1}^{N} X_i = \frac{X_1 + X_2 + \dots + X_N}{N} \]
+
+Với một mẫu có $n$ phần tử, trung bình mẫu (kí hiệu: $\bar{x}$) tính bởi công thức:
+\[ \bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i = \frac{x_1 + x_2 + \dots + x_n}{n} \]
+
+Trong trường hợp X có bảng phân phối tần số như sau:
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \textbf{X}      & $x_1$ & $x_2$ & $x_3$ & $\dots$ & $x_k$ \\ \hline
+        \textbf{Tần số} & $n_1$ & $n_2$ & $n_3$ & $\dots$ & $n_k$ \\ \hline
+    \end{tabular}
+\end{center}
+
+Ta lại có trung bình mẫu tính bởi công thức:
+\[ \bar{x} = \frac{\displaystyle\sum_{i=1}^{k} x_i n_i}{n} = \frac{x_1 n_1 + x_2 n_2 + \dots + x_k n_k}{n} \]
+
+\subsubsection{Phương sai, độ lệch chuẩn}
+
+\textbf{Phương sai (Variance):} là trung bình của bình phương độ lệch các giá trị so vói trung bình. Phương sai phản ánh độ phân tán hay sự biến thiên của dữ liệu.
+
+\textbf{Độ lệch chuẩn (Standard deviation):} Độ lệch chuẩn (Standard deviation) là căn bậc hai của phương sai. Độ lệch chuẩn dùng để đo sự biến thiên, biểu diễn sự biến thiên xung quanh trung bình và cũng có cùng đơn vị đo với dữ liệu gốc.
+
+Với một tổng thể có N phần tử, phương sai tổng thể (kí hiệu: $\sigma^2$) tính bởi công thức:
+\[ \sigma^2 = \frac{\displaystyle\sum_{i=1}^{N} (x_i - \mu)^2}{N} = \frac{\displaystyle\sum_{i=1}^{N} x_i^2 - N\mu^2}{N} = \frac{\displaystyle\sum_{i=1}^{N} x_i^2}{N} - \mu^2 \]
+
+Khi đó: $\sigma$ được gọi là độ lệch chuẩn của tổng thể.
+
+Với một mẫu có $n$ phần tử, phương sai mẫu (kí hiệu: $s^2$) tính bởi công thức:
+\[ s^2 = \frac{\displaystyle\sum_{i=1}^{n} (x_i - \bar{x})^2}{n-1} = \frac{\displaystyle\sum_{i=1}^{n} x_i^2 - n\bar{x}^2}{n-1} = \frac{\displaystyle\sum_{i=1}^{n} x_i^2}{n-1} - \frac{n\bar{x}^2}{n-1} \]
+
+Trong trường hợp X có bảng phân phối tần số như sau:
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \textbf{X}      & $x_1$ & $x_2$ & $x_3$ & $\dots$ & $x_k$ \\ \hline
+        \textbf{Tần số} & $n_1$ & $n_2$ & $n_3$ & $\dots$ & $n_k$ \\ \hline
+    \end{tabular}
+\end{center}
+
+Ta lại có phương sai mẫu tính bởi công thức:
+% Ghi chú: Hình ảnh của bạn có một lỗi nhỏ (n/n-1), tôi đã sửa lại theo công thức chuẩn.
+\[ s^2 = \frac{1}{n-1} \sum_{i=1}^{k} n_i (x_i - \bar{x})^2 = \frac{1}{n-1} [n_1(x_1 - \bar{x})^2 + n_2(x_2 - \bar{x})^2 + \dots + n_k(x_k - \bar{x})^2] \]
+
+Khi đó: $s$ được gọi là độ lệch mẫu.
+
+\subsubsection{Các đặc trưng khác}
+
+\textbf{Yếu vị (Mode):} là giá trị của phần tử có số lần xuất hiện lớn nhất trong mẫu. Yếu vị không bị ảnh hưởng bởi các điểm ngoại lai.
+
+\textbf{Hệ số biến thiên (Coefficient of variation):} đo lường mức độ biến động tương đối của mẫu dữ liệu, được dùng khi người ta muốn so sánh mức độ biến động của các mẫu không cùng đơn vị đo. Đơn vị tính bằng \%.
+\[ CV(\text{tongthe}) = \frac{\sigma}{\mu} \times 100\% \]
+\[ CV(\text{mau}) = \frac{s}{\bar{x}} \times 100\% \]
+
+\textbf{Sai số chuẩn (Standard Error):} là giá trị đại diện cho độ lệch chuẩn của giá trị trung bình trong tập dữ liệu. Nó phục vụ như một thước đo biến động cho các biến ngẫu nhiên hay độ lượn độ phân tán. Độ phân tán càng nhỏ, dữ liệu càng chính xác.
+\[ SE(\text{tongthe}) = \frac{\sigma}{\sqrt{N}} \]
+\[ SE(\text{mau}) = \frac{s}{\sqrt{n}} \]
+
+\textbf{Trung vị (Median):} Giả sử $X$ có $N$ quan sát, sắp các quan sát này theo thứ tự tăng dần. Trung vị là giá trị nằm chính giữa dãy số này và chia nó thành 2 phần bằng nhau. Cụ thể:
+
+Giả sử mẫu có kích thước $n$ được sắp xếp tăng dần theo giá trị được khảo sát:
+\[ x_1 \le x_2 \le \dots \le x_{n-1} \le x_n \]
+
+Nếu $n = 2k + 1$ (n lẻ) thì trung vị mẫu là giá trị $x_{k+1}$
+
+Nếu $n = 2k$ (n chẵn) thì trung vị mẫu là giá trị $\dfrac{x_k + x_{k+1}}{2}$
+
+Trung vị không bị ảnh hưởng bởi các điểm ngoại lai (outliers).
+
+\textbf{Tứ phân vị (Quartiles):} Giá trị trung vị chia mẫu dữ liệu đã sắp thứ tự thành 2 tập có số phần tử bằng nhau. Trung vị của tập dữ liệu nhỏ hơn là $Q_1$ (gọi là tứ phân vị dưới) và trung vị của tập dữ liệu lớn hơn là $Q_3$ (gọi là tứ phân vị trên). $Q_2$ được lấy bằng giá trị trung vị. Độ trải giữa, hay là khoảng tứ phân vị $IQR = Q_3 - Q_1$.
+
+\textbf{Điểm Outlier:} còn gọi là điểm dị biệt, điểm ngoại lệ, điểm ngoại lai.... Đó là các phần tử của mẫu có giá trị nằm ngoài khoảng
+\[ (Q_1 - 1.5 \times IQR; Q_3 + 1.5 \times IQR) \]
+
+\subsection{Ước lượng}
+
+Lý thuyết ước lượng là một nội dung trọng tâm trong thống kê và nghiên cứu khoa học, tập trung vào việc xác định giá trị của các tham số (parameters) của quần thể dựa trên những mẫu (samples) được chọn ra từ quần thể đó. Mục tiêu chính của ước lượng là tìm ra các giá trị gần đúng cho những đại lượng đặc trưng của quần thể như trung bình tổng thể ($\mu$), phương sai tổng thể ($\sigma^2$), và tỷ lệ phần tử có đặc điểm nhất định trong quần thể ($p$).
+
+\begin{itemize}
+    \item \textbf{Khoảng Tin Cậy (Confidence Interval - CI):} Là một loại ước lượng khoảng được sử dụng để chỉ ra phạm vi mà ta tin rằng tham số của tổng thể nằm trong đó. Khoảng tin cậy thường được xác định bởi hai giới hạn: giới hạn dưới và giới hạn trên. Ví dụ, một khoảng tin cậy 95\% cho trung bình tổng thể có thể là (20, 30), nghĩa là ta tin rằng với độ tin cậy 95\%, trung bình thực sự của tổng thể nằm trong khoảng từ 20 đến 30.
+
+    \item \textbf{Mức Ý Nghĩa (Significance Level - $\alpha$):} Là ngưỡng mà ta chọn để quyết định ý nghĩa. Ví dụ mức ý nghĩa thường được chọn ở mức 0.05 - nghĩa là khả năng kết quả quan sát sự khác biệt được nhìn thấy trên số liệu là ngẫu nhiên chỉ là 5\%.
+
+    \item \textbf{Độ Tin Cậy (Confidence Level):} Được biểu thị dưới dạng một tỷ lệ phần trăm chỉ mức độ tin tưởng hoặc sự chắc chắn mà khoảng tin cậy ước lượng của chúng ta bao gồm tham số tổng thể thực sự. Ví dụ: nếu ta xây dựng khoảng tin cậy với mức tin cậy 95\%, ta tin chắc rằng 95 trên 100 lần ước tính sẽ nằm giữa giá trị trên và giá trị dưới được chỉ định bởi khoảng tin cậy.
+\end{itemize}
+
+\[ \gamma = 1 - \alpha \]
+
+Có hai phương pháp ước lượng thường được sử dụng là ước lượng điểm (point estimation) và ước lượng khoảng (interval estimation).
+
+\begin{itemize}
+    \item \textbf{Ước lượng điểm (Point Estimation):} là dùng một tham số thống kê mẫu đơn lẻ để ước lượng giá trị tham số của tổng thể.
+          % Dùng align* để căn lề đẹp
+          \begin{align*}
+              \mu      & \approx \bar{x} \\
+              \sigma^2 & \approx s^2     \\
+              p        & \approx f
+          \end{align*}
+
+    \item \textbf{Ước lượng bằng khoảng tin cậy (Interval Estimation):} -Ước lượng bằng khoảng tin cậy chính là tìm ra khoảng ước lượng $(G_1; G_2)$ cho tham số $\theta$ trong tổng thể sao cho ứng với độ tin cậy (confidence) bằng $\gamma$ cho trước, $P(G_1 < \theta < G_2) = \gamma$.
+\end{itemize}
+
+\subsubsection{Ước lượng điểm (Point Estimation)}
+
+Một \textbf{ước lượng (estimator)} của một tham số (của tổng thể): là một biến ngẫu nhiên có giá trị phụ thuộc vào thông tin của mẫu, giá trị của nó là một xấp xỉ cho tham số chưa biết của tổng thể. Một giá trị cụ thể của biến ngẫu nhiên này gọi là một \textbf{giá trị ước lượng điểm}.
+
+Xét đại lượng ngẫu nhiên X có phân phối $F(x; \theta)$ với tham số $\theta$ chưa biết.
+
+Chọn một mẫu ngẫu nhiên cỡ n từ $X_1, X_2, \dots, X_n$.
+
+Thống kê $\hat{\theta} = h(X_1, X_2, \dots, X_n)$ gọi là một ước lượng điểm cho $\theta$.
+
+Với một mẫu cụ thể $(x_1, x_2, \dots, x_n)$, ta gọi $\hat{\theta} = h(x_1, x_2, \dots, x_n)$ là một giá trị ước lượng điểm cụ thể cho $\theta$.
+
+\subsection{Ước lượng bằng khoảng tin cậy (Interval Estimation)}
+
+Cho tham số $\theta$ của tổng thể và $X_1, X_2, \dots, X_n$ là các quan sát ngẫu nhiên. Ta gọi khoảng $(c, d)$ là khoảng ước lượng (hay khoảng tin cậy) của tham số $\theta$ với độ tin cậy $\gamma$ nếu: $P(c < \theta < d) = \gamma$. Có thể nói, độ tin cậy $\gamma$ cho khoảng ước lượng của tham số $\theta$ chính là xác suất để ta đúng khi ước lượng tham số $\theta$ bằng khoảng $(c, d)$. Ngược lại, xác suất mà ta cho phép sai khi ước lượng $\theta$ được gọi là mức ý nghĩa. Kí hiệu là $\alpha$. Ta có $\alpha + \gamma = 1$.
+
+Xác định khoảng ước lượng đối xứng của trung bình tổng thể dựa vào một mẫu đã cho, với kích thước là $n$, trung bình mẫu là $\bar{x}$ và phương sai mẫu là $s^2$ hoặc phương sai tổng thể là $\sigma^2$. Mục tiêu là xác định một khoảng ước lượng đối xứng xung quanh $\mu$ của mẫu với một mức độ tin cậy cụ thể.
+
+Để giải quyết vấn đề này, ta cần đi đến việc xác định epsilon ($\epsilon$) - sai số ước lượng, dựa trên các thông tin đã biết về mẫu. Khoảng tin cậy sẽ được biểu diễn bằng khoảng $\bar{x} \pm \epsilon$. Tùy thuộc vào giả định về phân phối của dữ liệu và các thông tin đã biết về phương sai, cách tính $\epsilon$ sẽ thay đổi như sau:
+
+% Ghi chú: Tôi đã dùng \displaystyle để các phân số hiển thị lớn giống trong hình
+\begin{table}[H]
+    \centering
+    \label{tab:phanphoi_xs}
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        \textbf{Dạng}                                                                                                       & \textbf{Giả định}                                        & \textbf{Loại}                                                   & \textbf{Ngưỡng sai số}                                                       & \textbf{Khoảng tin cậy}                                                      \\ \hline
+        \multirow{3}{*}{Tỷ lệ}                                                                                              & \multirow{3}{*}{$n \ge 30$}                              & Đối xứng                                                        & $\displaystyle \epsilon = z_{\alpha/2} \sqrt{\frac{f(1-f)}{n}}$              & $\displaystyle f - \epsilon < p < f + \epsilon$                              \\ \cline{3-5}
+                                                                                                                            &                                                          & Bên phải                                                        & $\displaystyle \epsilon = z_{\alpha} \sqrt{\frac{f(1-f)}{n}}$                & $\displaystyle 0 < p < f + z_{\alpha} \sqrt{\frac{f(1-f)}{n}}$               \\ \cline{3-5}
+                                                                                                                            &                                                          & Bên trái                                                        & $\displaystyle \epsilon = z_{\alpha} \sqrt{\frac{f(1-f)}{n}}$                & $\displaystyle f - z_{\alpha} \sqrt{\frac{f(1-f)}{n}} < p < 1$               \\ \hline
+        \multirow{6}{*}{Trung bình}                                                                                         & \multirow{3}{*}{\parbox{3.5cm}{$X \sim N(\mu, \sigma^2)$                                                                                                                                                                                                                                 \\ Đã biết $\sigma$}} & Đối xứng & $\displaystyle \epsilon = z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$ & $\displaystyle \bar{x} - \epsilon < \mu < \bar{x} + \epsilon$ \\ \cline{3-5}
+                                                                                                                            &                                                          & Bên phải                                                        & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$                & $\displaystyle -\infty < \mu < \bar{x} + z_{\alpha} \frac{\sigma}{\sqrt{n}}$ \\ \cline{3-5}
+                                                                                                                            &                                                          & Bên trái                                                        & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$                & $\displaystyle \bar{x} - z_{\alpha} \frac{\sigma}{\sqrt{n}} < \mu < \infty$  \\ \cline{2-5}
+                                                                                                                            & \multirow{3}{*}{\parbox{3.5cm}{$X \sim N(\mu, \sigma^2)$                                                                                                                                                                                                                                 \\ Chưa biết $\sigma$}} & Đối xứng & $\displaystyle \epsilon = t_{\alpha/2; n-1} \frac{s}{\sqrt{n}}$ & $\displaystyle \bar{x} - \epsilon < \mu < \bar{x} + \epsilon$ \\ \cline{3-5}
+                                                                                                                            &                                                          & Bên phải                                                        & $\displaystyle \epsilon = t_{\alpha; n-1} \frac{s}{\sqrt{n}}$                & $\displaystyle -\infty < \mu < \bar{x} + t_{\alpha; n-1} \frac{s}{\sqrt{n}}$ \\ \cline{3-5}
+                                                                                                                            &                                                          & Bên trái                                                        & $\displaystyle \epsilon = t_{\alpha; n-1} \frac{s}{\sqrt{n}}$                & $\displaystyle \bar{x} - t_{\alpha; n-1} \frac{s}{\sqrt{n}} < \mu < \infty$  \\ \hline
+        \multicolumn{2}{|l|}{\parbox{5cm}{Phân phối tùy ý, mẫu lớn ($n \ge 30$). Nếu chưa biết $\sigma$ thì thay bằng $s$}} & Đối xứng                                                 & $\displaystyle \epsilon = z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$ & $\displaystyle \bar{x} - \epsilon < \mu < \bar{x} + \epsilon$                                                                                               \\ \cline{3-5}
+        \multicolumn{2}{|l|}{}                                                                                              & Bên phải                                                 & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$   & $\displaystyle -\infty < \mu < \bar{x} + z_{\alpha} \frac{\sigma}{\sqrt{n}}$                                                                                \\ \cline{3-5}
+        \multicolumn{2}{|l|}{}                                                                                              & Bên trái                                                 & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$   & $\displaystyle \bar{x} - z_{\alpha} \frac{\sigma}{\sqrt{n}} < \mu < \infty$                                                                                 \\ \hline
+    \end{tabular}
+    \caption{Phân phối XS của trung bình mẫu và tỷ lệ mẫu}
+\end{table}
+
+
+\subsection{Kiểm định giả thuyết thống kê}
+
+\subsubsection{Khái niệm chung về kiểm định}
+
+Trong thống kê, \textbf{kiểm định (hypothesis testing)} là quá trình đánh giá một giả thuyết về dữ liệu để xác định xem liệu có đủ bằng chứng để chấp nhận hay bác bỏ giả thuyết đó. Mục tiêu của kiểm định là đưa ra quyết định dựa trên dữ liệu mẫu có sẵn để rút ra những kết luận về tổng thể.
+
+Quá trình kiểm định thường bắt đầu bằng việc xây dựng hai giả thuyết:
+
+\begin{itemize}
+    \item \textbf{Giả thuyết không (null hypothesis, ký hiệu $H_0$):} là giả thiết về yếu tố cần kiểm định của tổng thể ở trạng thái bình thường, không chịu tác động của các hiện tượng liên quan. Yếu tố trong H0 phải được xác định cụ thể.
+
+    \item \textbf{Giả thuyết thay thế - giả thuyết đối (alternative hypothesis, ký hiệu $H_1$):} là một mệnh đề mâu thuẫn với $H_0$, $H_1$ thể hiện xu hướng cần kiểm định.
+\end{itemize}
+
+\textbf{Miền Bác Bỏ (Rejection Region):} là miền số thực thỏa $P(G \in RR / H_0 \text{ đúng}) = \alpha$. $\alpha$ là một số khá bé, thường không quá 10\% và được gọi là mức ý nghĩa của kiểm định. Một ký hiệu khác của miền bác bỏ được dùng trong bài: $W_\alpha$
+
+\textbf{Miền Chấp Nhận (Acceptance Region):} phần bù của miền bác bỏ trong R
+
+\textbf{Tiêu chuẩn kiểm định:} là hàm thống kê $G = G(X_1, X_2, \dots, X_n, \theta_0)$, xây dựng trên mẫu ngẫu nhiên $W = (X_1, X_2, \dots, X_n)$ và tham số $\theta_0$ liên quan đến $H_0$ ; Điều kiện đặt ra với thống kê G là nếu $H_0$ đúng thì quy luật phân phối xác suất của G phải hoàn toàn xác định.

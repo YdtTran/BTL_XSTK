@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{hcmut-report}
+\ProvidesClass{hcmut-report-vi}
 
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -18,7 +18,7 @@
 \RequirePackage[super,square,sort]{natbib}
 
 % Change to '[english,vietnamese]' to use Vietnamese labels
-\RequirePackage[english]{babel}
+\RequirePackage[vietnamese,english]{babel}
 
 % Custom commands
 \newcommand{\Month}{
@@ -38,10 +38,18 @@
   \fi
 }
 
-\newcommand{\@upperuniname}{Vietnam National University Ho Chi Minh City}
-\newcommand{\@uniname}{Ho Chi Minh City University of Technology}
+\AtBeginDocument{
+  \renewcommand{\listfigurename}{Danh sách hình vẽ}
+  \renewcommand{\listtablename}{Danh sách bảng}
+  \renewcommand{\lstlistlistingname}{Danh sách đoạn mã}
+  \renewcommand{\contentsname}{Mục lục}
+}
 
-\newcommand{\@deptname}{Faculty of Computer Science and Engineering}
+
+\newcommand{\@upperuniname}{Đại học Quốc gia Thành phố Hồ Chí Minh}
+\newcommand{\@uniname}{Trường Đại học Bách khoa}
+
+\newcommand{\@deptname}{Khoa Khoa học và Kỹ thuật Máy tính}
 \newcommand{\deptname}[1]{\renewcommand{\@deptname}{#1}}
 
 \newcommand{\@coursename}{Course name}
@@ -160,6 +168,7 @@
 \fi
 
 \fancyfoot[C]{\thepage}
+
 
 % Custom pages and sections
 \newcommand{\coverpage}{

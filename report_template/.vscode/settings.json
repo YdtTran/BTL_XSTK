@@ -18,10 +18,11 @@
         "**/*.lol   ": true,
     },
     "latex-workshop.latex.autoBuild.run": "onSave",
+    // Định nghĩa công cụ "pdflatex"
     "latex-workshop.latex.tools": [
         {
-            "name": "lualatex",
-            "command": "lualatex",
+            "name": "pdflatex", // Đổi tên thành pdflatex
+            "command": "pdflatex", // Đổi lệnh thành pdflatex
             "args": [
                 "-synctex=1",
                 "-interaction=nonstopmode",
@@ -29,16 +30,17 @@
             ]
         }
     ],
-    "latex-workshop.latex.recipeDefault": "lualatex",
+    // Đặt "pdflatex" làm công thức build mặc định
+    "latex-workshop.latex.recipeDefault": "pdflatex",
+    // Định nghĩa "công thức" build (chỉ cần chạy pdflatex 1 lần là đủ)
     "latex-workshop.latex.recipes": [
         {
-            "name": "LuaLaTeX",
+            "name": "pdfLaTeX", // Đổi tên công thức
             "tools": [
-                "lualatex"
+                "pdflatex" // Dùng công cụ pdflatex đã định nghĩa ở trên
             ]
         }
     ],
+    // Mở file PDF trong tab của VS Code
     "latex-workshop.view.pdf.viewer": "tab",
-    // "latex-workshop.latex.clean.enabled": true,
-    // "latex-workshop.latex.clean.onBuild": true
 }
