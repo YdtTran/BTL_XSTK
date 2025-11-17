@@ -1,0 +1,439 @@
+\subsection{Phân tích ANOVA hai yếu tố về ảnh hưởng của Hãng sản xuất và Loại bộ nhớ lên Băng thông bộ nhớ}
+
+\subsubsection{Mục đích kiểm định}
+Mục đích của kiểm định này là đánh giá xem:
+\begin{enumerate}
+    \item Băng thông bộ nhớ trung bình có khác nhau giữa các \textbf{hãng} hay không.
+    \item Băng thông bộ nhớ trung bình có khác nhau giữa các \textbf{loại GPU} (tích hợp so với chuyên dụng) hay không.
+    \item Có tồn tại \textbf{tác động tương tác} giữa Hãng và Loại bộ nhớ đối với băng thông bộ nhớ hay không.
+\end{enumerate}
+\subsection{Giả thiết nghiên cứu}
+
+\subsubsection*{1. Ảnh hưởng của hãng}
+\begin{itemize}
+    \item \textbf{Giả thiết không $H_0$}: Băng thông bộ nhớ trung bình của các hãng là như nhau.
+    \item \textbf{Giả thiết đối $H_1$}: Có ít nhất hai hãng có băng thông bộ nhớ trung bình khác nhau.
+\end{itemize}
+
+\subsubsection*{2. Ảnh hưởng của loại GPU}
+\begin{itemize}
+    \item \textbf{Giả thiết không $H_0$}: Băng thông bộ nhớ trung bình giữa các loại GPU là như nhau.
+    \item \textbf{Giả thiết đối $H_1$}: Có sự khác biệt băng thông trung bình giữa ít nhất hai loại GPU.
+\end{itemize}
+
+\subsubsection*{3. Tác động tương tác giữa hai yếu tố}
+\begin{itemize}
+    \item \textbf{Giả thiết không $H_0$}: Không tồn tại tương tác giữa hãng và loại GPU (tác động của một yếu tố không phụ thuộc vào yếu tố kia).
+    \item \textbf{Giả thiết đối $H_1$}: Có tương tác giữa hãng và loại GPU (tác động của một yếu tố phụ thuộc vào yếu tố còn lại).
+\end{itemize}
+
+% ==========================================================
+\subsection{Các giả định của ANOVA hai yếu tố}
+ANOVA hai yếu tố yêu cầu ba giả định chính:
+
+\subsubsection*{1. Phần dư tuân theo phân phối chuẩn}
+\begin{itemize}
+    \item \textbf{Ý nghĩa}: Nếu phần dư phân phối chuẩn, mô hình ANOVA sẽ cho kết quả đáng tin cậy.
+    \item Kiểm tra bằng \textbf{Shapiro–Wilk test}.
+    \item \textbf{Giả thiết kiểm định}:
+          \begin{itemize}
+              \item $H_0$: phần dư có phân phối chuẩn.
+              \item $H_1$: phần dư không có phân phối chuẩn.
+          \end{itemize}
+\end{itemize}
+
+\subsubsection*{2. Phương sai giữa các nhóm là đồng nhất}
+\begin{itemize}
+    \item \textbf{Ý nghĩa}: Các nhóm có cùng độ biến thiên thì phép so sánh trung bình mới hợp lệ.
+    \item Kiểm tra bằng \textbf{Levene’s Test}.
+    \item \textbf{Giả thiết kiểm định}:
+          \begin{itemize}
+              \item $H_0$: các nhóm có phương sai bằng nhau.
+              \item $H_1$: có ít nhất hai nhóm có phương sai khác nhau.
+          \end{itemize}
+\end{itemize}
+
+\subsubsection*{3. Các quan sát độc lập}
+\begin{itemize}
+    \item \textbf{Ý nghĩa}: mỗi GPU trong dữ liệu được coi là bằng chứng độc lập.
+    \item Đây là giả định về thiết kế dữ liệu (không kiểm định bằng thống kê).
+\end{itemize}
+
+
+% ==========================================================
+\subsection{Cơ sở toán học của ANOVA hai yếu tố}
+
+\subsubsection*{Mô hình ANOVA hai yếu tố}
+
+Giả sử ta quan sát giá trị Băng thông bộ nhớ được ký hiệu là $Y_{ijk}$, trong đó:
+\begin{itemize}
+    \item $i$ là chỉ số hãng
+    \item $j$ là chỉ số loại GPU
+    \item $k$ là chỉ số mẫu trong từng nhóm
+\end{itemize}
+
+Mô hình ANOVA hai yếu tố được viết dưới dạng:
+\[
+    Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}
+\]
+
+Trong đó:
+\begin{itemize}
+    \item $\mu$: trung bình chung của toàn bộ dữ liệu
+    \item $\alpha_i$: ảnh hưởng của hãng thứ $i$
+    \item $\beta_j$: ảnh hưởng của loại GPU (chuyên dụng và tích hợp)
+    \item $(\alpha\beta)_{ij}$: ảnh hưởng tương tác giữa hãng và loại GPU
+    \item $\varepsilon_{ijk}$: sai số ngẫu nhiên, tuân theo phân phối chuẩn
+\end{itemize}
+
+\subsubsection*{Ý nghĩa của các thành phần trong mô hình}
+
+\begin{itemize}
+    \item $\alpha_i$ đo lường mức độ hãng làm thay đổi băng thông bộ nhớ so với trung bình chung.
+    \item $\beta_j$ đo lường mức độ loại GPU làm thay đổi băng thông bộ nhớ.
+    \item $(\alpha\beta)_{ij}$ cho biết liệu ảnh hưởng của loại GPU có phụ thuộc vào hãng hay không.
+\end{itemize}
+
+Nếu tương tác tồn tại, điều đó có nghĩa là:
+\textit{tác động của loại GPU không giống nhau giữa các hãng.}
+
+\subsubsection*{Phân rã tổng biến thiên}
+
+Tổng biến thiên trong dữ liệu được đo bằng Tổng bình phương sai số (Total Sum of Squares):
+\[
+    SS_{\text{Total}} = \sum_{i}\sum_{j}\sum_{k} (Y_{ijk} - \bar{Y}_{...})^2
+\]
+
+ANOVA tách tổng biến thiên này thành 4 phần:
+\[
+    SS_{\text{Total}} = SS_{\text{Manufacturer}}
+    + SS_{\text{Dedicated}}
+    + SS_{\text{Interaction}}
+    + SS_{\text{Error}}
+\]
+
+\paragraph{1. Biến thiên do hãng}
+\[
+    SS_{\text{Manufacturer}}
+    = \sum_{i} n_i (\bar{Y}_{i..} - \bar{Y}_{...})^2
+\]
+Đại diện cho mức độ khác biệt giữa các hãng.
+
+\paragraph{2. Biến thiên do loại GPU}
+\[
+    SS_{\text{Dedicated}}
+    = \sum_{j} n_j (\bar{Y}_{.j.} - \bar{Y}_{...})^2
+\]
+Đại diện cho mức độ khác biệt giữa GPU chuyên dụng và GPU tích hợp.
+
+\paragraph{3. Biến thiên do tương tác}
+\[
+    SS_{\text{Interaction}} =
+    \sum_{i}\sum_{j}
+    n_{ij}(\bar{Y}_{ij.} - \bar{Y}_{i..} - \bar{Y}_{.j.} + \bar{Y}_{...})^2
+\]
+Mục đích: kiểm tra xem hai yếu tố có \textit{phụ thuộc lẫn nhau} hay không.
+
+\paragraph{4. Biến thiên ngẫu nhiên}
+\[
+    SS_{\text{Error}} =
+    \sum_{i}\sum_{j}\sum_{k}
+    (Y_{ijk} - \bar{Y}_{ij.})^2
+\]
+
+\subsubsection*{Tính toán F-statistic}
+
+Đầu tiên tính Mean Square (MS):
+\[
+    MS = \frac{SS}{df}
+\]
+
+Sau đó thống kê F:
+\[
+    F_{\text{Manufacturer}} =
+    \frac{MS_{\text{Manufacturer}}}{MS_{\text{Error}}}
+\]
+
+\[
+    F_{\text{Dedicated}} =
+    \frac{MS_{\text{Dedicated}}}{MS_{\text{Error}}}
+\]
+
+\[
+    F_{\text{Interaction}} =
+    \frac{MS_{\text{Interaction}}}{MS_{\text{Error}}}
+\]
+
+\subsubsection*{Ý nghĩa thống kê}
+Nếu một giá trị F lớn, nghĩa là:
+\[
+    \text{Biến thiên do yếu tố } > \text{biến thiên ngẫu nhiên}
+\]
+→ yếu tố đó có tác động thật sự lên băng thông bộ nhớ.
+
+Ngược lại, nếu F nhỏ → p-value lớn → yếu tố không ảnh hưởng đáng kể.
+
+% ==========================================================
+\subsection{Quy trình thực hiện ANOVA hai yếu tố}
+
+\subsubsection*{Bước 1: Nhập dữ liệu}
+Chuyển biến Manufacturer(Hãng) và Dedicated(Loại GPU) thành biến phân loại trong R:
+\begin{verbatim}
+main_df$Manufacturer <- as.factor(main_df$Manufacturer)
+main_df$Dedicated    <- as.factor(main_df$Dedicated)
+\end{verbatim}
+
+\subsubsection*{Bước 2: Kiểm tra cấu trúc dữ liệu}
+Đảm bảo Manufacturer và Dedicated là biến phân loại, sử dụng lệnh:
+\begin{verbatim}
+str(main_df)
+\end{verbatim}
+Để kiểm tra các thông số cơ bản của các biến cần kiểm định, sử dụng lệnh:
+\begin{verbatim}
+summary(main_df$Memory_Bandwidth)
+table(main_df$Manufacturer)
+table(main_df$Dedicated)
+\end{verbatim}
+Kết quả:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=10cm]{Images/basicstats.png}
+    \end{center}
+    \caption{Thống kê mô tả cơ bản của biến Memory\_Bandwidth(Băng thông bộ nhớ)}
+    \label{fig:basicstats}
+\end{figure}
+
+Tóm tắt thống kê cho biến \textbf{Memory\_Bandwidth}:
+\[
+    \min = 2.0,\ \ Q1 = 29.9,\ \ \mathrm{Median} = 112.0,\ \ \mathrm{Mean} = 144.1,\ \ Q3 = 219.4,\ \ \max = 1280.
+\]
+
+Nhận xét:
+\begin{itemize}
+    \item Băng thông có phân bố lệch phải mạnh (max = 1280).
+    \item Số mẫu theo hãng rất lệch (AMD 1179, ATI 78, Intel 153, Nvidia 1618).
+    \item GPU chuyên dụng (Yes) chiếm 2812/3028 mẫu, lệch phân bố so với GPU tích hợp (No = 216).
+\end{itemize}
+
+\subsubsection*{Bước 3: Xây dựng mô hình ANOVA hai yếu tố}
+\[
+    \text{Memory\_Bandwidth} \sim \text{Manufacturer} * \text{Dedicated}
+\]
+Sử dụng lệnh:
+\begin{verbatim}
+anova_model <- aov(Memory_Bandwidth ~ Manufacturer * Dedicated, data = main_df)
+\end{verbatim}
+
+\newpage
+Bảng ANOVA từ R:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=14cm]{Images/anovatable.png}
+    \end{center}
+    \caption{Bảng ANOVA hai yếu tố được tạo bởi mô hình trong R}
+    \label{fig:anovatable}
+\end{figure}
+
+Ta có thể vẽ lại bảng như sau:
+
+\begin{table}[H]
+    \centering
+    \caption{Bảng phân tích phương sai hai yếu tố đối với biến \textit{Memory\_Bandwidth}}
+    \begin{tabular}{lccccc}
+        \toprule
+        \textbf{Nguồn biến thiên} & \textbf{SS}           & \textbf{df} & \textbf{MS} & \textbf{F} & \textbf{p-value} \\
+        \midrule
+        Manufacturer
+                                  & 2{,}798{,}908
+                                  & 3
+                                  & 932{,}969
+                                  & 54.088
+                                  & $< 2\times 10^{-16}$                                                              \\
+        Dedicated
+                                  & 879{,}716
+                                  & 1
+                                  & 879{,}716
+                                  & 51.001
+                                  & $1.15\times 10^{-12}$                                                             \\
+        Tương tác (Manufacturer × Dedicated)
+                                  & 83{,}757
+                                  & 2
+                                  & 41{,}878
+                                  & 2.428
+                                  & 0.0884                                                                            \\
+        Sai số
+                                  & 52{,}109{,}247
+                                  & 3021
+                                  & 17{,}249
+                                  & --
+                                  & --                                                                                \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+\textbf{Nhận xét:}
+\begin{itemize}
+    \item \textbf{Manufacturer} có ảnh hưởng rất đáng kể đến băng thông bộ nhớ.
+    \item \textbf{Dedicated} có ảnh hưởng rất đáng kể.
+    \item \textbf{Tương tác Manufacturer × Dedicated không có ý nghĩa thống kê} (p = 0.0884 > 0.05).
+\end{itemize}
+\newpage
+
+\subsubsection*{Bước 4: Kiểm định giả định}
+
+\paragraph*{(a) Kiểm định chuẩn hoá phần dư}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=10cm]{Images/shapiro_test.png}
+    \end{center}
+    \caption{Kết quả kiểm định Shapiro--Wilk cho phần dư của mô hình ANOVA}
+    \label{fig:shapiro_test}
+\end{figure}
+Từ kết quả kiểm định Shapiro--Wilk mà đoạn code trên tạo ra, ta thấy rằng:
+\[
+    W = 0.85823,\quad p < 2.2\times 10^{-16}
+\]
+
+Và vẽ được biểu đồ Q-Q bằng cách sử dụng lệnh:
+\begin{verbatim}
+qqnorm(residuals(anova_model))
+qqline(residuals(anova_model), col = "red")
+\end{verbatim}
+
+Kết quả như sau:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=14cm]{Images/qqplot.png}
+    \end{center}
+    \caption{Biểu đồ Q-Q kiểm tra phân phối chuẩn của phần dư}
+    \label{fig:qqplot}
+\end{figure}
+
+
+
+\textbf{Nhận xét:} Phần dư \textbf{không} tuân theo phân phối chuẩn.
+(Biểu đồ Q-Q cũng cho thấy lệch phải mạnh.)
+
+\paragraph*{(b) Kiểm định phương sai đồng nhất (Levene)}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=14cm]{Images/levene_test.png}
+    \end{center}
+    \caption{Kết quả kiểm định Levene về tính đồng nhất phương sai}
+    \label{fig:levene_test}
+\end{figure}
+Từ kết quả kiểm định Levene mà đoạn code trên tạo ra, ta thấy rằng:
+\[
+    F = 34.63,\quad p < 2.2\times 10^{-16}
+\]
+
+\textbf{Nhận xét:} Phương sai giữa các nhóm \textbf{không đồng nhất}.
+
+\paragraph*{Kết luận về giả định:}
+\begin{itemize}
+    \item Cả hai giả định quan trọng của ANOVA đều bị vi phạm.
+    \item Tuy ANOVA vẫn thường “mạnh” với kích thước mẫu lớn (n = 3028),
+          nhưng kết luận cần diễn giải thận trọng.
+\end{itemize}
+
+\subsubsection*{Bước 5: Kiểm định hậu nghiệm}
+Sử dụng lệnh:
+\begin{verbatim}
+TukeyHSD(anova_model)
+\end{verbatim}
+
+\paragraph*{(1) Hãng sản xuất}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=10cm]{Images/manufacturer.png}
+    \end{center}
+    \caption{Kết quả kiểm định Tukey HSD cho yếu tố Hãng sản xuất(Manufacturer)}
+    \label{fig:tukey_manufacturer}
+\end{figure}
+
+
+Từ kết quả trên, ta thấy rằng tất cả các cặp hãng đều khác biệt có ý nghĩa thống kê, ví dụ:
+\[
+    \text{Intel - AMD}: -110.80,\ p < 10^{-7}
+\]
+\[
+    \text{ATI - AMD}: +74.35,\ p = 8\cdot 10^{-6}
+\]
+\[
+    \text{Nvidia - AMD}: +19.78,\ p = 0.00049
+\]
+
+\textbf{Nhận xét:}
+Băng thông bộ nhớ trung bình khác biệt đáng kể giữa các hãng.
+
+
+\paragraph*{(2) Loại GPU}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=10cm]{Images/dedicated.png}
+    \end{center}
+    \caption{Kết quả kiểm định Tukey HSD cho yếu tố loại GPU (Dedicated)}
+    \label{fig:tukey_dedicated}
+\end{figure}
+
+Từ kết quả trên, ta thấy rằng:
+\[
+    \text{Yes - No} = 38.94,\quad p = 2.76 \times 10^{-5}
+\]
+
+\textbf{Nhận xét:} GPU chuyên dụng có băng thông cao hơn GPU tích hợp.
+
+\newpage
+\paragraph*{(3) Tương tác}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=14cm]{Images/interaction.png}
+    \end{center}
+    \caption{Kết quả kiểm định Tukey HSD cho tương tác Hãng $\times$ Loại GPU}
+    \label{fig:tukey_interaction}
+\end{figure}
+
+Từ kết quả trên, ta thấy rằng hầu hết các cặp đều không có ý nghĩa thống kê (nhiều trường hợp NA do thiếu dữ liệu).
+
+\textbf{Nhận xét:} Không tìm thấy bằng chứng thuyết phục rằng tác động giữa hãng và loại GPU ảnh hưởng băng thông theo cách khác biệt đáng kể.
+
+\newpage
+
+\subsubsection*{Bước 6: Vẽ đồ thị}
+Biểu đồ tương tác giữa Hãng và Loại GPU:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=14cm]{Images/interaction_plot.png}
+    \end{center}
+    \caption{Biểu đồ tương tác giữa Hãng và Loại GPU}
+    \label{fig:interaction_plot}
+\end{figure}
+
+\newpage
+Biểu đồ trực quan hóa băng thông bộ nhớ theo Hãng và Loại GPU:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=14cm]{Images/anova_memory_bandwidth_plot.png}
+    \end{center}
+    \caption{Biểu đồ trực quan hóa băng thông bộ nhớ theo Hãng và Loại GPU}
+    \label{fig:anova_mb_plot}
+\end{figure}
+
+\newpage
+\subsection{Kết luận tổng hợp}
+Dựa trên kết quả phân tích:
+\begin{itemize}
+    \item \textbf{Hãng sản xuất có ảnh hưởng rất mạnh} đến băng thông bộ nhớ (p < 2e-16).
+    \item \textbf{Loại GPU (Chuyên dụng/Tích hợp) cũng có ảnh hưởng đáng kể} (p = 1.15e-12).
+    \item \textbf{Không có tương tác rõ rệt} giữa hai yếu tố (p = 0.0884).
+    \item Tuy nhiên, \textbf{giả định chuẩn hoá phần dư và đồng nhất phương sai đều bị vi phạm}.
+          Điều này không vô hiệu hoá ANOVA do mẫu rất lớn, nhưng kết luận nên được diễn giải cẩn trọng.
+    \item Phân tích hậu nghiệm cho thấy tất cả hãng đều khác nhau có ý nghĩa, và GPU chuyên dụng vượt trội GPU tích hợp.
+\end{itemize}
+
+\textbf{Tóm tắt:}
+\textit{Hãng sản xuất và loại GPU đều ảnh hưởng mạnh đến băng thông bộ nhớ, nhưng không có tương tác giữa hai yếu tố. Tuy nhiên, phân bố phần dư cho thấy ANOVA có thể bị ảnh hưởng bởi vi phạm giả định, do đó có thể xem xét thêm biến đổi dữ liệu (log-transform) trong phân tích mở rộng.}

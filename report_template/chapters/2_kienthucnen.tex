@@ -183,7 +183,7 @@ Trong thống kê, \textbf{kiểm định (hypothesis testing)} là quá trình 
 Quá trình kiểm định thường bắt đầu bằng việc xây dựng hai giả thuyết:
 
 \begin{itemize}
-    \item \textbf{Giả thuyết không (null hypothesis, ký hiệu $H_0$):} là giả thiết về yếu tố cần kiểm định của tổng thể ở trạng thái bình thường, không chịu tác động của các hiện tượng liên quan. Yếu tố trong H0 phải được xác định cụ thể.
+    \item \textbf{Giả thuyết không (null hypothesis, ký hiệu $H_0$):} là giả thiết về yếu tố cần kiểm định của tổng thể ở trạng thái bình thường, không chịu tác động của các hiện tượng liên quan. Yếu tố trong $H_0$ phải được xác định cụ thể.
 
     \item \textbf{Giả thuyết thay thế - giả thuyết đối (alternative hypothesis, ký hiệu $H_1$):} là một mệnh đề mâu thuẫn với $H_0$, $H_1$ thể hiện xu hướng cần kiểm định.
 \end{itemize}
@@ -193,3 +193,108 @@ Quá trình kiểm định thường bắt đầu bằng việc xây dựng hai 
 \textbf{Miền Chấp Nhận (Acceptance Region):} phần bù của miền bác bỏ trong R
 
 \textbf{Tiêu chuẩn kiểm định:} là hàm thống kê $G = G(X_1, X_2, \dots, X_n, \theta_0)$, xây dựng trên mẫu ngẫu nhiên $W = (X_1, X_2, \dots, X_n)$ và tham số $\theta_0$ liên quan đến $H_0$ ; Điều kiện đặt ra với thống kê G là nếu $H_0$ đúng thì quy luật phân phối xác suất của G phải hoàn toàn xác định.
+
+\subsubsection{Quy tắc kiểm định:}
+
+Từ mẫu thực nghiệm, ta tính được một giá trị cụ thể của tiêu chuẩn kiểm định, gọi là \textbf{giá trị kiểm định thống kê:}
+\[ g_{qs} = G(x_1, x_2, \dots, x_n, \theta_0) \]
+
+Theo nguyên lý xác suất bé, biến cố $G \in RR$ có xác suất nhỏ nên với 1 mẫu thực nghiệm ngẫu nhiên, nó không thể xảy ra.
+
+Do đó:
+\begin{itemize}
+    \item + Nếu $g_{qs} \in RR$ thì bác bỏ $H_0$, thừa nhận giả thiết $H_1$.
+
+    \item + Nếu $g_{qs} \notin RR$: ta chưa đủ dữ liệu khẳng định $H_0$ sai. Vì vậy ta chưa thể chứng minh được $H_1$ đúng.
+\end{itemize}
+
+\subsubsection{Các sai lầm trong bài toán kiểm định}
+
+Kết luận của một bài toán kiểm định có thể mắc các sai lầm sau:
+
+\begin{itemize}
+    \item \textbf{Sai lầm loại I:} Bác bỏ giả thiết $H_0$ trong khi $H_0$ đúng. Xác suất mắc phải sai lầm này nếu $H_0$ đúng chính bằng mức ý nghĩa $\alpha$. Nguyên nhân mắc phải sai lầm loại I thường có thể do kích thước mẫu quá nhỏ, có thể do phương pháp lấy mẫu ...
+
+    \item \textbf{Sai lầm loại II:} Thừa nhận $H_0$ trong khi $H_0$ sai, tức là mặc dù thực tế $H_1$ đúng nhưng giá trị thực nghiệm $g_{qs}$ không thuộc RR.
+\end{itemize}
+
+\begin{center}
+    % Ghi chú: Cần có gói \usepackage{multirow} để chạy \multicolumn
+    \begin{tabular}{|l|l|l|}
+        \hline
+                            & \multicolumn{2}{c|}{\textbf{Tình huống}}                                           \\ \cline{2-3}
+        \textbf{Quyết định} & \multicolumn{1}{c|}{\textbf{$H_0$ đúng}} & \multicolumn{1}{c|}{\textbf{$H_0$ sai}} \\ \hline
+        Bác bỏ $H_0$        & Sai lầm loại I. Xác suất = $\alpha$      & Quyết định đúng                         \\ \hline
+        Không bác bỏ $H_0$  & Quyết định đúng                          & Sai lầm loại II. Xác suất = $\beta$     \\ \hline
+    \end{tabular}
+\end{center}
+
+\subsubsection{Các bước thực hiện kiểm định}
+
+\begin{enumerate}
+    \item Phát biểu giả thuyết và đối thuyết của bài toán.
+    \item Tính giá trị thống kê kiểm định (tiêu chuẩn kiểm định) cho bài toán.
+    \item Xác định miền bác bỏ tốt nhất cho bài toán.
+    \item Đưa ra kết luận.
+\end{enumerate}
+
+\subsection{Các mô hình kiểm định được sử dụng trong báo cáo}
+\subsubsection{Phân tích phương sai (anova)}
+
+\textbf{Phân tích phương sai} là một mô hình dùng để xem xét sự biến động của một biến ngẫu nhiên định lượng X chịu tác động trực tiếp của một hay nhiều yếu tố nguyên nhân (định tính). Được làm hai loại là phân tích phương sai 1 yếu tố và phân tích phương sai 2 yếu tố.
+
+\subsubsection{Phân tích phương sai 1 yếu tố}
+
+\textbf{Giả thiết}
+\begin{itemize}
+    \item Các tổng thể có phân phối chuẩn $N(\mu_i; \sigma_i^2)$, $i = 1, 2, \dots, k$ với $k$ là tổng thể (thông thường $k \ge 3$).
+    \item Phương sai các tổng thể chưa biết nhưng được giả định là bằng nhau $(\sigma_1^2 = \sigma_2^2 = \dots = \sigma_k^2)$.
+    \item Các mẫu quan sát (từ k tổng thể) được lấy độc lập.
+\end{itemize}
+
+\textbf{Các bước thực hiện}
+
+\textbf{Bước 1: Đặt giả thiết kiểm định}
+\begin{align*}
+    H_0 & : \mu_1 = \mu_2 = \dots = \mu_k,            \\
+    H_1 & : \exists \mu_i \neq \mu_j \quad (i \neq j)
+\end{align*}
+
+\textbf{Bước 2:} Tính trung bình mẫu của các nhóm $\bar{x}_1, \bar{x}_2, \dots, \bar{x}_k$ theo công thức:
+\[ \bar{x}_i = \frac{\sum_{j=1}^{n_i} x_{ij}}{n_i}, \quad (i = 1, 2, \dots, k) \]
+
+\textbf{Bước 3:} Tính tổng các bình phương lệch (tổng bình phương):
+\begin{align*}
+    SSW & = \sum_{i=1}^{k} \sum_{j=1}^{n_i} (x_{ij} - \bar{x}_i)^2           \\
+    SSB & = \sum_{i=1}^{k} n_i (\bar{x}_i - \bar{x})^2                       \\
+    SST & = SSW + SSB = \sum_{i=1}^{k} \sum_{j=1}^{n_i} (x_{ij} - \bar{x})^2
+\end{align*}
+
+\textbf{Bước 4:} Tính các phương sai:
+\[ MSW = \frac{SSW}{N - k}, \quad MSB = \frac{SSB}{k - 1} \]
+
+\textbf{Bước 5:} Tính thống kê kiểm định (tiêu chuẩn kiểm định, giá trị quan sát):
+\[ F = \frac{MSB}{MSW} \]
+
+\textbf{Bước 6:} Xác định miền bác bỏ của bài toán:
+\[ RR = (F_{\alpha; k-1; N-k}; +\infty) \]
+Tìm giá trị $F_{\alpha; k-1; N-k}$ tra bảng Fisher mức ý nghĩa $\alpha$ và cột $k - 1$ và dòng $N - k$.
+
+\textbf{Bước 7:} Đưa ra kết luận:
+\begin{itemize}
+    \item Nếu $F > F_{\alpha; k-1; N-k} \iff F \in RR \Rightarrow$ Bác bỏ $H_0$, chấp nhận $H_1$
+    \item Nếu $F < F_{\alpha; k-1; N-k} \iff F \notin RR \Rightarrow$ không bác bỏ $H_0$ (chưa bác bỏ được $H_0$, chấp nhận $H_0$)
+\end{itemize}
+
+% Bảng tóm tắt ANOVA
+\begin{table}[h]
+    \centering
+    \caption{Bảng tóm tắt ANOVA 1 yếu tố}
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        \textbf{Nguồn của sự biến thiên} & \textbf{SS} & \textbf{df} & \textbf{MS} & \textbf{F}                                           \\ \hline
+        Giữa các nhóm                    & SSB         & k-1         & MSB         & \multirow{2}{*}{$\displaystyle F = \frac{MSB}{MSW}$} \\ \cline{1-4}
+        Trong từng nhóm                  & SSW         & N-k         & MSW         &                                                      \\ \hline
+        Toàn bộ                          & SST         & N-1         &             &                                                      \\ \hline
+    \end{tabular}
+\end{table}
