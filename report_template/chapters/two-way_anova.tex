@@ -248,20 +248,19 @@ Xây dựng mô hình ANOVA hai yếu tố trong R:
     anova_model <- aov(Memory_Bandwidth ~ Manufacturer * Dedicated, data = main_df)
 \end{lstlisting}
 
-Kiểm tra giả định:
+\textbf{Kiểm tra giả định:}
 
 \begin{itemize}
     \item [a)] Kiểm định chuẩn hoá phần dư bằng Shapiro-Wilk test:
           \begin{table}[H]
               \centering
               \begin{tabular}{lll}
-                  Giả thuyết không $H_0$ & : & Phần dư có phân phối chuẩn       \\
-                  Giả thuyết đối $H_1$   & : & Phần dư không có phân phối chuẩn
+                  Giả thuyết không $H_0$ & : & Phần dư có phân phối chuẩn.       \\
+                  Giả thuyết đối $H_1$   & : & Phần dư không có phân phối chuẩn.
               \end{tabular}
-              \caption{Kết quả kiểm định Shapiro-Wilk cho phần dư của mô hình}
           \end{table}
-
-
+          \vspace{-10pt}
+          Ta sử dụng hàm \verb|shapiro.test| để kiểm tra:
           \begin{lstlisting}[language=R, caption={Kiểm định chuẩn hoá phần dư bằng Shapiro-Wilk test}, captionpos=b]
     shapiro.test(residuals(anova_model))
           \end{lstlisting}
@@ -269,17 +268,39 @@ Kiểm tra giả định:
               \begin{center}
                   \includegraphics[width=10cm]{Images/shapiro_test.png}
               \end{center}
-              \caption{Kết quả kiểm định Shapiro--Wilk cho phần dư của mô hình ANOVA}
               \label{fig:shapiro_test}
           \end{figure}
-          \textbf{Nhận xét:}Vì $p-value < 0.05$ nên ta bác bỏ $H_0$, thừa nhận $H_1$, do đó phần dư không tuân theo phân phối chuẩn.
+          \textbf{Nhận xét:} Vì $p-value < 0.05$ nên ta bác bỏ $H_0$, thừa nhận $H_1$, do đó phần dư không tuân theo phân phối chuẩn.
     \item [b)] Kiểm định phương sai đồng nhất bằng Levene’s test:
+          \begin{table}[H]
+              \centering
+              \begin{tabular}{lll}
+                  Giả thuyết không $H_0$ & : & Phương sai của các nhóm là bằng nhau (đồng nhất). \\
+                  Giả thuyết đối $H_1$   & : & Có ít nhất hai nhóm có phương sai khác nhau.
+              \end{tabular}
+          \end{table}
+          \vspace{-10pt}
+          Ta sử dụng hàm \verb|leveneTest| để kiểm tra:
           \begin{lstlisting}[language=R, caption={Kiểm định phương sai đồng nhất bằng Levene’s test}, captionpos=b]
     library(car)
     leveneTest(Memory_Bandwidth ~ Manufacturer * Dedicated, data = main_df)
           \end{lstlisting}
-\end{itemize}
+          \begin{figure}[H]
+              \begin{center}
+                  \includegraphics[width=14cm]{Images/levene_test.png}
+              \end{center}
+              \caption{Kết quả kiểm định Levene về tính đồng nhất phương sai}
+              \label{fig:levene_test}
+          \end{figure}
 
+          \textbf{Nhận xét:}Vì $p-value < 0.05$ nên ta bác bỏ $H_0$, thừa nhận $H_1$, do đó phương sai giữa các nhóm không đồng nhất.
+\end{itemize}
+\textbf{Kết luận về giả định:}
+\begin{itemize}
+    \item Cả hai giả định quan trọng của ANOVA đều bị vi phạm.
+    \item Tuy ANOVA vẫn thường “mạnh” với kích thước mẫu lớn (n = 3028),
+          nhưng kết luận cần diễn giải thận trọng.
+\end{itemize}
 
 
 \newpage
@@ -368,13 +389,7 @@ Kết quả như sau:
 (Biểu đồ Q-Q cũng cho thấy lệch phải mạnh.)
 
 \paragraph*{(b) Kiểm định phương sai đồng nhất (Levene)}
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[width=14cm]{Images/levene_test.png}
-    \end{center}
-    \caption{Kết quả kiểm định Levene về tính đồng nhất phương sai}
-    \label{fig:levene_test}
-\end{figure}
+
 Từ kết quả kiểm định Levene mà đoạn code trên tạo ra, ta thấy rằng:
 \[
     F = 34.63,\quad p < 2.2\times 10^{-16}
@@ -382,12 +397,7 @@ Từ kết quả kiểm định Levene mà đoạn code trên tạo ra, ta thấ
 
 \textbf{Nhận xét:} Phương sai giữa các nhóm \textbf{không đồng nhất}.
 
-\paragraph*{Kết luận về giả định:}
-\begin{itemize}
-    \item Cả hai giả định quan trọng của ANOVA đều bị vi phạm.
-    \item Tuy ANOVA vẫn thường “mạnh” với kích thước mẫu lớn (n = 3028),
-          nhưng kết luận cần diễn giải thận trọng.
-\end{itemize}
+
 
 \textbf{Bước 5: Kiểm định hậu nghiệm}
 Sử dụng lệnh:

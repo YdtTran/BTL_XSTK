@@ -42,7 +42,7 @@ Trong trường hợp X có bảng phân phối tần số như sau:
 \end{center}
 
 Ta lại có trung bình mẫu tính bởi công thức:
-\[ \bar{x} = \frac{\displaystyle\sum_{i=1}^{k} x_i n_i}{n} = \frac{x_1 n_1 + x_2 n_2 + \dots + x_k n_k}{n} \]
+\[ \bar{x} = \frac{1}{n}\displaystyle\sum_{i=1}^{k} x_i n_i = \frac{x_1 n_1 + x_2 n_2 + \dots + x_k n_k}{n} \]
 
 \subsubsection{Phương sai, độ lệch chuẩn}
 
@@ -51,12 +51,12 @@ Ta lại có trung bình mẫu tính bởi công thức:
 \textbf{Độ lệch chuẩn (Standard deviation):} Độ lệch chuẩn (Standard deviation) là căn bậc hai của phương sai. Độ lệch chuẩn dùng để đo sự biến thiên, biểu diễn sự biến thiên xung quanh trung bình và cũng có cùng đơn vị đo với dữ liệu gốc.
 
 Với một tổng thể có N phần tử, phương sai tổng thể (kí hiệu: $\sigma^2$) tính bởi công thức:
-\[ \sigma^2 = \frac{\displaystyle\sum_{i=1}^{N} (x_i - \mu)^2}{N} = \frac{\displaystyle\sum_{i=1}^{N} x_i^2 - N\mu^2}{N} = \frac{\displaystyle\sum_{i=1}^{N} x_i^2}{N} - \mu^2 \]
+\[ \sigma^2 = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu)^2\]
 
 Khi đó: $\sigma$ được gọi là độ lệch chuẩn của tổng thể.
 
 Với một mẫu có $n$ phần tử, phương sai mẫu (kí hiệu: $s^2$) tính bởi công thức:
-\[ s^2 = \frac{\displaystyle\sum_{i=1}^{n} (x_i - \bar{x})^2}{n-1} = \frac{\displaystyle\sum_{i=1}^{n} x_i^2 - n\bar{x}^2}{n-1} = \frac{\displaystyle\sum_{i=1}^{n} x_i^2}{n-1} - \frac{n\bar{x}^2}{n-1} \]
+\[ s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})^2 \]
 
 Trong trường hợp X có bảng phân phối tần số như sau:
 
@@ -70,9 +70,9 @@ Trong trường hợp X có bảng phân phối tần số như sau:
 
 Ta lại có phương sai mẫu tính bởi công thức:
 % Ghi chú: Hình ảnh của bạn có một lỗi nhỏ (n/n-1), tôi đã sửa lại theo công thức chuẩn.
-\[ s^2 = \frac{1}{n-1} \sum_{i=1}^{k} n_i (x_i - \bar{x})^2 = \frac{1}{n-1} [n_1(x_1 - \bar{x})^2 + n_2(x_2 - \bar{x})^2 + \dots + n_k(x_k - \bar{x})^2] \]
+\[ s^2 = \frac{1}{n-1} \sum_{i=1}^{k} n_i (x_i - \bar{x})^2\]
 
-Khi đó: $s$ được gọi là độ lệch mẫu.
+Khi đó: $s$ được gọi là độ lệch chuẩn    mẫu.
 
 \subsubsection{Các đặc trưng khác}
 
@@ -83,8 +83,8 @@ Khi đó: $s$ được gọi là độ lệch mẫu.
 \[ CV(\text{mau}) = \frac{s}{\bar{x}} \times 100\% \]
 
 \textbf{Sai số chuẩn (Standard Error):} là giá trị đại diện cho độ lệch chuẩn của giá trị trung bình trong tập dữ liệu. Nó phục vụ như một thước đo biến động cho các biến ngẫu nhiên hay độ lượn độ phân tán. Độ phân tán càng nhỏ, dữ liệu càng chính xác.
-\[ SE(\text{tongthe}) = \frac{\sigma}{\sqrt{N}} \]
-\[ SE(\text{mau}) = \frac{s}{\sqrt{n}} \]
+% \[ SE(\text{tongthe}) = \frac{\sigma}{\sqrt{N}} \]
+% \[ SE(\text{mau}) = \frac{s}{\sqrt{n}} \]
 
 \textbf{Trung vị (Median):} Giả sử $X$ có $N$ quan sát, sắp các quan sát này theo thứ tự tăng dần. Trung vị là giá trị nằm chính giữa dãy số này và chia nó thành 2 phần bằng nhau. Cụ thể:
 
@@ -112,66 +112,69 @@ Lý thuyết ước lượng là một nội dung trọng tâm trong thống kê
     \item \textbf{Mức Ý Nghĩa (Significance Level - $\alpha$):} Là ngưỡng mà ta chọn để quyết định ý nghĩa. Ví dụ mức ý nghĩa thường được chọn ở mức 0.05 - nghĩa là khả năng kết quả quan sát sự khác biệt được nhìn thấy trên số liệu là ngẫu nhiên chỉ là 5\%.
 
     \item \textbf{Độ Tin Cậy (Confidence Level):} Được biểu thị dưới dạng một tỷ lệ phần trăm chỉ mức độ tin tưởng hoặc sự chắc chắn mà khoảng tin cậy ước lượng của chúng ta bao gồm tham số tổng thể thực sự. Ví dụ: nếu ta xây dựng khoảng tin cậy với mức tin cậy 95\%, ta tin chắc rằng 95 trên 100 lần ước tính sẽ nằm giữa giá trị trên và giá trị dưới được chỉ định bởi khoảng tin cậy.
+          \[ \gamma = 1 - \alpha \]
 \end{itemize}
 
-\[ \gamma = 1 - \alpha \]
 
-Có hai phương pháp ước lượng thường được sử dụng là ước lượng điểm (point estimation) và ước lượng khoảng (interval estimation).
+Có hai phương pháp ước lượng thường được sử dụng là ước lượng điểm (point estimation) và ước lượng khoảng (interval estimation), tuy nhiên trong phạm vi bài này, nhóm chỉ nhắc đến ước lượng bằng khoảng tin cậy.
 
-\begin{itemize}
-    \item \textbf{Ước lượng điểm (Point Estimation):} là dùng một tham số thống kê mẫu đơn lẻ để ước lượng giá trị tham số của tổng thể.
-          % Dùng align* để căn lề đẹp
-          \begin{align*}
-              \mu      & \approx \bar{x} \\
-              \sigma^2 & \approx s^2     \\
-              p        & \approx f
-          \end{align*}
+% \begin{itemize}
+%     \item \textbf{Ước lượng điểm (Point Estimation):} là dùng một tham số thống kê mẫu đơn lẻ để ước lượng giá trị tham số của tổng thể.
+%           % Dùng align* để căn lề đẹp
+%           \begin{align*}
+%               \mu      & \approx \bar{x} \\
+%               \sigma^2 & \approx s^2     \\
+%               p        & \approx f
+%           \end{align*}
 
-    \item \textbf{Ước lượng bằng khoảng tin cậy (Interval Estimation):} -Ước lượng bằng khoảng tin cậy chính là tìm ra khoảng ước lượng $(G_1; G_2)$ cho tham số $\theta$ trong tổng thể sao cho ứng với độ tin cậy (confidence) bằng $\gamma$ cho trước, $P(G_1 < \theta < G_2) = \gamma$.
-\end{itemize}
+%     \item \textbf{Ước lượng bằng khoảng tin cậy (Interval Estimation):} -Ước lượng bằng khoảng tin cậy chính là tìm ra khoảng ước lượng $(G_1; G_2)$ cho tham số $\theta$ trong tổng thể sao cho ứng với độ tin cậy (confidence) bằng $\gamma$ cho trước, $P(G_1 < \theta < G_2) = \gamma$.
+% \end{itemize}
 
-\subsubsection{Ước lượng điểm (Point Estimation)}
+% \subsubsection{Ước lượng điểm (Point Estimation)}
 
-Một \textbf{ước lượng (estimator)} của một tham số (của tổng thể): là một biến ngẫu nhiên có giá trị phụ thuộc vào thông tin của mẫu, giá trị của nó là một xấp xỉ cho tham số chưa biết của tổng thể. Một giá trị cụ thể của biến ngẫu nhiên này gọi là một \textbf{giá trị ước lượng điểm}.
+% Một \textbf{ước lượng (estimator)} của một tham số (của tổng thể): là một biến ngẫu nhiên có giá trị phụ thuộc vào thông tin của mẫu, giá trị của nó là một xấp xỉ cho tham số chưa biết của tổng thể. Một giá trị cụ thể của biến ngẫu nhiên này gọi là một \textbf{giá trị ước lượng điểm}.
 
-Xét đại lượng ngẫu nhiên X có phân phối $F(x; \theta)$ với tham số $\theta$ chưa biết.
+% Xét đại lượng ngẫu nhiên X có phân phối $F(x; \theta)$ với tham số $\theta$ chưa biết.
 
-Chọn một mẫu ngẫu nhiên cỡ n từ $X_1, X_2, \dots, X_n$.
+% Chọn một mẫu ngẫu nhiên cỡ n từ $X_1, X_2, \dots, X_n$.
 
-Thống kê $\hat{\theta} = h(X_1, X_2, \dots, X_n)$ gọi là một ước lượng điểm cho $\theta$.
+% Thống kê $\hat{\theta} = h(X_1, X_2, \dots, X_n)$ gọi là một ước lượng điểm cho $\theta$.
 
-Với một mẫu cụ thể $(x_1, x_2, \dots, x_n)$, ta gọi $\hat{\theta} = h(x_1, x_2, \dots, x_n)$ là một giá trị ước lượng điểm cụ thể cho $\theta$.
+% Với một mẫu cụ thể $(x_1, x_2, \dots, x_n)$, ta gọi $\hat{\theta} = h(x_1, x_2, \dots, x_n)$ là một giá trị ước lượng điểm cụ thể cho $\theta$.
 
-\subsection{Ước lượng bằng khoảng tin cậy (Interval Estimation)}
+% \subsubsection{Ước lượng bằng khoảng tin cậy - Bài toàn 1 mẫu}
 
-Cho tham số $\theta$ của tổng thể và $X_1, X_2, \dots, X_n$ là các quan sát ngẫu nhiên. Ta gọi khoảng $(c, d)$ là khoảng ước lượng (hay khoảng tin cậy) của tham số $\theta$ với độ tin cậy $\gamma$ nếu: $P(c < \theta < d) = \gamma$. Có thể nói, độ tin cậy $\gamma$ cho khoảng ước lượng của tham số $\theta$ chính là xác suất để ta đúng khi ước lượng tham số $\theta$ bằng khoảng $(c, d)$. Ngược lại, xác suất mà ta cho phép sai khi ước lượng $\theta$ được gọi là mức ý nghĩa. Kí hiệu là $\alpha$. Ta có $\alpha + \gamma = 1$.
+% Cho tham số $\theta$ của tổng thể và $X_1, X_2, \dots, X_n$ là các quan sát ngẫu nhiên. Ta gọi khoảng $(c, d)$ là khoảng ước lượng (hay khoảng tin cậy) của tham số $\theta$ với độ tin cậy $\gamma$ nếu: $P(c < \theta < d) = \gamma$. Có thể nói, độ tin cậy $\gamma$ cho khoảng ước lượng của tham số $\theta$ chính là xác suất để ta đúng khi ước lượng tham số $\theta$ bằng khoảng $(c, d)$. Ngược lại, xác suất mà ta cho phép sai khi ước lượng $\theta$ được gọi là mức ý nghĩa. Kí hiệu là $\alpha$. Ta có $\alpha + \gamma = 1$.
 
-Xác định khoảng ước lượng đối xứng của trung bình tổng thể dựa vào một mẫu đã cho, với kích thước là $n$, trung bình mẫu là $\bar{x}$ và phương sai mẫu là $s^2$ hoặc phương sai tổng thể là $\sigma^2$. Mục tiêu là xác định một khoảng ước lượng đối xứng xung quanh $\mu$ của mẫu với một mức độ tin cậy cụ thể.
+% Xác định khoảng ước lượng đối xứng của trung bình tổng thể dựa vào một mẫu đã cho, với kích thước là $n$, trung bình mẫu là $\bar{x}$ và phương sai mẫu là $s^2$ hoặc phương sai tổng thể là $\sigma^2$. Mục tiêu là xác định một khoảng ước lượng đối xứng xung quanh $\mu$ của mẫu với một mức độ tin cậy cụ thể.
 
-Để giải quyết vấn đề này, ta cần đi đến việc xác định epsilon ($\epsilon$) - sai số ước lượng, dựa trên các thông tin đã biết về mẫu. Khoảng tin cậy sẽ được biểu diễn bằng khoảng $\bar{x} \pm \epsilon$. Tùy thuộc vào giả định về phân phối của dữ liệu và các thông tin đã biết về phương sai, cách tính $\epsilon$ sẽ thay đổi như sau:
+% Để giải quyết vấn đề này, ta cần đi đến việc xác định epsilon ($\epsilon$) - sai số ước lượng, dựa trên các thông tin đã biết về mẫu. Khoảng tin cậy sẽ được biểu diễn bằng khoảng $\bar{x} \pm \epsilon$. Tùy thuộc vào giả định về phân phối của dữ liệu và các thông tin đã biết về phương sai, cách tính $\epsilon$ sẽ thay đổi như sau:
 
-% Ghi chú: Tôi đã dùng \displaystyle để các phân số hiển thị lớn giống trong hình
-\begin{table}[H]
-    \centering
-    \label{tab:phanphoi_xs}
-    \begin{tabular}{|l|l|l|l|l|}
-        \hline
-        \textbf{Dạng}                                                                                                       & \textbf{Giả định}                                        & \textbf{Loại}                                                   & \textbf{Ngưỡng sai số}                                                       & \textbf{Khoảng tin cậy}                                                      \\ \hline
-        \multirow{3}{*}{Tỷ lệ}                                                                                              & \multirow{3}{*}{$n \ge 30$}                              & Đối xứng                                                        & $\displaystyle \epsilon = z_{\alpha/2} \sqrt{\frac{f(1-f)}{n}}$              & $\displaystyle f - \epsilon < p < f + \epsilon$                              \\ \cline{3-5}
-                                                                                                                            &                                                          & Bên phải                                                        & $\displaystyle \epsilon = z_{\alpha} \sqrt{\frac{f(1-f)}{n}}$                & $\displaystyle 0 < p < f + z_{\alpha} \sqrt{\frac{f(1-f)}{n}}$               \\ \cline{3-5}
-                                                                                                                            &                                                          & Bên trái                                                        & $\displaystyle \epsilon = z_{\alpha} \sqrt{\frac{f(1-f)}{n}}$                & $\displaystyle f - z_{\alpha} \sqrt{\frac{f(1-f)}{n}} < p < 1$               \\ \hline
-        \multirow{6}{*}{Trung bình}                                                                                         & \multirow{3}{*}{\parbox{3.5cm}{$X \sim N(\mu, \sigma^2)$                                                                                                                                                                                                                                 \\ Đã biết $\sigma$}} & Đối xứng & $\displaystyle \epsilon = z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$ & $\displaystyle \bar{x} - \epsilon < \mu < \bar{x} + \epsilon$ \\ \cline{3-5}
-                                                                                                                            &                                                          & Bên phải                                                        & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$                & $\displaystyle -\infty < \mu < \bar{x} + z_{\alpha} \frac{\sigma}{\sqrt{n}}$ \\ \cline{3-5}
-                                                                                                                            &                                                          & Bên trái                                                        & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$                & $\displaystyle \bar{x} - z_{\alpha} \frac{\sigma}{\sqrt{n}} < \mu < \infty$  \\ \cline{2-5}
-                                                                                                                            & \multirow{3}{*}{\parbox{3.5cm}{$X \sim N(\mu, \sigma^2)$                                                                                                                                                                                                                                 \\ Chưa biết $\sigma$}} & Đối xứng & $\displaystyle \epsilon = t_{\alpha/2; n-1} \frac{s}{\sqrt{n}}$ & $\displaystyle \bar{x} - \epsilon < \mu < \bar{x} + \epsilon$ \\ \cline{3-5}
-                                                                                                                            &                                                          & Bên phải                                                        & $\displaystyle \epsilon = t_{\alpha; n-1} \frac{s}{\sqrt{n}}$                & $\displaystyle -\infty < \mu < \bar{x} + t_{\alpha; n-1} \frac{s}{\sqrt{n}}$ \\ \cline{3-5}
-                                                                                                                            &                                                          & Bên trái                                                        & $\displaystyle \epsilon = t_{\alpha; n-1} \frac{s}{\sqrt{n}}$                & $\displaystyle \bar{x} - t_{\alpha; n-1} \frac{s}{\sqrt{n}} < \mu < \infty$  \\ \hline
-        \multicolumn{2}{|l|}{\parbox{5cm}{Phân phối tùy ý, mẫu lớn ($n \ge 30$). Nếu chưa biết $\sigma$ thì thay bằng $s$}} & Đối xứng                                                 & $\displaystyle \epsilon = z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$ & $\displaystyle \bar{x} - \epsilon < \mu < \bar{x} + \epsilon$                                                                                               \\ \cline{3-5}
-        \multicolumn{2}{|l|}{}                                                                                              & Bên phải                                                 & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$   & $\displaystyle -\infty < \mu < \bar{x} + z_{\alpha} \frac{\sigma}{\sqrt{n}}$                                                                                \\ \cline{3-5}
-        \multicolumn{2}{|l|}{}                                                                                              & Bên trái                                                 & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$   & $\displaystyle \bar{x} - z_{\alpha} \frac{\sigma}{\sqrt{n}} < \mu < \infty$                                                                                 \\ \hline
-    \end{tabular}
-    \caption{Phân phối XS của trung bình mẫu và tỷ lệ mẫu}
-\end{table}
+% % Ghi chú: Tôi đã dùng \displaystyle để các phân số hiển thị lớn giống trong hình
+% \begin{table}[H]
+%     \centering
+%     \label{tab:phanphoi_xs}
+%     \begin{tabular}{|l|l|l|l|l|}
+%         \hline
+%         \textbf{Dạng}                                                                                                       & \textbf{Giả định}                                        & \textbf{Loại}                                                   & \textbf{Ngưỡng sai số}                                                       & \textbf{Khoảng tin cậy}                                                      \\ \hline
+%         \multirow{3}{*}{Tỷ lệ}                                                                                              & \multirow{3}{*}{$n \ge 30$}                              & Đối xứng                                                        & $\displaystyle \epsilon = z_{\alpha/2} \sqrt{\frac{f(1-f)}{n}}$              & $\displaystyle f - \epsilon < p < f + \epsilon$                              \\ \cline{3-5}
+%                                                                                                                             &                                                          & Bên phải                                                        & $\displaystyle \epsilon = z_{\alpha} \sqrt{\frac{f(1-f)}{n}}$                & $\displaystyle 0 < p < f + z_{\alpha} \sqrt{\frac{f(1-f)}{n}}$               \\ \cline{3-5}
+%                                                                                                                             &                                                          & Bên trái                                                        & $\displaystyle \epsilon = z_{\alpha} \sqrt{\frac{f(1-f)}{n}}$                & $\displaystyle f - z_{\alpha} \sqrt{\frac{f(1-f)}{n}} < p < 1$               \\ \hline
+%         \multirow{6}{*}{Trung bình}                                                                                         & \multirow{3}{*}{\parbox{3.5cm}{$X \sim N(\mu, \sigma^2)$                                                                                                                                                                                                                                 \\ Đã biết $\sigma$}} & Đối xứng & $\displaystyle \epsilon = z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$ & $\displaystyle \bar{x} - \epsilon < \mu < \bar{x} + \epsilon$ \\ \cline{3-5}
+%                                                                                                                             &                                                          & Bên phải                                                        & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$                & $\displaystyle -\infty < \mu < \bar{x} + z_{\alpha} \frac{\sigma}{\sqrt{n}}$ \\ \cline{3-5}
+%                                                                                                                             &                                                          & Bên trái                                                        & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$                & $\displaystyle \bar{x} - z_{\alpha} \frac{\sigma}{\sqrt{n}} < \mu < \infty$  \\ \cline{2-5}
+%                                                                                                                             & \multirow{3}{*}{\parbox{3.5cm}{$X \sim N(\mu, \sigma^2)$                                                                                                                                                                                                                                 \\ Chưa biết $\sigma$}} & Đối xứng & $\displaystyle \epsilon = t_{\alpha/2; n-1} \frac{s}{\sqrt{n}}$ & $\displaystyle \bar{x} - \epsilon < \mu < \bar{x} + \epsilon$ \\ \cline{3-5}
+%                                                                                                                             &                                                          & Bên phải                                                        & $\displaystyle \epsilon = t_{\alpha; n-1} \frac{s}{\sqrt{n}}$                & $\displaystyle -\infty < \mu < \bar{x} + t_{\alpha; n-1} \frac{s}{\sqrt{n}}$ \\ \cline{3-5}
+%                                                                                                                             &                                                          & Bên trái                                                        & $\displaystyle \epsilon = t_{\alpha; n-1} \frac{s}{\sqrt{n}}$                & $\displaystyle \bar{x} - t_{\alpha; n-1} \frac{s}{\sqrt{n}} < \mu < \infty$  \\ \hline
+%         \multicolumn{2}{|l|}{\parbox{5cm}{Phân phối tùy ý, mẫu lớn ($n \ge 30$). Nếu chưa biết $\sigma$ thì thay bằng $s$}} & Đối xứng                                                 & $\displaystyle \epsilon = z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$ & $\displaystyle \bar{x} - \epsilon < \mu < \bar{x} + \epsilon$                                                                                               \\ \cline{3-5}
+%         \multicolumn{2}{|l|}{}                                                                                              & Bên phải                                                 & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$   & $\displaystyle -\infty < \mu < \bar{x} + z_{\alpha} \frac{\sigma}{\sqrt{n}}$                                                                                \\ \cline{3-5}
+%         \multicolumn{2}{|l|}{}                                                                                              & Bên trái                                                 & $\displaystyle \epsilon = z_{\alpha} \frac{\sigma}{\sqrt{n}}$   & $\displaystyle \bar{x} - z_{\alpha} \frac{\sigma}{\sqrt{n}} < \mu < \infty$                                                                                 \\ \hline
+%     \end{tabular}
+%     \caption{Cách tính $\epsilon$ và khoảng tin cậy cho một vài dạng phổ biến}
+% \end{table}
+
+% \subsubsection{Ước lượng bằng khoảng tin cậy - Bài toàn 2 mẫu}
+
 
 
 \subsection{Kiểm định giả thuyết thống kê}
@@ -239,6 +242,157 @@ Kết luận của một bài toán kiểm định có thể mắc các sai lầ
 \end{enumerate}
 
 \subsection{Các mô hình kiểm định được sử dụng trong báo cáo}
+\subsubsection{Bài toán kiểm định trung bình 1 mẫu}
+\begin{table}[H]
+    \centering
+    \label{tab:kiemdinh_1mau}
+    \renewcommand{\arraystretch}{1.5} % Tăng chiều cao dòng cho dễ đọc
+
+    % Dùng resizebox để bảng tự co vừa chiều rộng trang giấy
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{|p{1.5cm}|p{3.5cm}|c|c|p{5.5cm}|c|}
+            \hline
+            \textbf{Dạng bài} & \textbf{Phân bố của tổng thể}                                                                                                   & \textbf{Giả thiết $H_0$}                                              & \textbf{Giả thiết đối $H_1$} & \centering\textbf{Miền bác bỏ RR} (miền bác bỏ $H_0$ với mức ý nghĩa $\alpha$) & \textbf{\parbox{4cm}{\centering Hàm thống kê kiểm định \\ (Tiêu chuẩn kiểm định)}} \\
+            \hline
+
+            % === PHẦN 1: KIỂM ĐỊNH TỶ LỆ ===
+            \multirow{3}{*}{\parbox{1.5cm}{\textbf{Kiểm định tỷ lệ 1 mẫu}}}
+                              & \multirow{3}{*}{\parbox{3.5cm}{* X có phân phối Không - một.                                                                                                                                                                                                                                                                                                                     \\ * $n \ge 30$. \hfill \textbf{(1)}}}
+                              & \multirow{3}{*}{$p = p_0$}
+                              & $p \neq p_0$                                                                                                                    & $(-\infty; -z_{\alpha/2}) \cup (z_{\alpha/2}; +\infty)$
+                              & \multirow{3}{*}{$\displaystyle Z_{qs} = \frac{f - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}} \approx N(0,1)$}                                                                                                                                                                                                                                                                             \\
+            \cline{4-5}
+
+                              &                                                                                                                                 &                                                                       & $p < p_0$                    & $(-\infty; -z_{\alpha})$                                                       &                                                        \\
+            \cline{4-5}
+                              &                                                                                                                                 &                                                                       & $p > p_0$                    & \multicolumn{1}{r|}{$(z_{\alpha}; +\infty)$}                                   &                                                        \\
+            \hline
+
+            % === PHẦN 2: KIỂM ĐỊNH TRUNG BÌNH ===
+            \multirow{9}{*}{\parbox{1.5cm}{\textbf{Kiểm định trung bình 1 mẫu}}}
+
+            % --- Trường hợp 2a ---
+                              & \multirow{3}{*}{\parbox{3.5cm}{* X có phân phối chuẩn.                                                                                                                                                                                                                                                                                                                           \\ * \textbf{Đã biết $\sigma^2$}. \hfill \textbf{(2a)}}}
+                              & \multirow{3}{*}{$\mu = \mu_0$}
+                              & $\mu \neq \mu_0$                                                                                                                & $(-\infty; -z_{\alpha/2}) \cup (z_{\alpha/2}; +\infty)$
+                              & \multirow{3}{*}{$\displaystyle Z_{qs} = \frac{\bar{X} - \mu_0}{\frac{\sigma}{\sqrt{n}}} \sim N(0,1)$}                                                                                                                                                                                                                                                                            \\
+            \cline{4-5}
+
+                              &                                                                                                                                 &                                                                       & $\mu < \mu_0$                & $(-\infty; -z_{\alpha})$                                                       &                                                        \\
+            \cline{4-5}
+                              &                                                                                                                                 &                                                                       & $\mu > \mu_0$                & \multicolumn{1}{r|}{$(z_{\alpha}; +\infty)$}                                   &                                                        \\
+            \cline{2-6}
+
+            % --- Trường hợp 2b ---
+                              & \multirow{3}{*}{\parbox{3.5cm}{* X có phân phối chuẩn.                                                                                                                                                                                                                                                                                                                           \\ * \textbf{Chưa biết $\sigma^2$}. \hfill \textbf{(2b)}}}
+                              & \multirow{3}{*}{$\mu = \mu_0$}
+                              & $\mu \neq \mu_0$                                                                                                                & $(-\infty; -t_{\alpha/2; (n-1)}) \cup (t_{\alpha/2; (n-1)}; +\infty)$
+                              & \multirow{3}{*}{$\displaystyle T_{qs} = \frac{\bar{X} - \mu_0}{\frac{s}{\sqrt{n}}} \sim T_{(n-1)}$}                                                                                                                                                                                                                                                                              \\
+            \cline{4-5}
+
+                              &                                                                                                                                 &                                                                       & $\mu < \mu_0$                & $(-\infty; -t_{\alpha; (n-1)})$                                                &                                                        \\
+            \cline{4-5}
+                              &                                                                                                                                 &                                                                       & $\mu > \mu_0$                & \multicolumn{1}{r|}{$(t_{\alpha; (n-1)}; +\infty)$}                            &                                                        \\
+            \cline{2-6}
+
+            % --- Trường hợp 2c ---
+                              & \multirow{3}{*}{\parbox{3.5cm}{* X có phân phối tùy ý.                                                                                                                                                                                                                                                                                                                           \\ * $n \ge 30$. \hfill \textbf{(2c)} \\ \footnotesize X không có giả thiết PPC}}
+                              & \multirow{3}{*}{$\mu = \mu_0$}
+                              & $\mu \neq \mu_0$                                                                                                                & $(-\infty; -z_{\alpha/2}) \cup (z_{\alpha/2}; +\infty)$
+                              & \multirow{3}{*}{\parbox{4cm}{\centering $\displaystyle Z_{qs} = \frac{\bar{X} - \mu_0}{\frac{\sigma}{\sqrt{n}}} \approx N(0,1)$                                                                                                                                                                                                                                                  \\ \footnotesize Nếu chưa biết $\sigma$ thì thay bởi $s$}} \\
+            \cline{4-5}
+
+                              &                                                                                                                                 &                                                                       & $\mu < \mu_0$                & $(-\infty; -z_{\alpha})$                                                       &                                                        \\
+            \cline{4-5}
+                              &                                                                                                                                 &                                                                       & $\mu > \mu_0$                & \multicolumn{1}{r|}{$(z_{\alpha}; +\infty)$}                                   &                                                        \\
+            \hline
+        \end{tabular}
+    }
+    \caption{Công thức của bài toán kiểm định tỷ lệ \& trung bình 1 mẫu}
+\end{table}
+
+\subsubsection{Bài toán kiểm định 2 mẫu}
+\begin{table}[h!]
+    \centering
+    \renewcommand{\arraystretch}{2.0} % Tăng chiều cao dòng lên 2.0 cho thoáng
+
+    % Dùng resizebox để bảng tự động co vừa khít trang giấy
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{|p{5.5cm}|c|c|c|c|}
+            \hline
+            \textbf{Phân bố của tổng thể} & \textbf{GT $H_0$}                                                                                                               & \textbf{GT $H_1$}                                                     & \textbf{Miền bác bỏ RR}              & \textbf{T/chuẩn kiểm định} \\
+            \hline
+
+            % === (4a) ===
+            \multirow{3}{*}{\parbox{5.5cm}{* 2 mẫu độc lập                                                                                                                                                                                                                                                              \\ * $X_1, X_2$ có pp chuẩn. \\ * Đã biết $\sigma_1^2$ và $\sigma_2^2$ \hfill (4a)}}
+                                          & \multirow{3}{*}{$\mu_1 = \mu_2$}
+                                          & $\mu_1 \neq \mu_2$                                                                                                              & $(-\infty; -z_{\alpha/2}) \cup (z_{\alpha/2}; +\infty)$
+                                          & \multirow{3}{*}{$\displaystyle Z_{qs} = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}$}                                                                                                                                              \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 < \mu_2$                                                       & $(-\infty; -z_{\alpha})$             &                            \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 > \mu_2$                                                       & $(z_{\alpha}; +\infty)$              &                            \\
+            \hline
+
+            % === (4b) ===
+            \multirow{3}{*}{\parbox{5.5cm}{* 2 mẫu độc lập                                                                                                                                                                                                                                                              \\ * $X_1, X_2$ có pp chuẩn \\ * Chưa biết $\sigma_1^2; \sigma_2^2$; $\sigma_1^2 = \sigma_2^2$ \hfill (4b)}}
+                                          & \multirow{3}{*}{$\mu_1 = \mu_2$}
+                                          & $\mu_1 \neq \mu_2$                                                                                                              & \parbox{4.5cm}{\centering $(-\infty; -t_{\alpha/2;(n_1+n_2-2)}) \cup$                                                                     \\ $(t_{\alpha/2;(n_1+n_2-2)}; +\infty)$}
+                                          & \multirow{3}{*}{$\displaystyle T_{qs} = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{s_p^2 \left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}$}                                                                                                                                             \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 < \mu_2$                                                       & $(-\infty; -t_{\alpha;(n_1+n_2-2)})$ &                            \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 > \mu_2$                                                       & $(t_{\alpha;(n_1+n_2-2)}; +\infty)$  &                            \\
+            \hline
+
+            % === (4c) ===
+            \multirow{3}{*}{\parbox{5.5cm}{* 2 mẫu độc lập                                                                                                                                                                                                                                                              \\ * $X_1, X_2$ có pp chuẩn \\ * Chưa biết $\sigma_1^2, \sigma_2^2$; $\sigma_1^2 \neq \sigma_2^2$ \hfill (4c)}}
+                                          & \multirow{3}{*}{$\mu_1 = \mu_2$}
+                                          & $\mu_1 \neq \mu_2$                                                                                                              & \parbox{4.5cm}{\centering $(-\infty; -t_{\alpha/2;(\nu)}) \cup$                                                                           \\ $(t_{\alpha/2;(\nu)}; +\infty)$}
+                                          & \multirow{3}{*}{$\displaystyle T_{qs} = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$}                                                                                                                                                        \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 < \mu_2$                                                       & $(-\infty; -t_{\alpha;(\nu)})$       &                            \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 > \mu_2$                                                       & $(t_{\alpha;(\nu)}; +\infty)$        &                            \\
+            \hline
+
+            % === (4d) ===
+            \multirow{3}{*}{\parbox{5.5cm}{* 2 mẫu độc lập                                                                                                                                                                                                                                                              \\ * $X_1, X_2$ có pp tùy ý \\ * Mẫu lớn: $n_1, n_2 \ge 30$ \\ * Đã biết hoặc chưa biết $\sigma_1^2, \sigma_2^2$ \hfill (4d)}}
+                                          & \multirow{3}{*}{$\mu_1 = \mu_2$}
+                                          & $\mu_1 \neq \mu_2$                                                                                                              & $(-\infty; -z_{\alpha/2}) \cup (z_{\alpha/2}; +\infty)$
+                                          & \multirow{3}{*}{$\displaystyle Z_{qs} = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}$}                                                                                                                                              \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 < \mu_2$                                                       & $(-\infty; -z_{\alpha})$             &                            \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 > \mu_2$                                                       & $(z_{\alpha}; +\infty)$              &                            \\
+            \hline
+
+            % === (4e) ===
+            \multirow{3}{*}{\parbox{5.5cm}{* 2 mẫu phụ thuộc                                                                                                                                                                                                                                                            \\ tương ứng theo cặp \\ * $X_1, X_2$ có pp chuẩn \\ * Chưa biết $\sigma_D^2$ \hfill (4e)}}
+                                          & \multirow{3}{*}{$\mu_1 = \mu_2$}
+                                          & $\mu_1 \neq \mu_2$                                                                                                              & \parbox{4.5cm}{\centering $(-\infty; -t_{\alpha/2;(n-1)}) \cup$                                                                           \\ $(t_{\alpha/2;(n-1)}; +\infty)$}
+                                          & \multirow{3}{*}{$\displaystyle T_{qs} = \frac{\bar{X}_D - \mu_0}{s_D} \sqrt{n}$}                                                                                                                                                                                            \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 < \mu_2$                                                       & $(-\infty; -t_{\alpha;(n-1)})$       &                            \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 > \mu_2$                                                       & $(t_{\alpha;(n-1)}; +\infty)$        &                            \\
+            \hline
+
+            % === (4f) ===
+            \multirow{3}{*}{\parbox{5.5cm}{* 2 mẫu phụ thuộc                                                                                                                                                                                                                                                            \\ tương ứng theo cặp \\ * 2 mẫu lớn: $n \ge 30$ \\ * Đã biết hoặc chưa biết $\sigma_D^2$ \hfill (4f)}}
+                                          & \multirow{3}{*}{$\mu_1 = \mu_2$}
+                                          & $\mu_1 \neq \mu_2$                                                                                                              & $(-\infty; -z_{\alpha/2}) \cup (z_{\alpha/2}; +\infty)$
+                                          & \multirow{3}{*}{$\displaystyle Z_{qs} = \frac{\bar{X}_D - \mu_0}{\sigma_D} \sqrt{n}$}                                                                                                                                                                                       \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 < \mu_2$                                                       & $(-\infty; -z_{\alpha})$             &                            \\
+            \cline{3-4}
+                                          &                                                                                                                                 & $\mu_1 > \mu_2$                                                       & $(z_{\alpha}; +\infty)$              &                            \\
+            \hline
+        \end{tabular}
+    }
+    \caption{Các dạng toán kiểm định 2 mẫu}
+\end{table}
+
 \subsubsection{Phân tích phương sai (anova)}
 
 \textbf{Phân tích phương sai} là một mô hình dùng để xem xét sự biến động của một biến ngẫu nhiên định lượng X chịu tác động trực tiếp của một hay nhiều yếu tố nguyên nhân (định tính). Được làm hai loại là phân tích phương sai 1 yếu tố và phân tích phương sai 2 yếu tố.
@@ -298,3 +452,9 @@ Tìm giá trị $F_{\alpha; k-1; N-k}$ tra bảng Fisher mức ý nghĩa $\alpha
         Toàn bộ                          & SST         & N-1         &             &                                                      \\ \hline
     \end{tabular}
 \end{table}
+
+
+\subsubsection{Hồi quy tuyến tính bội}
+\textbf{Khái niệm:} Hồi quy tuyến tính là một kỹ thuật phân tích dữ liệu dự đoán giá trị của dữ liệu không xác định bằng cách sử dụng một giá trị dữ liệu liên quan và đã biết khác.
+
+Bài toán phân tích hồi quy là bài toán nghiên cứu mối liên hệ phụ thuộc của một biến (gọi là biến phụ thuộc) vào một hay nhiều biến khác (gọi là các biến độc lập), với ý tưởng ước lượng được giá trị trung bình (tổng thể) của biến phụ thuộc theo giá trị của các biến độc lập, dựa trên mẫu được biết trước.

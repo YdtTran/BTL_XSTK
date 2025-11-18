@@ -41,7 +41,7 @@ missing_counts_df <- data.frame(
   percent = missing_counts[,2]
 )
 
-cols_to_keep <- missing_counts_df$feature[missing_counts_df$percent <= 10 & missing_counts_df$feature != "Architecture" & missing_counts_df$feature != "Name"]
+cols_to_keep <- missing_counts_df$feature[missing_counts_df$percent <= 15 & missing_counts_df$feature != "Architecture" & missing_counts_df$feature != "Name"]
 df_filtered <- df[, cols_to_keep, drop = FALSE]
 
 head(df_filtered, 5)
@@ -49,7 +49,7 @@ df_filtered <- na.omit(df_filtered)
 print(names(df_filtered))
 
 # Xoá đơn vị
-remove_unit_cols <- c("Memory_Bandwidth", "Memory_Speed", "Memory_Bus", "Direct_X")
+remove_unit_cols <- c("Memory_Bandwidth", "Memory_Speed", "Memory_Bus", "Direct_X", "Memory", "Process")
 
 main_df <- df_filtered
 
