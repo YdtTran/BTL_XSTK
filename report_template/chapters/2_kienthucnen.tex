@@ -458,3 +458,19 @@ Tìm giá trị $F_{\alpha; k-1; N-k}$ tra bảng Fisher mức ý nghĩa $\alpha
 \textbf{Khái niệm:} Hồi quy tuyến tính là một kỹ thuật phân tích dữ liệu dự đoán giá trị của dữ liệu không xác định bằng cách sử dụng một giá trị dữ liệu liên quan và đã biết khác.
 
 Bài toán phân tích hồi quy là bài toán nghiên cứu mối liên hệ phụ thuộc của một biến (gọi là biến phụ thuộc) vào một hay nhiều biến khác (gọi là các biến độc lập), với ý tưởng ước lượng được giá trị trung bình (tổng thể) của biến phụ thuộc theo giá trị của các biến độc lập, dựa trên mẫu được biết trước.
+
+Trong hồi quy tuyến tính đơn, chỉ có một biến độc lập được sử dụng để dự đoán biến phụ thuộc. Tuy nhiên, trong hồi quy tuyến tính bội, có nhiều hơn một biến độc lập được sử dụng.
+
+Hàm hồi quy tuyến tính đơn có dạng:
+\[ f_Y(X) = E(Y|X) = \beta_0 + \beta_1 X. \]
+
+Hàm hồi quy tuyến tính bội có dạng:
+\[ Y = f_Y(X_1; X_2; \dots; X_k) = E(Y | (X_1; X_2; \dots; X_k)) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_k X_k. \]
+Trong đó:
+\begin{itemize}
+    \item $Y$ là biến phụ thuộc (biến cần dự đoán).
+    \item $X_1, X_2, \dots, X_k$ là các biến độc lập (biến giải thích).
+    \item $\beta_0$ (cũng được gọi là hệ số điều chỉnh) là hệ số mức độ tự do của mô hình, tức là giá trị dự đoán của biến phụ thuộc khi tất cả các biến độc lập đều bằng 0.
+    \item $\beta_1, \beta_2, \dots, \beta_k$ là các hệ số hồi quy tương ứng với từng biến độc lập.
+    \item $\epsilon$ là sai số ngẫu nhiên (error term) biểu thị sự khác biệt giữa giá trị thực tế và giá trị dự đoán bởi mô hình.
+\end{itemize}

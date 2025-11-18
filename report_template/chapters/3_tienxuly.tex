@@ -43,9 +43,9 @@ df$Release_Date <- format(df$Release_Date, "%Y")
 \end{lstlisting}
 
 
-Sau khi thay thế các giá trị rác, nhóm nhận thấy rằng có rất nhiều yếu tố có số lượng $NA$ lớn, điều này buộc nhóm phải lựa chọn giữa loại bỏ và chuẩn hoá. Trong nội dung bài báo cáo này, nhóm sẽ loại bỏ những đăc điểm (cột) có số lượng giá trị $NA$ vượt quá 10\% tổng số dòng dữ liệu. Để thực hiện việc này, ta có thể sử dụng đoạn mã sau:
+Sau khi thay thế các giá trị rác, nhóm nhận thấy rằng có rất nhiều yếu tố có số lượng $NA$ lớn, điều này buộc nhóm phải lựa chọn giữa loại bỏ và chuẩn hoá. Trong nội dung bài báo cáo này, nhóm sẽ loại bỏ những đăc điểm (cột) có số lượng giá trị $NA$ vượt quá 15\% tổng số dòng dữ liệu. Để thực hiện việc này, ta có thể sử dụng đoạn mã sau:
 
-\begin{lstlisting}[language=R, caption={Loại bỏ các cột có tỷ lệ NA > 10\%}, captionpos=b]
+\begin{lstlisting}[language=R, caption={Trực quan hoá tỷ lệ dữ liệu khuyết thiếu}, captionpos=b]
 # Dem so luong gia tri NA trong moi cot
 missing_counts = freq.na(df)
 # Ve do thi ty le du lieu khuyet
@@ -72,25 +72,25 @@ Kết quả trực quan hóa tỷ lệ dữ liệu khuyết thiếu được th�
 \end{figure}
 
 
-Tiếp theo sau đó, ta sẽ loại bỏ các cột có tỷ lệ giá trị $NA$ vượt quá 10\% tổng số dòng dữ liệu như sau:
+Tiếp theo sau đó, ta sẽ loại bỏ các cột có tỷ lệ giá trị $NA$ vượt quá 15\% tổng số dòng dữ liệu như sau:
 
-\begin{lstlisting}[language=R, caption={Loại bỏ các cột có tỷ lệ NA > 10\%}, captionpos=b]
+\begin{lstlisting}[language=R, caption={Loại bỏ các cột có tỷ lệ NA > 15\%}, captionpos=b]
 missing_counts_df <- data.frame(
   feature = rownames(missing_counts),
   percent = missing_counts[,2]
 )
-cols_to_keep <- missing_counts_df$feature[missing_counts_df$percent <= 10 & missing_counts_df$feature != "Architecture" & missing_counts_df$feature != "Name"]
+cols_to_keep <- missing_counts_df$feature[missing_counts_df$percent <= 15 & missing_counts_df$feature != "Architecture" & missing_counts_df$feature != "Name"]
 df_filtered <- df[, cols_to_keep, drop = FALSE]
 head(df_filtered, 5)
 df_filtered <- na.omit(df_filtered)
 \end{lstlisting}
 
 
-Bằng câu lệnh \verb|print(names(df_filtered))|, ta có thể kiểm tra lại các cột còn lại sau khi đã loại bỏ các cột có tỷ lệ giá trị $NA$ vượt quá 10\% (Hình \ref{fig:final_columns}).
+Bằng câu lệnh \verb|print(names(df_filtered))|, ta có thể kiểm tra lại các cột còn lại sau khi đã loại bỏ các cột có tỷ lệ giá trị $NA$ vượt quá 15\% (Hình \ref{fig:final_columns}).
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{graphics/2_2_final_columns.jpg}
-  \caption{Các cột còn lại sau khi loại bỏ các cột có tỷ lệ NA > 10\%}
+  \caption{Các cột còn lại sau khi loại bỏ các cột có tỷ lệ NA > 15\%}
   \label{fig:final_columns}
 \end{figure}
 
@@ -116,7 +116,7 @@ main_df$L2_Cache <- sapply(main_df$L2_Cache, clean_cache)
 Dữ liệu đã được làm sạch được lưu vào biến \verb|main_df| và được hiện trong Hình \ref{fig:cleaned_data}.
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.7\textwidth]{graphics/2_2data_cleaned.png}
+  \includegraphics[width=0.6\textwidth]{graphics/2_2data_cleaned.png}
   \caption{Dữ liệu sau khi làm sạch}
   \label{fig:cleaned_data}
 \end{figure}
