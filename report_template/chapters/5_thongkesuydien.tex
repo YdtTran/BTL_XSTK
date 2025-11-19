@@ -1,2 +1,136 @@
 \section{Thống kê suy diễn}
-\input{chapters/two-way_anova.tex}
+
+\subsection{Phân tích phương sai (ANOVA) một yếu tố về ảnh hưởng của nhà sản xuất đến băng thông bộ nhớ}
+
+\subsubsection{Mục đích kiểm định}
+
+Phân tích One-way ANOVA nhằm đánh giá: Băng thông bộ nhớ (Memory\_Bandwidth) có sự khác biệt về trung bình giữa các hãng sản xuất GPU hay không?
+
+\textbf{Các hãng trong dữ liệu:} AMD, ATI, Intel và NVIDIA.
+
+\subsubsection{Giả thiết nghiên cứu}
+
+\begin{itemize}
+    \item Giả thiết không ($H_0$): Trung bình băng thông bộ nhớ giữa các hãng sản xuất \textbf{là bằng nhau}.
+    \item Giả thiết đối ($H_1$): Có \textbf{ít nhất hai hãng sản xuất} có trung bình băng thông bộ nhớ \textbf{khác nhau}.
+\end{itemize}
+
+\subsubsection{Kiểm tra giả định thống kê của ANOVA một yếu tố}
+
+\textbf{Các giả định thống kê:}
+
+\begin{itemize}
+    \item Các quan sát độc lập.
+    \item Phần dư tuân theo phân phối chuẩn (tương đương với việc biến phụ thuộc tuân theo phân phối chuẩn trong mỗi nhóm).
+    \item Phương sai giữa các nhóm đồng nhất.
+\end{itemize}
+
+\subsubsection{Xây dựng mô hình ANOVA một yếu tố trong R}
+
+\begin{itemize}
+    \item []\textbf{Bước 1:} Xây dựng mô hình ANOVA
+
+          Ta có thể dùng lệnh:
+
+          \begin{lstlisting}[language=R, caption={Xây dựng mô hình ANOVA một yếu tố trong R}, captionpos=b]
+    anova_model <- aov(Memory_Bandwidth ~ Manufacturer, data = main_df)
+    \end{lstlisting}
+
+    \item []\textbf{Bước 2:} Kiểm tra các giả định thống kê
+
+          \begin{itemize}
+              \item \textbf{Tính độc lập:} vì dữ liệu được thu thập từ các mẫu GPU khác nhau nên ta có thể coi các quan sát là độc lập.
+              \item \textbf{Phân phối chuẩn:} Ta sử Shapiro-Test và biểu đồ Q-Q plot để kiểm tra giả định phân phối chuẩn của phần dư.
+
+                    \textbf{Kiểm định chuẩn hóa phần dư}
+                    \begin{align}
+                        H_0 & : \text{Phần dư tuân theo phân phối chuẩn} \nonumber       \\
+                        H_1 & : \text{Phần dư không tuân theo phân phối chuẩn} \nonumber
+                    \end{align}
+
+                    \begin{lstlisting}[language=R, caption={Kiểm định Shapiro-Wilk cho phần dư của mô hình ANOVA.}, captionpos=b]    
+res <- residuals(anova_model) 
+shapiro.test(res) 			    
+\end{lstlisting}
+
+                    Kết quả của \verb|shapiro.test()| cho phần dư trả về được thể hiện trong hình \ref{fig:shapiro_test}, dễ dàng, ta có thể nhận thấy rằng $\text{p\_value} = 2.2\text{e}-16 << 0.05$, do đó ta bác bỏ giả thiết không $H_0$ và thừa nhận giả thiết đối $H_1$. Kết luận rằng phần dư không tuân theo phân phối chuẩn. Và từ đó khẳng định biến phụ thuộc (Memory\_Bandwidth) không tuân theo phân phối chuẩn.
+                    \begin{figure}[H]
+                        \centering
+                        \includegraphics[width=0.6\textwidth]{graphics/5_5shapiro_test.png}
+                        \caption{Kết quả kiểm định Shapiro-Wilk cho phần dư của mô hình ANOVA}
+                        \label{fig:shapiro_test}
+                    \end{figure}
+
+                    Để trực quan hơn, ta có thể sử dụng biểu đồ Q-Q plot để kiểm tra giả định phân phối chuẩn của phần dư như sau:
+                    \begin{lstlisting}[language=R, caption={Biểu đồ Q-Q plot cho phần dư của mô hình ANOVA}, captionpos=b]
+qqnorm(res)
+qqline(res)
+\end{lstlisting}
+
+                    Kết quả được thể hiện ở hình \ref{fig:qq_plot}. Ta có thể thấy rằng các điểm dữ liệu không nằm dọc theo đường thẳng, điều này cho thấy phần dư không tuân theo phân phối chuẩn. Và có xu hướng lệch ở 2 đầu.
+                    \begin{figure}[H]
+                        \centering
+                        \includegraphics[width=0.6\textwidth]{graphics/5_5qqplot.png}
+                        \caption{Biểu đồ Q-Q plot cho phần dư của mô hình ANOVA}
+                        \label{fig:qq_plot}
+                    \end{figure}
+
+                    Từ 2 phép kiểm định trên, ta chắc chắn kết luận được rằng Memory\_Bandwidth không tuân theo phân phối chuẩn.
+
+              \item \textbf{Phương sai đồng nhất:} Ta sử dụng kiểm định Levene để kiểm tra giả định phương sai đồng nhất.
+                    \begin{align*}
+                        H_0 & : \text{Phương sai giữa các nhóm là đồng nhất}    \\
+                        H_1 & : \text{Phương sai giữa các nhóm không đồng nhất}\end{align*}
+
+                    Ta có thể sử dụng lệnh sau trong R để thực hiện kiểm định Levene:
+                    \begin{lstlisting}[language=R, caption={Kiểm định Levene cho phương sai đồng nhất}, captionpos=b]
+            leveneTest(Memory_Bandwidth~ Manufacturer, data = main_df)
+        \end{lstlisting}
+
+                    Ta thu được kết quả kiểm định Levene được thể hiện trong hình \ref{fig:levene_test}. Ta thấy rằng $\text{p\_value} = 2.742\text{e}-5 << 0.05$, do đó ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng phương sai giữa các nhóm không đồng nhất.
+                    \begin{figure}[H]
+                        \centering
+                        \includegraphics[width=0.6\textwidth]{graphics/5_5levene.png}
+                        \caption{Kết quả kiểm định Levene cho phương sai đồng nhất}
+                        \label{fig:levene_test}
+                    \end{figure}
+                    \textbf{Nhận xét}: Từ kết quả kiểm tra các giả định thống kê, ta thấy rằng cả hai giả định về phân phối chuẩn và phương sai đồng nhất đều không được thỏa mãn, do đó mô hình ANOVA một yếu tố không phù hợp để phân tích dữ liệu này.
+          \end{itemize}
+    \item [] \textbf{Bước 3:} Kiểm tra giả thiết thống kê.
+
+          Ta sử đụng lệnh \verb|summary()| để in ra bảng ANOVA.
+
+          \begin{lstlisting}[language=R, caption={Bảng ANOVA một yếu tố trong R}, captionpos=b]
+summary(anova_model)
+        \end{lstlisting}
+
+          Kết quả bảng ANOVA được thể hiện trong hình \ref{fig:anova_table}. Ta thấy rằng $\text{p\_value} = 0.00085 << 0.05$, do đó ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng có ít nhất hai hãng sản xuất có trung bình băng thông bộ nhớ khác nhau.
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.6\textwidth]{graphics/5_5anovatable.png}
+              \caption{Bảng ANOVA một yếu tố trong R}
+              \label{fig:anova_table}
+          \end{figure}
+    \item[]\textbf{Bước 4:} So sánh hậu nghiệm (Tukey HSD)
+
+          Do mô hình ANOVA chỉ dùng để kiểm tra xem có sự khác biệt về trung bình giữa các nhóm hay không, mà không chỉ ra được cụ thể nhóm nào khác biệt, nên ta cần thực hiện so sánh hậu nghiệm để biết những hàng nào khác nhau có ý nghĩa thống kê.
+
+          Ta sử dụng lệnh \verb|TukeyHSD()| trong R để thực hiện so sánh hậu nghiệm như sau:
+          \begin{lstlisting}[language=R, caption={So sánh hậu nghiệm Tukey HSD trong R}, captionpos=b]
+tukey_result <- TukeyHSD(anova_model)
+\end{lstlisting}
+
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.8\textwidth]{graphics/5_5tukey.png}
+              \caption{Kết quả so sánh hậu nghiệm Tukey HSD trong R}
+              \label{fig:tukey_hsd}
+          \end{figure}
+          Kết quả so sánh hậu nghiệm Tukey HSD được thể hiện trong hình \ref{fig:tukey_hsd}. Ta có thể thấy rằng có hai cặp hãng sản xuất có sự khác biệt về trung bình băng thông bộ nhớ với $\text{p\_value} < 0.05$, đó là ATI-AMD và Intel-ATI. Các cặp còn lại không có sự khác biệt về trung bình băng thông bộ nhớ.
+
+          \textbf{Nhận xét:} Ta thấy rằng ATI có băng thông trung bình cao hơn so với AMD và NVIDIA.
+\end{itemize}
+
+\subsubsection{Nhận xét về mô hình ANOVA một yếu tố}
+
+Từ kết quả kiểm tra các giả định thống kê, ta thấy rằng cả hai giả định về phân phối chuẩn và phương sai đồng nhất đều không được thỏa mãn, do đó mô hình ANOVA một yếu tố không phù hợp để phân tích dữ liệu này. Điều đó khiến nhóm phải thực hiện thêm các kiểm định ANOVA khác trong phần mở rộng.Tuy nhiên, kết quả kiểm định ANOVA và so sánh hậu nghiệm Tukey HSD vẫn cho thấy có sự khác biệt về trung bình băng thông bộ nhớ giữa các hãng sản xuất GPU.
