@@ -1,5 +1,66 @@
 \section{Thống kê suy diễn}
 
+
+% 
+% Bài toán 2 mẫu 
+%
+
+\subsection{Bài toàn 2 mẫu}
+
+Băng thông bộ nhớ (Memory Bandwidth) là thông số quan trọng ảnh hưởng đến hiệu năng của bộ xử lý đồ hoạ GPU. Trên thị trường Việt Nam hiện nay có hai hãng là kỳ phùng địch thủ của nhau là Nvidia và AMD và cũng có nhiều cuộc tranh cãi, so sánh hiệu năng GPU của hai hãng này. Có một người dùng cho rằng băng thông bộ nhớ trung bình của Nvidia lớn hơn so với băng thông trung bình của AMD. Hãy kiểm định xem ý kiến của người dùng đó có đúng không với mức ý nghĩa 5%.
+\subsubsection{Mục đích kiểm định}
+
+Đánh giá xem băng thông bộ nhớ trung bình (Memory Bandwidth) của Nvidia có lớn hơn băng thông bộ nhớ trung bình của AMD hay không.
+
+\subsubsection{Giả thiết nghiên cứu}
+\begin{itemize}
+    \item Giả thiết không ($H_0$): Trung bình băng thông bộ nhớ của Nvidia \textbf{không lớn hơn} trung bình băng thông bộ nhớ của AMD.
+    \item Giả thiết đối ($H_1$): Trung bình băng thông bộ nhớ của Nvidia \textbf{lớn hơn} trung bình băng thông bộ nhớ của AMD.
+\end{itemize}
+
+\subsubsection{Thực hiện kiểm định}
+
+\begin{itemize}
+    \item \textbf{Bước 1:} Chia dữ liệu thành 2 nhóm và tính các đặc điểm thống kê mẫu cho từng nhóm.
+          \begin{lstlisting}[language=R, caption={Tính các đặc điểm thống kê mẫu cho từng nhóm trong R}, captionpos=b]
+nvida <- subset(main_df, Manufacturer == "Nvidia")$Memory_Bandwidth
+amd   <- subset(main_df, Manufacturer == "AMD")$Memory_Bandwidth
+
+# Lay n s trung binh cua du lieu
+n1 <- length(nvida)
+n2 <- length(amd)
+
+sd1<- sd(nvida)
+sd2<- sd(amd)
+
+tb1<- mean(nvida)
+tb2<- mean(amd)
+
+bang_ket_qua <- data.frame(
+  "Nhom" = c(1, 2),
+  "n"    = c(n1, n2),
+  "tb"  = c(tb1, tb2),
+  "sd"   = c(sd1, sd2)
+)
+print(bang_ket_qua)
+            \end{lstlisting}
+          \underline{\textbf{Kết quả:}}
+
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.5\textwidth]{graphics/5_1table.png}
+              \caption{Bảng kết quả các đặc điểm thống kê mẫu cho từng nhóm}
+              \label{fig:bang_ket_qua}
+          \end{figure}
+\end{itemize}
+
+
+
+% 
+% Phân tích phương sai (ANOVA) một yếu tố về ảnh hưởng của nhà sản xuất đến băng thông bộ nhớ
+% 
+
+
 \subsection{Phân tích phương sai (ANOVA) một yếu tố về ảnh hưởng của nhà sản xuất đến băng thông bộ nhớ}
 
 \subsubsection{Mục đích kiểm định}
@@ -134,3 +195,132 @@ tukey_result <- TukeyHSD(anova_model)
 \subsubsection{Nhận xét về mô hình ANOVA một yếu tố}
 
 Từ kết quả kiểm tra các giả định thống kê, ta thấy rằng cả hai giả định về phân phối chuẩn và phương sai đồng nhất đều không được thỏa mãn, do đó mô hình ANOVA một yếu tố không phù hợp để phân tích dữ liệu này. Điều đó khiến nhóm phải thực hiện thêm các kiểm định ANOVA khác trong phần mở rộng.Tuy nhiên, kết quả kiểm định ANOVA và so sánh hậu nghiệm Tukey HSD vẫn cho thấy có sự khác biệt về trung bình băng thông bộ nhớ giữa các hãng sản xuất GPU.
+
+\subsection{Áp dụng mô hình hồi quy tuyến tính bội vào phân tích hiệu suất GPU}
+
+\subsubsection{Xây dựng mô hình:}
+\begin{itemize}
+    \item Việc chia dữ liệu thành hai phần (train và test) là cần thiết để tránh overfitting (hiện tượng mô hình học quá kỹ dữ liệu được cung cấp, đến mức nó ghi nhớ dữ liệu thay vì suy ra các quy luật tổng quát). Để đảm bảo mô hình có được khả năng tổng quát hóa tốt, ta chia bộ dữ liệu thành: training\_set chiếm 80\% và testing\_set chiếm 20\% . Với 2610 mẫu dữ liệu, tỷ lệ này đảm bảo training\_set có đủ dữ liệu để mô hình học hỏi các đặc trưng phức tạp, đồng thời testing\_set vẫn có kích thước đủ lớn (522 mẫu) để đánh giá một cách đáng tin cậy hiệu suất thực tế của mô hình.
+    \item Để đánh giá và phân tích quan hệ giữa các thông số của GPU, ta chọn:
+          \begin{itemize}
+              \item Biến phụ thuộc: Memory\_Bandwidth
+              \item Biến độc lập: Process, Memory, Memory\_Speed,  Memory\_Bus, L2\_Cache.
+          \end{itemize}
+          \indent Lúc này, \textbf{mô hình có dạng:}
+          \begin{equation*}
+              \begin{split}
+                  \text{Memory\_Bandwidth} = & \beta_0 + \beta_1\text{Process} + \beta_2\text{Memory} + \beta_3\text{Memory\_Speed} \\
+                                             & + \beta_4\text{Memory\_Bus} + \beta_5\text{L2\_Cache} + \epsilon
+              \end{split}
+          \end{equation*}
+          \begin{lstlisting}[language=R, caption={Xây dựng mô hình hồi quy tuyến tính bội trong R}, captionpos=b]
+library(caret)
+# co dinh cach chon cac dong ngau nhie
+set.seed(111)
+# chon du lieu de train voi bien muc tieu 'Memory_Bandwidth'
+train_index <- createDataPartition(main_df$Memory_Bandwidth, p = 0.8, 
+list = FALSE)
+# tao training_set bang cac dong duoc chon
+training_set <- main_df[train_index, ]
+# tao testing_set bang cac dong con lai
+testing_set <- main_df[-train_index, ]
+# tao mo hinh hoi quy tuyen tinh
+model<-lm(Memory_Bandwidth ~ Process + Memory + Memory_Speed + Memory_Bus + L2_Cache, training_set)
+summary((model))
+\end{lstlisting}
+    \item \underline{\textbf{Kết quả sau khi chạy trên R:}}
+          \begin{figure} [H]
+              \centering
+              \includegraphics[width=0.7\textwidth]{graphics/KQ1.png}
+              \caption{Kết quả của mô hình hồi quy tuyến tính}
+              \label{fig:kq1_hqtt}
+          \end{figure}
+    \item \textbf{\underline{Nhận xét:}}
+          \begin{itemize}
+              \item Hệ số Multiple R-squared có giá trị là 0.7536. Điều này có nghĩa là 75.36\% sự biến thiên của biến phụ thuộc Memory\_Bandwidth có thể được giải thích bởi sự thay đổi của 5 biến độc lập trong mô hình. Ngoài ra, Hệ số Adjusted R-squared có giá trị là 0.753 (rất gần với Multiple R-squared). Như vậy, mô hình hoạt động khá hiệu quả và không có biến nào bị đưa vào một cách không cần thiết.
+              \item Tất cả các biến dự đoán đều có p-values rất nhỏ ($\ll 0.05$). Điều này khẳng định rằng tất cả 5 yếu tố này đều là yếu tố dự đoán có ý nghĩa thống kê cao.
+              \item Chỉ số Residual Standard Error (RSE) là 68.9. Đây là độ lệch chuẩn của Memory\_Bandwidth thực tế so với dự đoán.
+              \item Các hệ số ước lượng $\beta_i$ có giá trị như sau: $\beta_0 = -110.6$, $\beta_1 = 1.004$, $\beta_2 = 0.02735$, $\beta_3 = 0.0765$, $\beta_4 = 0.179$, $\beta_5 = 0.02137$.
+          \end{itemize}
+    \item \underline{\textbf{Kết luận:}} Đường thẳng hồi quy ước lượng của mô hình:
+          \begin{equation*}
+              \begin{split}
+                  \text{Memory\_Bandwidth} = & -110.6 + 1.004 \cdot \text{Process} + 0.02735 \cdot \text{Memory}    \\
+                                             & + 0.0765 \cdot \text{Memory\_Speed} + 0.179 \cdot \text{Memory\_Bus} \\
+                                             & + 0.02137 \cdot \text{L2\_Cache}
+              \end{split}
+          \end{equation*}
+\end{itemize}
+
+\subsubsection{Kiểm tra giả định của mô hình hồi quy}
+
+
+
+
+\begin{itemize}
+    \item \textbf{Tính tuyến tính.}
+
+          {Ta dùng mô hình chẩn đoán Residuals-Fitted để kiểm tra bằng lệnh:
+              \begin{lstlisting}[language=R, caption={Vẽ đồ thị Residuals-Fitted trong R}, captionpos=b]
+                plot(model, which=1) # Residuals vs Fitted
+            \end{lstlisting}
+              \underline{\textbf{Kết quả:}}
+              \begin{figure} [H]
+                  \centering
+                  \includegraphics[width=0.6\textwidth]{graphics/ResidualsvsFitted.png}
+                  \caption{Biểu đồ Residuals vs Fitted}
+                  \label{fig:mh1_hqtt}
+              \end{figure}
+              \underline{\textbf{Nhận xét:}} Đường xu hướng (màu đỏ) nhìn chung tương đối phẳng nhưng vẫn có xu hướng tăng lên theo chiều tăng của fitted values. Như vậy, mô hình chỉ có thể thỏa mãn tương đối tính tuyến tính.}
+    \item \textbf{Sai số có phân phối chuẩn.}
+
+          {Ta có thể sử dụng biểu đồ Q-Q plot để kiểm tra giả định phân phối chuẩn của phần dư như sau:
+              \begin{lstlisting}[language=R, caption={Biểu đồ Q-Q plot cho phần dư của mô hình hồi quy tuyến tính}, captionpos=b]
+plot(model, which=2) 
+              \end{lstlisting}
+              \underline{\textbf{Kết quả:}}
+              \begin{figure} [H]
+                  \centering
+                  \includegraphics[width=0.6\textwidth]{graphics/Q_Q.png}
+                  \caption{Biểu đồ Q-Q}
+                  \label{fig:mh2_hqtt}
+              \end{figure}
+              \underline{\textbf{Nhận xét:}} Biểu đồ Q-Q cho thấy phần lớn các điểm nằm sát đường chéo nên sai số của mô hình gần như là có phân phối chuẩn, đặc biệt là ở vùng trung tâm. Tuy nhiên, phần đuôi của đồ thị lại có xu hướng lệch lên so với đường tham chiếu.}
+    \item \textbf{Phương sai đồng nhất.}
+
+          {Ta dùng mô hình chẩn đoán Scale-Location để kiểm tra bằng lệnh:
+          \begin{lstlisting}[language=R, caption={Vẽ đồ thị Scale-Location trong R}, captionpos=b]          
+plot(model, which=3) # Scale-Location
+            \end{lstlisting}
+          \textbf{\underline{Kết quả:}}
+          \begin{figure} [H]
+              \centering
+              \includegraphics[width=0.6\textwidth]{graphics/Scale_Location.png}
+              \caption{Biểu đồ Scale-Location}
+              \label{fig:mh3_hqtt}
+          \end{figure}
+          \underline{\textbf{Nhận xét:}} Đường xu hướng (màu đỏ) có độ dốc lớn, các điểm có độ phân tán ngày càng cao. Có thể nhận định: mô hình không thỏa mãn tốt tính chất đồng nhất của phương sai.
+    \item {\textbf{Tính độc lập của sai số}}
+
+          Ta dùng kiểm định Durbin-Watson để kiểm tra tính chất này:
+          \begin{lstlisting}[language=R, caption={Kiểm định Durbin-Watson trong R}, captionpos=b]
+durbinWatsonTest(model) #Kiem tra tinh doc lap cua sai so
+            \end{lstlisting}
+          \textbf{\underline{Kết quả:}}
+          \begin{center}
+              \begin{tcolorbox}
+                  \begin{verbatim}
+durbinWatsonTest(model) # Kiem tra tinh doc lap cua sai so
+ lag    Autocorrelation    D-W Statistic     p-value
+   1       0.47708         1.045552           0
+Alternative hypothesis: rho != 0
+                    \end{verbatim}
+              \end{tcolorbox}
+          \end{center}
+          \underline{\textbf{Nhận xét:}} Tính độc lập của sai số không được thỏa mãn vì hệ số Tự tương quan là tương đối lớn (0.47708).
+          }
+\end{itemize}
+
+\subsubsection{Nhận xét về mô hình hồi quy tuyến tính}
+
+Mô hình hồi quy tuyến tính được xây dựng nhìn chung có thể thỏa mãn tương đối một số giả định quan trọng nhưng cũng tồn tại nhiều hạn chế.

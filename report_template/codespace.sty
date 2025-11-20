@@ -3,6 +3,10 @@
 % Options can be used to add more predefined colors (see Section 4)
 % e.g.: dvipsnames, svgnames, x11names
 \RequirePackage{xcolor}
+% \usepackage{listingsutf8}
+% \usepackage{lmodern}
+\RequirePackage{listingsutf8}
+\RequirePackage{lmodern}
 
 \RequirePackage{tikz}
 \RequirePackage[framemethod=tikz]{mdframed}
@@ -35,7 +39,9 @@
   autogobble=true,
   breaklines=true,
   showstringspaces=false,
-  tabsize=2
+  tabsize=2,
+  alsoletter={_},
+  captionpos=b
 }
 \lstset{
   style=codeframe,
