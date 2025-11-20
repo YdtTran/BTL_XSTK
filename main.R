@@ -2,7 +2,7 @@ library(dplyr)
 library(questionr)
 library(ggplot2)
 
-# Kiểm tra thư mục làm việc
+# Kiểm tra thư mục làm việca
 setwd('./')
 getwd()
 
@@ -44,18 +44,4 @@ main_df$Dedicated <- as.factor(main_df$Dedicated)
 str(main_df$Manufacturer)
 str(main_df$Dedicated)
 
-library(nortest)
-anova_model <- aov(Memory_Bandwidth ~ Manufacturer * Dedicated, data = main_df)
-
-hist(av_residual)
-
-summary(anova_model)
-
-shapiro_test <- shapiro.test(residuals(anova_model))
-shapiro_test
-
-qqnorm(residuals(anova_model))
-qqline(residuals(anova_model), col = "red")
-
-# library(car)
-# leveneTest(log(Memory_Bandwidth) ~ Manufacturer * Dedicated, data = main_df, center = median)
+table (main_df$Manufacturer)
