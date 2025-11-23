@@ -66,10 +66,10 @@
 \newcommand{\@stuname}{STUDENT:\ H (xxxxxxx)}
 \newcommand{\stuname}[1]{\renewcommand{\@stuname}{#1}}
 
-\newcommand{\@reportplace}{Ho Chi Minh City}
+\newcommand{\@reportplace}{Thành phố Hồ Chí Minh}
 \newcommand{\reportplace}[1]{\renewcommand{\@reportplace}{#1}}
 
-\newcommand{\@reporttime}{\Month \the\year}
+\newcommand{\@reporttime}{Tháng \the\month\ năm \the\year}
 \newcommand{\reporttime}[1]{\renewcommand{\@reporttime}{#1}}
 
 % Configurations
@@ -198,9 +198,27 @@
     \end{tabular}
     \vfill
     \mdseries
-    \begin{tabular}{rll}
-      Advisor(s): \@advisor \\
-      Student(s): \@stuname \\
+    \begin{tabular}{rlll}
+      Giảng viên hướng dẫn: \@advisor \\
+    \end{tabular}
+    \begin{tabular}{|c|l|l|l|}
+      \hline
+      STT & Tên                    & MSSV             & Nhóm Lớp     \\
+      \hline
+      1   & Lê Ngô Khôi Nguyên     & 2412338          & L07          \\
+      \hline
+      2   & Phan Nguyễn Hoàng Minh & 2412114          & L07          \\
+      \hline
+      3   & \textbf{Trần Đình Ý}   & \textbf{2414100} & \textbf{L07} \\
+      \hline
+      4   & Phạm Nghĩa Trung       & 2413713          & L08          \\
+      \hline
+      6   & Nguyễn Gia Hưng        & 2411356          & L09          \\
+      \hline
+      7   & Nguyễn Quốc Trung      & 2413707          & L14          \\
+      \hline
+      8   & Phạm Minh Đức          & 2414106          & L15          \\
+      \hline
     \end{tabular}
     \vfill
     \MakeUppercase{\@reportplace, \@reporttime}

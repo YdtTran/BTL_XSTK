@@ -1,0 +1,118 @@
+\section{Thảo luận và mở rộng}
+
+\subsection{Thảo luận}
+
+Bài báo cáo đã cung cấp cơ sở dữ liệu và phân tích các thuộc tính về GPU cho ta thấy cái nhìn bao quát và hiểu rõ hơn các yếu tố ảnh hưởng đến hiệu suất của GPU. Các mô hình được xây dựng để dự đoán có thể đánh giá hiệu năng GPU thông qua các thông số kỹ thuật. Sau khi phân tích, ta có một số nhận xét sau:
+
+
+\begin{itemize}
+    \item Thống kê mô tả:
+          \begin{itemize}
+              \item Cho thấy sự phân bố không đồng đều của các thông số, đặc biệt là  Memory\_Bandwidth-thông số quyết định hiệu suất xử lý của GPU phần lớn giá trị tập trung ở mức thấp.
+              \item Các biến số như Memory\_Speed, Memory\_Bus, L2\_Cache có ảnh hưởng nhất định đến Memory\_Bandwidth, tuy nhiên mức độ ảnh hưởng khác nhau và có sự phân tán lớn trong dữ liệu.
+              \item Trong dữ liệu chỉ gồm có một số ít nhà sản xuất chiếm đa số, điều này có thể ảnh hưởng đến tính tổng quát của mô hình dự đoán.
+              \item Dữ liệu có một số ngoại lai, điều này có thể ảnh hưởng đến trực tiếp đến kết quả phân tích và các mô hình dự đoán.
+          \end{itemize}
+
+    \item Thống kê suy diễn:
+
+          \begin{itemize}
+              \item Mô hình hồi quy tuyến tính đa biến cho thấy các biến Process, Memory, Memory\_Speed, Memory\_Bus, L2\_Cache có ảnh hưởng đáng kể đến Memory\_Bandwidth, tuy nhiên mô hình có R-squared không cao, chỉ khoảng 0.7536, do đó đây chưa phải là mô hình hồi quy tốt nhất.
+              \item Như đã đề cập ở trên, phần lớn các biến xét đến trong các mô hình và phân tích đều không tuân theo phân phối chuẩn, điều này ảnh hưởng đến tính chính xác của các mô hình dự đoán, buộc nhóm phải tìm các giải pháp để cải thiện các mô hình đó.
+          \end{itemize}
+\end{itemize}
+
+
+\subsection{Mở rộng}
+
+\textbf{Cải thiện mô hình hồi quy tuyến tính bội.}
+
+Như đã đề cập ở phần thống kê suy diễn, mô hình hồi quy tuyến tính bội hiện tại có R-squared không cao, chỉ khoảng 0.7536 vì biến Memory\_Bandwidth không tuân theo phân phối chuẩn. Do đó Ta có thể thử dùng phép biết đổi logarit ($\log$) cho các biến để ổn định phương sai của các sai số, làm cho độ phân tán của sai số giảm xuống, phương sai trở nên đồng nhất hơn. Vì trong dữ liệu có giá trị 0 ở một số biến (VD: L2\_Cache) nên ta sẽ lấy $\log(X+1)$ để tránh giá trị lỗi. Ta thực hiện như sau:
+
+\begin{lstlisting}[language=R, caption=Phép biến đổi logarit cho các biến.]
+training_set_log <- training_set
+testing_set_log <- testing_set
+training_set_log$Memory <- log(training_set_log$Memory + 1)
+training_set_log$Memory_Bus <- log(training_set_log$Memory_Bus + 1)
+training_set_log$Memory_Bandwidth <- log(training_set_log$Memory_Bandwidth +
+                                           1)
+training_set_log$Memory_Speed <- log(training_set_log$Memory_Speed + 1)
+training_set_log$L2_Cache <- log(training_set_log$L2_Cache + 1)
+training_set_log$Process <- log(training_set_log$Process + 1)
+testing_set_log$Memory <- log(testing_set_log$Memory + 1)
+testing_set_log$Memory_Bus <- log(testing_set_log$Memory_Bus + 1)
+testing_set_log$Memory_Bandwidth <- log(testing_set_log$Memory_Bandwidth +
+                                          1)
+testing_set_log$Memory_Speed <- log(testing_set_log$Memory_Speed + 1)
+testing_set_log$L2_Cache <- log(testing_set_log$L2_Cache + 1)
+testing_set_log$Process <- log(testing_set_log$Process + 1)
+new_model <- lm(
+  Memory_Bandwidth ~ Process + Memory + Memory_Speed
+  + Memory_Bus + L2_Cache,
+  training_set_log
+)
+summary(new_model)
+\end{lstlisting}
+
+\underline{\textbf{Kết quả:}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphics/KQ2.png}
+    \caption{Kết quả mô hình hồi quy tuyến tính bội sau khi biến đổi logarit}
+    \label{fig:6_1model}
+\end{figure}
+
+\underline{\textbf{Kết luận:}}
+
+Đường thẳng hồi quy ước lượng của mô hình:
+
+\begin{equation*}
+    \begin{split}
+        \ln{(\text{Memory\_Bandwidth} + 1)} = & -11.06 - 0.0773 \ln{(\text{Process} + 1)}  \\ &+ 0.2585 \ln{(\text{Memory} + 1)}       \\
+                                              & - 0.0012 \cdot \ln{(\text{L2\_Cache} + 1)} \\ & + 0.9799 \ln{(\text{Memory\_Bus} + 1)} \\
+                                              & + 1.2537 \ln{(\text{Memory\_Speed} + 1)}
+    \end{split}
+\end{equation*}
+
+Có thể dễ dàng nhận thấy, các chỉ số đã có sự cải thiện rõ rệt so với mô hình trước. Do đó, mô hình hoạt động hiệu quả, chính xác hơn.
+
+\underline{\textbf{Áp dụng mô hình để dự đoán giá trị Memory\_Bandwidth:}}
+
+\begin{lstlisting}[language=R, caption=Dự đoán giá trị Memory\_Bandwidth sử dụng mô hình mới.]
+pred_log_values <- predict(new_model, newdata = testing_set_log)
+
+# Chuyen tu log ve gia tri binh thuong
+pred_original_scale <- exp(pred_log_values) - 1
+
+# Lay gia tri thuc te
+actual_original_scale <- testing_set$Memory_Bandwidth
+
+# Tao df cho de nhin
+results_summary_display_original <- data.frame(
+  Memory_Bandwidth_Actual = actual_original_scale,
+  Memory_Bandwidth_Predict = pred_original_scale,
+  Error_Original = actual_original_scale - pred_original_scale # Tinh sai so
+)
+
+head(results_summary_display_original, 10)
+\end{lstlisting}
+
+\underline{\textbf{Kết quả:}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphics/Test.png}
+    \caption{Kết quả dự đoán giá trị Memory\_Bandwidth sử dụng mô hình mới}
+    \label{fig:6_2predict}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphics/6_1better.png}
+    \caption{Đồ thị giữa giá trị thực tế và dự đoán của Memory\_Bandwidth (mô hình cải tiến)}
+    \label{fig:6_3error}
+\end{figure}
+\underline{\textbf{Nhận xét:}}
+
+Có thể thấy rằng mô hình sau khi biến đổi logarit đã cải thiện đáng kể độ chính xác trong việc dự đoán giá trị Memory\_Bandwidth. Đồ thị ở hình \ref{fig:6_3error} cho thấy các điểm dữ liệu tập trung gần đường chéo $y=x$ hơn so với mô hình gốc ở hình \ref{fig:kq2_hqtt}, điều này chứng tỏ rằng sai số giữa giá trị thực tế và giá trị dự đoán đã giảm đáng kể. Do đó, việc áp dụng phép biến đổi logarit đã giúp ổn định phương sai của sai số và nâng cao hiệu suất của mô hình hồi quy tuyến tính bội.

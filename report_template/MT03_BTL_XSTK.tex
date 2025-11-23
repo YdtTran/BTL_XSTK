@@ -32,6 +32,13 @@
 % FOR DEMONSTRATION PURPOSES, REMOVE IN PRODUCTION
 \usepackage{mwe}
 
+\newcommand{\blankpage}{
+    \clearpage            % Đẩy tất cả nội dung/hình ảnh còn sót lại ra trang trước
+    \thispagestyle{empty} % Xóa số trang, header, footer của trang này
+    \null                 % Thêm một ký tự rỗng (để LaTeX biết trang này có tồn tại)
+    \newpage              % Kết thúc trang trắng và sang trang tiếp theo
+}
+
 % Sub-preambles
 % https://github.com/MartinScharrer/standalone
 
@@ -44,27 +51,71 @@
 \coursename{Xác suất thống kê MT2013}
 \reporttype{Báo cáo bài tập lớn}
 \title{Phân tích dữ liệu GPU}
-\advisor{& Advisor h &}
-\stuname{%
-  & Student 1 & ID 1 \\
-  & Student 2 & ID 2 \\
-  & Student 3 & ID 3 \\
-}
+\advisor{& \textbf{Nguyễn Kiều Dung} &}
+% \stuname{%
+%   & Lê Ngô Khôi Nguyên  & 2412338 & L07\\
+%   & Phan Nguyễn Hoàng Minh  & 2412114 & L07\\
+%   & \textbf{Trần Đình Ý}  & \textbf{2414100} & \textbf{L07}\\
+%   & Phạm Nghĩa Trung & 2413713 & L08\\
+%   & Hà Huy Toàn & 2413525 & L09\\
+%   & Nguyễn Gia Hưng & 2411356 & L09\\
+%   & Nguyễn Quốc Trung & 2413707 & L14\\
+%   & Phạm Minh Đức & 2414106 & L15\\
+% }
+
+
 
 % ===================================================
 % NỘI DUNG CHÍNH
 % ===================================================
 \begin{document}
 
-\coverpage
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\listfigurename}{Danh sách hình}
+\renewcommand{\listtablename}{Danh sách bảng}
+\renewcommand{\contentsname}{Mục lục}
+\renewcommand{\refname}{Tài liệu tham khảo}
 
+\coverpage
+\begin{center}
+  \section*{Danh sách thành viên}
+  % Định nghĩa 6 cột: 
+  % c (STT) | l (Tên) | c (MSSV) | c (Lớp) | m{5cm} (Vai trò - tự xuống dòng) | c (Điểm)
+  \begin{tabular}{|c|l|c|c|m{5cm}|c|}
+    \hline
+    \textbf{STT} & \textbf{Họ và tên}     & \textbf{MSSV}    & \textbf{Lớp} & \textbf{Vai trò}                      & \textbf{Điểm} \\
+    \hline
+    1            & Lê Ngô Khôi Nguyên     & 2412338          & L07          & Thống kê mô tả                        &               \\
+    \hline
+    2            & Phan Nguyễn Hoàng Minh & 2412114          & L07          & Anova một yếu tố                      &               \\
+    \hline
+    3            & \textbf{Trần Đình Ý}   & \textbf{2414100} & \textbf{L07} & Tổng hợp bài làm                      &               \\
+    \hline
+    4            & Phạm Nghĩa Trung       & 2413713          & L08          & Tổng quan dữ liệu và kiến thức nền    &               \\
+    \hline
+    6            & Nguyễn Gia Hưng        & 2411356          & L09          & Hồi quy tuyến tính bội                &               \\
+    \hline
+    7            & Nguyễn Quốc Trung      & 2413707          & L14          & Kiểm định 2 mẫu, Thảo luận và mở rộng &               \\
+    \hline
+    8            & Phạm Minh Đức          & 2414106          & L15          & Kiểm định 1 mẫu                       &               \\
+    \hline
+  \end{tabular}
+\end{center}
+\blankpage
+
+\newpage
 % Tạo mục lục và các danh sách
+\pagestyle{empty}
 \tableofcontents
 \pagestyle{empty}
+\newpage
 \listoffigures
 \pagestyle{empty}
+\newpage
 \listoftables
 \pagestyle{empty}
+\newpage
 \lstlistoflistings
 \pagestyle{empty}
 \clearpage
@@ -84,5 +135,26 @@
 \input{chapters/4_thongkemota.tex}
 \newpage
 \input{chapters/5_thongkesuydien.tex}
+\newpage
+\input{chapters/6_thaoluan.tex}
+
+\section{Nguồn dữ liệu và nguồn code}
+\begin{itemize}
+  \item \textbf{Nguồn dữ liệu:} Dữ liệu được lấy từ trang Kaggle tại địa chỉ: \href{https://www.kaggle.com/datasets/iliassekkaf/computerparts/data}{Kaggle}.
+  \item \textbf{Nguồn code:} Toàn bộ mã nguồn R được sử dụng trong báo cáo này đều được viết bởi nhóm sinh viên và tham khảo từ các tài liệu, bài báo, và nguồn học thuật khác để thực hiện báo cáo.
+\end{itemize}
+
+\clearpage                   % Sang trang mới
+\phantomsection
+\begin{thebibliography}{99}  % Số 99 nghĩa là danh sách tối đa 99 mục
+  % Tài liệu [2]
+  \bibitem{nguyendinhhuy2019}
+  Nguyễn Đình Huy, \textit{Giáo trình Xác suất và Thống kê}, NXB Đại học Quốc gia TP.HCM, 2019.
+
+  % Tài liệu [4]
+  \bibitem{nguyenkieudung_slide}
+  Nguyễn Kiều Dung, \textit{Bài giảng Xác suất Thống kê}, Tài liệu lưu hành nội bộ, Trường Đại học Bách Khoa - ĐHQG TP.HCM, 2024.
+
+\end{thebibliography}
 
 \end{document}
