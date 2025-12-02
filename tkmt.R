@@ -1,15 +1,7 @@
-summary(main_df$Memory_Bandwidth)
-
-numeric_data <- main_df[, c(
-  "Manufacturer",
-  "Process",
-  "Memory_Speed",
-  "Memory_Bus",
-  "Memory_Type",
-  "L2_Cache",
-  "Dedicated"
-)]
+# Thống kê mô tả
+sds <- sapply(numeric_data, sd, na.rm = TRUE)
 summary(numeric_data)
+sds
 
 par(mfrow = c(2, 2))
 
@@ -42,12 +34,8 @@ boxplot(
 # Trả lại màn hình về chế độ 1x1 bình thường sau khi vẽ xong
 par(mfrow = c(1, 1))
 
-
-
 table(main_df$Manufacturer)
 table(main_df$Memory_Type)
-table(main_df$Dedicated)
-
 
 
 

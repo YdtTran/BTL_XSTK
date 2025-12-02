@@ -1,4 +1,5 @@
 library(caret)
+library(car)
 # cố định cách chọn các dòng ngẫu nhiên
 set.seed(111)
 # chọn dữ liệu cho train với biến mục tiêu là 'Memory_Bandwidth'
@@ -12,6 +13,8 @@ testing_set <- main_df[-train_index, ]
 model<-lm(Memory_Bandwidth ~ Process + Memory + Memory_Speed + 
             Memory_Bus + L2_Cache, training_set)
 summary((model))
+vif(model)
+
 
 pred_values <- predict(model, newdata = testing_set)
 
