@@ -33,9 +33,7 @@ head(main_df, 5)
 
 
 
-write.csv(main_df, "out.csv")
-
-
+write.csv(main_df[,-1], "out.csv")
 
 print(colnames(main_df))
 
