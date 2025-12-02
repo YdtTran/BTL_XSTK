@@ -418,8 +418,26 @@ Alternative hypothesis: rho != 0
           \end{center}
           \underline{\textbf{Nhận xét:}} Tính độc lập của sai số không được thỏa mãn vì hệ số Tự tương quan là tương đối lớn (0.47708).
           }
-\end{itemize}
+    \item \textbf{Kiểm tra đa cộng tuyến.}
 
+          Để kiểm tra tính đa cộng tuyến giữa các biến độc lập trong mô hình, ta sử dụng hệ số phóng đại phương sai (Variance Inflation Factor - VIF). Hệ số VIF đo lường mức độ mà phương sai của các ước lượng hồi quy bị phóng đại do sự đa cộng tuyến giữa các biến độc lập. Trong RStudio, ta có thể sử dụng hàm \verb|vif()| từ gói \verb|car| để tính hệ số VIF cho từng biến độc lập trong mô hình hồi quy tuyến tính.
+
+          \begin{tcolorbox}
+              \begin{verbatim}
+library(car)
+vif(model) #Kiểm tra đa cộng tuyến
+                        \end{verbatim}
+          \end{tcolorbox}
+          \underline{\textbf{Kết quả:}}
+          \begin{tcolorbox}
+              \begin{verbatim}
+vif(model) #Kiểm tra đa cộng tuyến
+     Process       Memory Memory_Speed   Memory_Bus     L2_Cache 
+    1.858279     2.202248     1.995969     1.098141     2.065179
+                    \end{verbatim}
+          \end{tcolorbox}
+          \underline{\textbf{Nhận xét:}} Có thể thấy, hầu hết các biến có chỉ số VIF tuyến ở mức thấp. Như vậy, mô hình có tính ổn định cao về mặt đa cộng tuyến.
+\end{itemize}
 \subsubsection{Nhận xét về mô hình hồi quy tuyến tính.}
 
 Mô hình hồi quy tuyến tính được xây dựng nhìn chung có thể thỏa mãn tương đối một số giả định quan trọng nhưng cũng tồn tại nhiều hạn chế.
