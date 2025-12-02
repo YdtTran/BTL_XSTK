@@ -13,6 +13,7 @@ sds <- sapply(numeric_data, sd, na.rm = TRUE)
 summary(numeric_data)
 sds
 \end{lstlisting}
+\vspace{-20pt}
 
 \underline{\textbf{Kết quả:}}
 
@@ -55,6 +56,7 @@ boxplot(main_df$L2_Cache, main = "L2 Cache (KB)", col = "wheat", ylab = "Value")
 par(mfrow = c(1, 1)) # Chinh lai nhu ban dau
 
 \end{lstlisting}
+\vspace{-20pt}
 
 \underline{\textbf{Kết quả:}}
 
@@ -85,6 +87,7 @@ outlier_matrix <- sapply(numeric_data, is_outlier)
 rows_with_outliers <- rowSums(outlier_matrix) > 0
 main_df <- main_df[!rows_with_outliers, ]
 \end{lstlisting}
+\vspace{-20pt}
 
 % \begin{figure}[H]
 %     \centering
@@ -100,6 +103,7 @@ table(main_df$Manufacturer)
 table(main_df$Memory_Type)
 table(main_df$Dedicated)
 \end{lstlisting}
+\vspace{-20pt}
 
 
 \underline{\textbf{Kết quả:}}
@@ -143,12 +147,31 @@ thay_the_na <- function(df, danh_sach_xoa) {
 main_df <- thay_the_na(main_df, gia_tri_can_xoa)
 main_df <- na.omit(main_df)
 \end{lstlisting}
+\vspace{-20pt}
 
-\textbf{\underline{Kiểm tra lại dữ liệu:}}
+\subsubsection{Kiểm tra lại các đặc điểm của các biến.}
 
 Sau khi đã một lần nữa loại bỏ các ngoại lai cũng như quan sát không phù hợp, ta tiến hành kiểm tra lại dữ liệu như sau:
 
 \textbf{Đối với các biến có giá trị số:}
+
+\begin{center}
+    \begin{tcolorbox}[fontupper=\footnotesize]
+        \begin{verbatim}
+> summary(numeric_data)
+Memory_Bandwidth    Process       Memory_Speed    Memory_Bus       L2_Cache     
+Min.   :  6.4    Min.   :14.00   Min.   : 400   Min.   : 32.0   Min.   :   0.0  
+1st Qu.: 64.0    1st Qu.:28.00   1st Qu.:1000   1st Qu.:128.0   1st Qu.: 256.0  
+Median :120.0    Median :28.00   Median :1250   Median :192.0   Median : 512.0  
+Mean   :135.0    Mean   :30.58   Mean   :1293   Mean   :193.4   Mean   : 690.7  
+3rd Qu.:192.3    3rd Qu.:40.00   3rd Qu.:1600   3rd Qu.:256.0   3rd Qu.:1024.0  
+Max.   :448.8    Max.   :55.00   Max.   :2127   Max.   :448.0   Max.   :2048.0  
+> sds
+Memory_Bandwidth    Process       Memory_Speed    Memory_Bus       L2_Cache 
+    89.382734      8.879749         382.916229    89.449949      637.044795 
+            \end{verbatim}
+    \end{tcolorbox}
+\end{center}
 
 \begin{figure}[H]
     \centering
@@ -157,22 +180,26 @@ Sau khi đã một lần nữa loại bỏ các ngoại lai cũng như quan sát
     \label{fig:4_2boxplot_final}
 \end{figure}
 
+\textbf{\underline{Nhận xét:}} sau khi loại bỏ các ngoại lai và giá trị không phù hợp, ta thấy rằng phương sai của các biến đã giảm đáng kể, ngoài ra trong biểu đồ hộp, các ngoại lai cũng đã không còn, khiến cho biểu đồ hộp trực quan hơn. Bênh cạnh đó việc loại bỏ các ngoại lai và quan sát không phù hợp cũng giúp cho các phân tích thống kê tiếp theo trở nên chính xác hơn.
+
 \textbf{Đối với các biến phân loại:}
+
+Như đã đề cập ở trên vì biến Dedicated đã bị loại bỏ khỏi tập dữ liệu, ta chỉ kiểm tra lại hai biến còn lại là Manufacturer và Memory\_Type như sau:
 
 \begin{center}
     \begin{tcolorbox}[fontupper=\footnotesize]
         \begin{verbatim}
 > table(main_df$Manufacturer)
    AMD    ATI Nvidia 
-   876     76   1223 
+   876     76   1236 
 > table(main_df$Memory_Type)
  DDR3 GDDR3 GDDR5 
-  355    93  1727 
+  355    93  1740 
         \end{verbatim}
     \end{tcolorbox}
 \end{center}
 
-\textbf{\underline{Nhận xét:}} từ kết quả kiểm tra lại dữ liệu, ta thấy rằng các biến số đã không còn ngoại lai như hình \ref{fig:4_2boxplot_final}, và các biến phân loại cũng đã loại bỏ được các quan sát không phù hợp. Do đó ta có thể tiến hành các phân tích thống kê tiếp theo trên tập dữ liệu đã mới vừa được sửa này.
+\textbf{\underline{Nhận xét:}} như vậy ta chỉ còn lại 3 hãng sản xuất GPU chính là Nvidia, AMD và ATI. Bên cạnh đó ta cũng chỉ còn lại 3 loại bộ nhớ chính là DDR3, GDDR3 và GDDR5.
 
 \subsection{Sự phân phối tần số của biến Memory\_Bandwidth.}
 
@@ -205,6 +232,7 @@ ve_bieu_do_tuy_chinh <- function(du_lieu_x, du_lieu_y, nhan_x, nhan_y) {
        frame = FALSE)     # Remove extra frame
 }
 \end{lstlisting}
+\vspace{-20pt}
 
 \underline{\textbf{Kết quả:}}
 
