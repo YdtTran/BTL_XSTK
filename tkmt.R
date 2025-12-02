@@ -1,4 +1,13 @@
 # Thống kê mô tả
+main_df <- read.csv("./out.csv")
+# main_df <- main_df[,-1]
+numeric_data <- main_df[, c(
+  "Memory_Bandwidth",
+  "Process",
+  "Memory_Speed",
+  "Memory_Bus",
+  "L2_Cache"
+)]
 sds <- sapply(numeric_data, sd, na.rm = TRUE)
 summary(numeric_data)
 sds
@@ -37,17 +46,11 @@ par(mfrow = c(1, 1))
 table(main_df$Manufacturer)
 table(main_df$Memory_Type)
 
-
-
 ggplot(main_df, aes(x = Memory_Bandwidth)) +
   geom_histogram(bins = 20,
                  fill = "skyblue",
                  color = "black")
 
-ggplot(main_df, aes(x = Memory_Bandwidth)) +
-  geom_histogram(bins = 20,
-                 fill = "skyblue",
-                 color = "black")
 
 
 ve_bieu_do_tuy_chinh <- function(du_lieu_x,

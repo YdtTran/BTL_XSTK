@@ -31,9 +31,7 @@ main_df <- main_df[, c(ordered_cols, setdiff(colnames(main_df), ordered_cols))]
 
 head(main_df, 5)
 
-
-
-write.csv(main_df[,-1], "out.csv")
+main_df <- main_df[,-1]
 
 print(colnames(main_df))
 
