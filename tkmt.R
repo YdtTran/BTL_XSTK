@@ -1,6 +1,6 @@
 # Thống kê mô tả
 main_df <- read.csv("./out.csv")
-# main_df <- main_df[,-1]
+main_df <- main_df[,-1]
 numeric_data <- main_df[, c(
   "Memory_Bandwidth",
   "Process",
