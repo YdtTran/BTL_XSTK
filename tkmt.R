@@ -74,7 +74,7 @@ ve_bieu_do_tuy_chinh <- function(du_lieu_x,
   )     # Bỏ khung viền
 }
 
-par(mfrow = c(2, 2))
+par(mfrow = c(2, 3))
 ve_bieu_do_tuy_chinh(
   main_df$Memory_Bus,
   main_df$Memory_Bandwidth,
@@ -107,4 +107,29 @@ ve_bieu_do_tuy_chinh(
   "Process",
   "Memory_Bandwidth"
 )
+ve_bieu_do_tuy_chinh(
+  main_df$Memory,
+  main_df$Memory_Bandwidth,
+  "MB",
+  "GB/s",
+  "Memory",
+  "Memory_Bandwidth"
+)
 par(mfrow = c(1, 1))
+
+### Vẽ ma trận tương quan
+library(corrplot)
+# 1. Chọn các biến số quan trọng
+my_data <- main_df[, c("Memory_Bandwidth", "Process", "Memory_Speed", "Memory_Bus", "L2_Cache", "Memory")]
+
+# 2. Tính ma trận tương quan (Loại bỏ dòng NA nếu có)
+cor_matrix <- cor(my_data, use = "complete.obs")
+corrplot(cor_matrix, 
+         method = "circle",       # Kiểu hiển thị: hình tròn
+         type = "upper",          # Chỉ vẽ một nửa trên (cho đỡ rối)
+         order = "hclust",        # Tự động gom nhóm các biến giống nhau lại gần nhau
+         tl.col = "black",        # Màu chữ tên biến
+         tl.srt = 45,             # Nghiêng chữ 45 độ cho dễ đọc
+         addCoef.col = "black",   # Hiển thị thêm con số cụ thể (QUAN TRỌNG)
+         number.cex = 0.8         # Cỡ chữ số
+)

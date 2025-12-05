@@ -13,8 +13,6 @@ testing_set <- main_df[-train_index, ]
 model<-lm(Memory_Bandwidth ~ Process + Memory + Memory_Speed + 
             Memory_Bus + L2_Cache, training_set)
 summary((model))
-vif(model)
-
 
 pred_values <- predict(model, newdata = testing_set)
 
@@ -46,3 +44,13 @@ ggplot(results_summary_display_original, aes(x = testing_set$Memory_Bandwidth, y
   
   # 4. Giữ tỷ lệ khung hình vuông vắn để dễ so sánh đường chéo
   theme_minimal()
+
+plot(model, which=1) # Residuals vs Fitted
+plot(model, which=2) # Q-Q plot
+shapiro.test(model$residuals)
+plot(model, which=3)
+plot(model, which=5)
+
+library(car)
+durbinWatsonTest(model)
+vif(model)

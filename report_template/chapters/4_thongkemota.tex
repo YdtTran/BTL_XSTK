@@ -217,9 +217,10 @@ Sự phân phối tần số của biến Memory\_Bandwidth được thể hiệ
 % biến Memory\_Bandwidth có phân phối lệch phải, với phần lớn các giá trị tập trung ở bên trái biểu đồ. Điều này cho ta thấy rằng biến Memory\_Bandwidth không tuân theo phân phối chuẩn.
 
 
-\subsection{Đồ thị scatter plot cho biến Memory\_Bandwidth theo Memory\_Bus, L2\_Cache, Memory\_Speed, Process.}
+\subsection{Đồ thị scatter plot cho biến Memory\_Bandwidth theo Memory\_Bus, L2\_Cache, Memory\_Speed, Process và Memory.}
 
 Ta tiến hành vẽ các đồ thị scatter plot để quan sát mối quan hệ giữa biến Memory\_Bandwidth với các biến Memory\_Bus, L2\_Cache, Memory\_Speed, Process như sau:
+
 \begin{lstlisting}[language=R, caption=Vẽ đồ thị scatter plot.]
 ve_bieu_do_tuy_chinh <- function(du_lieu_x, du_lieu_y, nhan_x, nhan_y) {
   plot(x = du_lieu_x, 
@@ -246,9 +247,42 @@ ve_bieu_do_tuy_chinh <- function(du_lieu_x, du_lieu_y, nhan_x, nhan_y) {
 \underline{\textbf{Nhận xét:}}
 
 \begin{itemize}
-    \item Dựa vào đồ thị scatter plot cho Memory\_Bandwidth theo Memory\_Bus, nhóm thấy được rằng phần lớn điểm dữ liệu tập trung ở vùng Memory\_Bus nhỏ dưới 1000 bit, với băng thông không quá 500 GB/s. Điều này cho thấy đây là là các Bus bộ nhớ phổ biến cho các hệ thống bộ nhớ. Mối quan hệ phụ thuộc giữa Memory Bandwidth và Memory Bus chỉ ở mức trung bình. Có sự phân tán rất lớn trong băng thông bộ nhớ, cho thấy rằng ngoài Memory Bus còn nhiều yếu tố khác ảnh hưởng đến Memory\_Bandwidth.
-    \item Dựa vào đồ thị scatter plot cho Memory\_Bandwidth theo L2\_Cache, nhóm thấy được rằng phần lớn các điểm dữ liệu tập trung ở vùng Cache nhỏ, dưới 2000 KB, với băng thông bộ nhớ từ thấp đến trung bình. Từ đây cho thấy đa số hệ thống trong tập dữ liệu có dung lượng L2\_Cache khiêm tốn. Ở vùng L2 Cache lớn hơn, trên mức 4000 KB, băng thông bộ nhớ có độ phân tán rất rộng, từ mức trung bình đến cao.
-    \item Dựa vào đồ thị scatter plot cho Memory\_Bandwidth theo Memory\_Speed, nhóm thấy được rằng Phần lớn dữ liệu tập trung ở vùng bộ nhớ thấp, dưới 1000 MHz, băng thông trải dài từ thấp đến trung bình. Giữa Memory\_Bandwidth và Memory\_Speed có mối quan hệ phụ thuộc rõ ràng, dù ở băng thông cao hơn vẫn có sự phân tán dữ liệu khá lớn. Khi tốc độ bộ nhớ tăng lên thì băng thông bộ nhớ cũng có xu hướng tăng dần, điều này cho thấy Memory\_Speed có ảnh hưởng mạnh mẽ đến Memory\_Bandwidth.
-
-
+    \item Dựa vào đồ thị scatter plot cho Memory\_Bandwidth theo Memory\_Bus, nhóm thấy được rằng Memory\_Bandwidth phân bố rời rạc và không đồng đều, tập trung chủ yếu ở các mức Memory\_Bus phổ biến như 128 bit, 192 bit, và 256 bit. Mối quan hệ giữa hai biến này không rõ ràng, với sự phân tán dữ liệu rộng ở mỗi mức Memory\_Bus. Điều này cho thấy rằng Memory\_Bus không phải là yếu tố duy nhất quyết định băng thông bộ nhớ, mà còn phụ thuộc vào các yếu tố khác như loại bộ nhớ và tốc độ bộ nhớ.
+    \item Dựa vào đồ thị scatter plot cho Memory\_Bandwidth theo L2\_Cache, nhóm thấy được rằng phần lớn các điểm dữ liệu tập trung ở vùng Cache nhỏ, dưới 1000KB. Mối quan hệ giữa Memory\_Bandwidth và L2\_Cache không rõ ràng, với sự phân tán dữ liệu rộng ở mỗi mức L2\_Cache.
+    \item Dựa vào đồ thị scatter plot cho Memory\_Bandwidth theo Memory\_Speed, nhóm thấy được rằng đây là biến có ảnh hưởng lớn nhất đền Memory\_Bandwidth vì dữ liệu phân bố theo đường chéo. Mặc dù vậy, phần lớn dữ liệu vẫn tập trung ở vùng Memory\_Speed thấp, dưới 1500MHz.
+    \item Dựa vào đồ thì scatter plot cho Memory\_Bandwidth theo Process, nhóm thấy được rằng phần lớn các điểm dữ liệu tập trung ở chủ yếu ở 3 mức Process cụ thể là 28mm, 40mm và 55mm. Mối quan hệ giữa hai biến này không rõ ràng, với sự phân tán dữ liệu rộng ở mỗi mức Process.
+    \item Dựa vào đồ thị scatter plot cho Memory\_Bandwidth theo Memory, nhóm thấy được rằng phần lớn các điểm dữ liệu phân bố không đều, tập trung phân bố ở vùng nhỏ hơn 10000MB.
 \end{itemize}
+
+\subsection{Ma trận tương quan cho các biến số.}
+
+Ta tiến hành tính ma trận tương quan và vẽ ma trận tương quan cho các biến số như sau:
+
+\begin{lstlisting}[language=R, caption=Tính ma trận tương quan và vẽ ma trận tương quan cho các biến số]
+### Ve ma tran tuong quan ###
+library(corrplot)
+# 1. Chon cac bien can ve ma tran tuong quan
+my_data <- main_df[, c("Memory_Bandwidth", "Process", "Memory_Speed", "Memory_Bus", "L2_Cache", "Memory")]
+
+# 2. Tinh toan ma tran tuong quan
+cor_matrix <- cor(my_data, use = "complete.obs")
+corrplot(cor_matrix, 
+         method = "circle",       # Kieu hien thi: hinh tron
+         type = "upper",          # Chi ve mot nua tren (cho do roi)
+         order = "hclust",        # Tu dong gom nhom cac bien giong nhau lai gan nhau
+         tl.col = "black",        # MMau chu ten bien
+         tl.srt = 45,             # Nghieng chu 45 do cho de doc
+         addCoef.col = "black",   # Hien thi them con so cu the (QUAN TRONG)
+         number.cex = 0.8         # Co chu so
+)
+\end{lstlisting}
+
+\textbf{\underline{Kết quả:}}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{graphics/4_1corr.png}
+    \caption{Ma trận tương quan cho các biến số}
+    \label{fig:4_5correlation}
+\end{figure}
+
+\textbf{\underline{Nhận xét:}} từ ma trận tương quan ở hình \ref{fig:4_5correlation}, ta thấy được rằng các biến Memory\_Bus, Memory\_Speed và Memory có mối quan hệ tương quan mạnh với Memory\_Bandwidth, với hệ số tương quan lần lượt là 0.76, 0.68, 0.63. Điều này cho thấy rằng các biến này có ảnh hưởng lớn đến băng thông bộ nhớ của GPU. Bên cạnh đó 2 biến Process và Memory\_Speed cũng có mối quan hệ tương quan âm mạnh với nhau. Tựu trung lại, các biến này đều có mối quan hệ tương quan với nhau, cho thấy rằng chúng có thể ảnh hưởng đến hiệu suất xử lý của GPU.

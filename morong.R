@@ -1,59 +1,88 @@
+library(ggplot2)
+
+# ==============================================================================
+# 1. CHUAN BI DU LIEU (TIEN XU LY)
+# ==============================================================================
+
+# Tao ban sao du lieu de tranh ghi de len du lieu goc
 training_set_log <- training_set
-testing_set_log <- testing_set
-training_set_log$Memory <- log(training_set_log$Memory + 1)
-training_set_log$Memory_Bus <- log(training_set_log$Memory_Bus + 1)
-training_set_log$Memory_Bandwidth <- log(training_set_log$Memory_Bandwidth +
-                                           1)
-training_set_log$Memory_Speed <- log(training_set_log$Memory_Speed + 1)
-training_set_log$L2_Cache <- log(training_set_log$L2_Cache + 1)
-training_set_log$Process <- log(training_set_log$Process + 1)
-testing_set_log$Memory <- log(testing_set_log$Memory + 1)
-testing_set_log$Memory_Bus <- log(testing_set_log$Memory_Bus + 1)
-testing_set_log$Memory_Bandwidth <- log(testing_set_log$Memory_Bandwidth +
-                                          1)
-testing_set_log$Memory_Speed <- log(testing_set_log$Memory_Speed + 1)
-testing_set_log$L2_Cache <- log(testing_set_log$L2_Cache + 1)
-testing_set_log$Process <- log(testing_set_log$Process + 1)
+testing_set_log  <- testing_set
+
+# Danh sach cac cot can chuyen doi Log
+cols_to_transform <- c("Memory", "Memory_Bus", "Memory_Bandwidth", 
+                       "Memory_Speed", "L2_Cache", "Process")
+
+# Thuc hien log(x + 1) cho cac cot da chon
+# Cach nay ngan gon hon viec viet tung dong cho tung cot
+training_set_log[cols_to_transform] <- log(training_set_log[cols_to_transform] + 1)
+testing_set_log[cols_to_transform]  <- log(testing_set_log[cols_to_transform] + 1)
+
+# ==============================================================================
+# 2. HUAN LUYEN MO HINH (MODEL TRAINING)
+# ==============================================================================
+
+# Xay dung mo hinh hoi quy tuyen tinh
 new_model <- lm(
-  Memory_Bandwidth ~ Process + Memory + Memory_Speed
-  + Memory_Bus + L2_Cache,
-  training_set_log
+  formula = Memory_Bandwidth ~ Memory + Memory_Speed + Memory_Bus + L2_Cache,
+  data    = training_set_log
 )
+
+# Hien thi tom tat mo hinh
 summary(new_model)
 
+# ==============================================================================
+# 3. DU DOAN VA DANH GIA (PREDICTION & EVALUATION)
+# ==============================================================================
 
+# Du doan tren tap test (ket qua van dang o dang log)
 pred_log_values <- predict(new_model, newdata = testing_set_log)
 
-# Chuyen tu log ve gia tri binh thuong
-pred_original_scale <- exp(pred_log_values) - 1
-
-# Lay gia tri thuc te
+# Chuyen doi nguoc tu log ve gia tri thuc te: exp(x) - 1
+pred_original_scale   <- exp(pred_log_values) - 1
 actual_original_scale <- testing_set$Memory_Bandwidth
 
-# Tao df cho de nhin
-results_summary_display_original <- data.frame(
-  Memory_Bandwidth_Actual = actual_original_scale,
-  Memory_Bandwidth_Predict = pred_original_scale,
-  Error_Original = actual_original_scale - pred_original_scale # Tinh sai so
+# Tao dataframe ket qua de de so sanh
+results_summary <- data.frame(
+  Actual    = actual_original_scale,
+  Predicted = pred_original_scale,
+  Error     = actual_original_scale - pred_original_scale
 )
 
-head(results_summary_display_original, 10)
+# Xem 10 dong dau tien
+print(head(results_summary, 10))
 
-ggplot(results_summary_display_original, aes(x = Memory_Bandwidth_Actual, y = Memory_Bandwidth_Predict)) +
-  
-  # 1. Vẽ đường lý tưởng y = x (Màu đỏ, nét đứt)
-  # Bất kỳ điểm nào nằm trên đường này là dự đoán chính xác 100%
+# --- Tinh toan cac chi so danh gia ---
+
+# 1. Tinh RMSE (Root Mean Squared Error)
+mse  <- mean((actual_original_scale - pred_original_scale)^2)
+rmse <- sqrt(mse)
+print(paste("RMSE:", round(rmse, 4)))
+
+# 2. Tinh R-squared (He so xac dinh)
+rss <- sum((actual_original_scale - pred_original_scale)^2)      # Residual Sum of Squares
+tss <- sum((actual_original_scale - mean(actual_original_scale))^2) # Total Sum of Squares
+r_squared <- 1 - (rss / tss)
+print(paste("R-squared:", round(r_squared, 4)))
+
+# ==============================================================================
+# 4. TRUC QUAN HOA (VISUALIZATION)
+# ==============================================================================
+
+ggplot(results_summary, aes(x = Actual, y = Predicted)) +
+  # Duong ly tuong y = x (Mau do, net dut)
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed", size = 1) +
   
-  # 2. Vẽ các điểm dữ liệu (Scatter plot)
-  # Mỗi điểm đại diện cho một mẫu kiểm tra
+  # Cac diem du lieu du doan
   geom_point(color = "blue", alpha = 0.6, size = 2) +
   
-  # 3. Trang trí biểu đồ
-  labs(title = "Biểu đồ đánh giá mô hình: Thực tế vs Dự đoán",
-       subtitle = "Đường nét đứt đỏ là đường lý tưởng (y=x). Điểm càng gần đường đỏ càng tốt.",
-       x = "Giá trị Thực tế (Actual)",
-       y = "Giá trị Dự đoán (Predicted)") +
+  # Trang tri bieu do
+  labs(
+    title    = "Bieu do danh gia mo hinh: Thuc te vs Du doan",
+    subtitle = "Diem cang gan duong mau do thi du doan cang chinh xac",
+    x        = "Gia tri Thuc te (Actual)",
+    y        = "Gia tri Du doan (Predicted)"
+  ) +
   
-  # 4. Giữ tỷ lệ khung hình vuông vắn để dễ so sánh đường chéo
-  theme_minimal()
+  # Giu ty le khung hinh vuong van
+  theme_minimal() +
+  coord_fixed()

@@ -13,8 +13,8 @@ Ngày nay VRam hay Memory trong các bộ xử lý đồ hoạ GPU là một tro
 Đánh giá xem kích thước bộ nhớ trung bình (Memory) của các GPU có lớn hơn 2GB hay không.
 \subsubsection{Giả thiết nghiên cứu.}
 \begin{itemize}
-    \item Giả thiết không ($H_0$): Trung bình kích thước bộ nhớ của các GPU \textbf{không lớn hơn} 2GB.
-    \item Giả thiết đối ($H_1$): Trung bình kích thước bộ nhớ của các GPU \textbf{lớn hơn} 2GB.
+    \item $H_0$: $\mu \le 2$. Trung bình kích thước bộ nhớ của các GPU \textbf{không lớn hơn} 2GB.
+    \item $H_1$: $\mu > 2.$ Trung bình kích thước bộ nhớ của các GPU \textbf{lớn hơn} 2GB.
 \end{itemize}
 
 \subsubsection{Thực hiện kiểm định.}
@@ -27,6 +27,16 @@ s  <- sd(Mem)
 \end{lstlisting}
 
 \underline{\textbf{Kết quả:}}
+
+% \begin{center}
+%     \begin{tcolorbox}[fontupper=\footnotesize]
+%         \begin{verbatim}
+% > print(mem_df)
+%      n       tb        s
+% 1 2188 2624.234 1916.352
+%     \end{verbatim}
+%     \end{tcolorbox}
+% \end{center}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{graphics/5_1mau.png}
@@ -41,14 +51,14 @@ s  <- sd(Mem)
     \caption{Đồ thị Q-Q plot cho mẫu}
     \label{fig:shapiro_1mau}
 \end{figure}
-\underline{\textbf{Nhận xét:}} có thể thấy rằng mẫu không tuân theo phân phối chuẩn và phân bố theo một vài giá trị cụ thể. Như vậy bài toán trên là kiểm định 1 mẫu không phải phân phối chuẩn với $n>30$.
+\underline{\textbf{Nhận xét:}} có thể thấy rằng mẫu không tuân theo phân phối chuẩn và phân bố theo một vài giá trị cụ thể. Như vậy bài toán trên là kiểm định 1 mẫu với phân phối tuỳ ý và $n>30$.
 
 \textbf{Bước 3:} Thực hiện kiểm định giả thiết.
 
 Xác định mức ý nghĩa $\alpha = 0.05$. Suy ra miền bác bỏ RR $= (Z_{\alpha/2}, +\infty) = (1.644854, +\infty)$.
 Tìm tiêu chuẩn kiểm định:
 \begin{equation*}
-    Z_{\text{qs}} = \dfrac{(\bar{X} - \mu_0)}{\dfrac{S}{\sqrt{n}}}=\dfrac{3136.564-2048}{\dfrac{2838.941}{\sqrt{2610}}} \approx 19.5892.
+    Z_{\text{qs}} = \dfrac{(\bar{X} - \mu_0)}{\dfrac{S}{\sqrt{n}}}=\dfrac{2624.234-2048}{\dfrac{1916.352}{\sqrt{2188}}} \approx 14.0652.
 \end{equation*}
 Tìm các giá trị trong R:
 \begin{lstlisting}[language=R, caption={Tính giá trị Z\_qs trong R}, captionpos=b]
@@ -62,8 +72,17 @@ RR <- qnorm(p = 1 - alpha)
     \caption{Kết quả tính giá trị Z\_qs trong R}
     \label{fig:kq_zqs_1mau}
 \end{figure}
-
-\underline{\textbf{Kết luận:}} Vì $Z_{\text{qs}} = 19.5892 \in RR$, nên ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng trung bình kích thước bộ nhớ của các GPU lớn hơn 2GB với mức ý nghĩa 5\%.
+% \begin{center}
+%     \begin{tcolorbox}[fontupper=\footnotesize]
+%         \begin{verbatim}
+%     > z0
+%     [1] 14.06524
+%     > RR
+%     [1] 1.644854
+%         \end{verbatim}
+%     \end{tcolorbox}
+% \end{center}
+\underline{\textbf{Kết luận:}} Vì $Z_{\text{qs}} = 14.06524 \in RR$, nên ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng trung bình kích thước bộ nhớ của các GPU lớn hơn 2GB với mức ý nghĩa 5\%.
 
 \subsection{Bài toán 2 mẫu.}
 
@@ -74,8 +93,8 @@ Băng thông bộ nhớ (Memory Bandwidth) là thông số quan trọng ảnh h�
 
 \subsubsection{Giả thiết nghiên cứu.}
 \begin{itemize}
-    \item Giả thiết không ($H_0$): Trung bình băng thông bộ nhớ của Nvidia \textbf{không lớn hơn} trung bình băng thông bộ nhớ của AMD.
-    \item Giả thiết đối ($H_1$): Trung bình băng thông bộ nhớ của Nvidia \textbf{lớn hơn} trung bình băng thông bộ nhớ của AMD.
+    \item $H_0$: $\mu_1 \le \mu_2$. Trung bình băng thông bộ nhớ của Nvidia \textbf{không lớn hơn} trung bình băng thông bộ nhớ của AMD.
+    \item $H_1$: $\mu_1 > \mu_2$. Trung bình băng thông bộ nhớ của Nvidia \textbf{lớn hơn} trung bình băng thông bộ nhớ của AMD.
 \end{itemize}
 
 \subsubsection{Thực hiện kiểm định.}
@@ -107,7 +126,7 @@ print(bang_ket_qua)
 \underline{\textbf{Kết quả:}}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{graphics/5_1table.png}
+    \includegraphics[width=0.5\linewidth]{graphics/5_2table.png}
     \caption{Bảng kết quả các đặc điểm thống kê mẫu cho từng nhóm}
     \label{fig:bang_ket_qua}
 \end{figure}
@@ -120,7 +139,7 @@ print(bang_ket_qua)
     \label{fig:shapiro_2mau}
 \end{figure}
 
-\underline{\textbf{Nhận xét:}} có thể thấy rằng cả hai mẫu đều không tuân theo phân phối chuẩn vì và có xu hướng lệch ở hai đầu. Như vậy bài toán ở đây là kiểm định 2 mẫu không phải phân phối chuẩn với $n>30$.
+\underline{\textbf{Nhận xét:}} có thể thấy rằng cả hai mẫu đều không tuân theo phân phối chuẩn vì và có xu hướng lệch ở hai đầu. Như vậy bài toán ở đây là kiểm định 2 mẫu độc lập với phân phối tuỳ ý, $n_1>30$ và $n_2>30$.
 
 \textbf{Bước 3:} Thực hiện kiểm định giả thiết.
 
@@ -128,7 +147,7 @@ Xác định mức ý nghĩa $\alpha = 0.05$. Suy ra miền bác bỏ RR $= (Z_{
 
 Tìm tiêu chuẩn kiểm định:
 \begin{equation*}
-    Z_{\text{qs}} = \dfrac{(\bar{X_1} - \bar{X_2})}{\sqrt{\dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2}}}=\dfrac{165.2467-155.3672}{\sqrt{\dfrac{136.3701}{1524} + \dfrac{141.1330}{1005}}} \approx 1.745874
+    Z_{\text{qs}} = \dfrac{(\bar{X_1} - \bar{X_2})}{\sqrt{\dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2}}}=\dfrac{137.0224-126.2513}{\sqrt{\dfrac{137.0224}{1236} + \dfrac{126.2513}{876}}} \approx 2.7344
 \end{equation*}
 
 Tìm các giá trị trong R:
@@ -140,11 +159,11 @@ RR <- qnorm(p = 1 - alpha)
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{graphics/5_1z.png}
+    \includegraphics[width=0.3\linewidth]{graphics/5_1z.png}
     \caption{Kết quả tính giá trị Z\_qs trong R}
     \label{fig:kq_zqs}
 \end{figure}
-\underline{\textbf{Kết luận:}} Vì $Z_{\text{qs}} = 1.745874 \in RR$, nên ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng trung bình băng thông bộ nhớ của Nvidia lớn hơn trung bình băng thông bộ nhớ của AMD với mức ý nghĩa 5\%.
+\underline{\textbf{Kết luận:}} Vì $Z_{\text{qs}} = 2.7344 \in RR$, nên ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng trung bình băng thông bộ nhớ của Nvidia lớn hơn trung bình băng thông bộ nhớ của AMD với mức ý nghĩa 5\%.
 
 
 
@@ -161,13 +180,13 @@ RR <- qnorm(p = 1 - alpha)
 
 Phân tích One-way ANOVA nhằm đánh giá: Băng thông bộ nhớ (Memory\_Bandwidth) có sự khác biệt về trung bình giữa các hãng sản xuất GPU hay không?
 
-\textbf{Các hãng trong dữ liệu:} AMD, ATI, Intel và NVIDIA.
+\textbf{Các hãng trong dữ liệu:} AMD, ATI và NVIDIA.
 
 \subsubsection{Giả thiết nghiên cứu.}
 
 \begin{itemize}
-    \item Giả thiết không ($H_0$): Trung bình băng thông bộ nhớ giữa các hãng sản xuất \textbf{là bằng nhau}.
-    \item Giả thiết đối ($H_1$): Có \textbf{ít nhất hai hãng sản xuất} có trung bình băng thông bộ nhớ \textbf{khác nhau}.
+    \item $H_0$: $\mu_1 = \mu_2 = \mu_3$. Trung bình băng thông bộ nhớ giữa các hãng sản xuất \textbf{là bằng nhau}.
+    \item $H_1$:  $\exists i,j (i \neq j), \mu_i \neq \mu_j$. Có \textbf{ít nhất hai hãng sản xuất} có trung bình băng thông bộ nhớ \textbf{khác nhau}.
 \end{itemize}
 
 \subsubsection{Kiểm tra giả định thống kê của ANOVA một yếu tố.}
@@ -176,7 +195,7 @@ Phân tích One-way ANOVA nhằm đánh giá: Băng thông bộ nhớ (Memory\_B
 
 \begin{itemize}
     \item Các quan sát độc lập.
-    \item Phần dư tuân theo phân phối chuẩn (tương đương với việc biến phụ thuộc tuân theo phân phối chuẩn trong mỗi nhóm).
+    \item Phân phối chuẩn.
     \item Phương sai giữa các nhóm đồng nhất.
 \end{itemize}
 
@@ -232,17 +251,28 @@ qqline(res)
 
           Từ 2 phép kiểm định trên, ta chắc chắn kết luận được rằng Memory\_Bandwidth không tuân theo phân phối chuẩn.
 
+          Bên cạnh đó nếu từng nhóm con (theo từng hãng sản xuất) đều tuân theo phân phối chuẩn thì ta có thể sử dụng kiểm định ANOVA một yếu tố. Do đó ta sẽ kiểm tra giả định phân phối chuẩn cho từng nhóm con.
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.6\linewidth]{graphics/qqline_tunghang.png}
+              \caption{Biểu đồ Q-Q plot cho từng nhóm con của mô hình ANOVA}
+              \label{fig:qq_group}
+          \end{figure}
+
+          Dễ dàng nhận thấy ở hình \ref{fig:qq_group} rằng cả 3 nhóm con đều không tuân theo phân phối chuẩn. Do đó mô hình ANOVA một yếu tố không phù hợp để phân tích dữ liệu này.
+
     \item \textbf{Phương sai đồng nhất:} Ta sử dụng kiểm định Levene để kiểm tra giả định phương sai đồng nhất.
           \begin{align*}
-              H_0 & : \text{Phương sai giữa các nhóm là đồng nhất}    \\
-              H_1 & : \text{Phương sai giữa các nhóm không đồng nhất}\end{align*}
+              H_0 & : \sigma_1^2 = \sigma_2^2 = \sigma_3^2.~\text{Phương sai giữa các nhóm là đồng nhất.}                  \\
+              H_1 & : \exists i,j (i \neq j), \sigma_i^2 \neq \sigma_j^2.~\text{Phương sai giữa các nhóm không đồng nhất.}
+          \end{align*}
 
           Ta có thể sử dụng lệnh sau trong R để thực hiện kiểm định Levene:
           \begin{lstlisting}[language=R, caption={Kiểm định Levene cho phương sai đồng nhất}, captionpos=b]
             leveneTest(Memory_Bandwidth~ Manufacturer, data = main_df)
         \end{lstlisting}
 
-          Ta thu được kết quả kiểm định Levene được thể hiện trong hình \ref{fig:levene_test}. Ta thấy rằng $\text{p\_value} = 2.742\text{e}-5 << 0.05$, do đó ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng phương sai giữa các nhóm không đồng nhất.
+          Ta thu được kết quả kiểm định Levene được thể hiện trong hình \ref{fig:levene_test}. Ta thấy rằng $\text{p\_value} = 2.005\text{e}-6 << 0.05$, do đó ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng phương sai giữa các nhóm không đồng nhất.
           \begin{figure}[H]
               \centering
               \includegraphics[width=0.6\linewidth]{graphics/5_5levene.png}
@@ -259,7 +289,7 @@ Ta sử đụng lệnh \verb|summary()| để in ra bảng ANOVA.
 summary(anova_model)
         \end{lstlisting}
 
-Kết quả bảng ANOVA được thể hiện trong hình \ref{fig:anova_table}. Ta thấy rằng $\text{p\_value} = 0.00085 << 0.05$, do đó ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng có ít nhất hai hãng sản xuất có trung bình băng thông bộ nhớ khác nhau.
+Kết quả bảng ANOVA được thể hiện trong hình \ref{fig:anova_table}. Ta thấy rằng $\text{p\_value} = 1.51\text{e}-12 << 0.05$, do đó ta bác bỏ giả thiết không $H_0$ và chấp nhận giả thiết đối $H_1$. Kết luận rằng có ít nhất hai hãng sản xuất có trung bình băng thông bộ nhớ khác nhau.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{graphics/5_5anovatable.png}
@@ -281,9 +311,8 @@ tukey_result <- TukeyHSD(anova_model)
     \caption{Kết quả so sánh hậu nghiệm Tukey HSD trong R}
     \label{fig:tukey_hsd}
 \end{figure}
-Kết quả so sánh hậu nghiệm Tukey HSD được thể hiện trong hình \ref{fig:tukey_hsd}. Ta có thể thấy rằng có hai cặp hãng sản xuất có sự khác biệt về trung bình băng thông bộ nhớ với $\text{p\_value} < 0.05$, đó là ATI-AMD và Intel-ATI. Các cặp còn lại không có sự khác biệt về trung bình băng thông bộ nhớ.
 
-\textbf{Nhận xét:} Ta thấy rằng ATI có băng thông trung bình cao hơn so với AMD và NVIDIA.
+\textbf{Nhận xét:} kết quả so sánh hậu nghiệm Tukey HSD được thể hiện trong hình \ref{fig:tukey_hsd}. Ta có thể thấy rằng tất cả các hãng đang xét đều có sự khác biệt về băng thông bộ nhớ trung bình. Đối với ATI-AMD thì ATI có băng thông bộ nhớ trung bình cao hơn AMD với mức ý nghĩa 5\% vì p\_value $= 0.0000000 < 0.05$. Tương tự ta có thể nhận xét cho các cặp so sánh khác. NVIDIA cũng có băng thông trung bình lớn hơn AMD tuy nhiên lại thấp hơn so với ATI.
 
 \subsubsection{Nhận xét về mô hình ANOVA một yếu tố.}
 
@@ -294,7 +323,7 @@ Từ kết quả kiểm tra các giả định thống kê, ta thấy rằng c�
 
 \subsubsection{Xây dựng mô hình.}
 \begin{itemize}
-    \item Việc chia dữ liệu thành hai phần (train và test) là cần thiết để tránh overfitting (hiện tượng mô hình học quá kỹ dữ liệu được cung cấp, đến mức nó ghi nhớ dữ liệu thay vì suy ra các quy luật tổng quát). Để đảm bảo mô hình có được khả năng tổng quát hóa tốt, ta chia bộ dữ liệu thành: training\_set chiếm 80\% và testing\_set chiếm 20\% . Với 2610 mẫu dữ liệu, tỷ lệ này đảm bảo training\_set có đủ dữ liệu để mô hình học hỏi các đặc trưng phức tạp, đồng thời testing\_set vẫn có kích thước đủ lớn (522 mẫu) để đánh giá một cách đáng tin cậy hiệu suất thực tế của mô hình.
+    \item Việc chia dữ liệu thành hai phần (train và test) là cần thiết để tránh overfitting (hiện tượng mô hình học quá kỹ dữ liệu được cung cấp, đến mức nó ghi nhớ dữ liệu thay vì suy ra các quy luật tổng quát). Để đảm bảo mô hình có được khả năng tổng quát hóa tốt, ta chia bộ dữ liệu thành: training\_set chiếm 80\% và testing\_set chiếm 20\% . Với 2188 mẫu dữ liệu, tỷ lệ này đảm bảo training\_set có đủ dữ liệu để mô hình học hỏi các đặc trưng phức tạp, đồng thời testing\_set vẫn có kích thước đủ lớn (436 mẫu) để đánh giá một cách đáng tin cậy hiệu suất thực tế của mô hình.
     \item Để đánh giá và phân tích quan hệ giữa các thông số của GPU, ta chọn:
           \begin{itemize}
               \item Biến phụ thuộc: Memory\_Bandwidth
@@ -330,6 +359,9 @@ summary((model))
               \label{fig:kq1_hqtt}
           \end{figure}
 
+          Sau khi xây dựng mô hình hồi quy tuyến tính bội, ta thu được kết quả như hình \ref{fig:kq1_hqtt}. Từ kết quả vừa thu được ta sẽ dùng nó dự đoán giá trị Memory\_Bandwidth trên tập dữ liệu kiểm tra (testing\_set) và so sánh với giá trị thực tế để đánh giá hiệu suất của mô hình.
+
+
           \begin{figure}[H]
               \centering
               \includegraphics[width=0.7\linewidth]{graphics/6_1org.png}
@@ -337,19 +369,27 @@ summary((model))
               \label{fig:kq2_hqtt}
           \end{figure}
 
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.5\linewidth]{graphics/rmse_org.png}
+              \caption{RMSE và RR của mô hình gốc trên tập testing\_set}
+              \label{fig:error_hqtt}
+          \end{figure}
+
     \item \textbf{\underline{Nhận xét:}}
           \begin{itemize}
-              \item Hệ số Multiple R-squared có giá trị là 0.7536. Điều này có nghĩa là 75.36\% sự biến thiên của biến phụ thuộc Memory\_Bandwidth có thể được giải thích bởi sự thay đổi của 5 biến độc lập trong mô hình. Ngoài ra, Hệ số Adjusted R-squared có giá trị là 0.753 (rất gần với Multiple R-squared). Như vậy, mô hình hoạt động khá hiệu quả và không có biến nào bị đưa vào một cách không cần thiết.
-              \item Tất cả các biến dự đoán đều có p-values rất nhỏ ($\ll 0.05$). Điều này khẳng định rằng tất cả 5 yếu tố này đều là yếu tố dự đoán có ý nghĩa thống kê cao.
-              \item Chỉ số Residual Standard Error (RSE) là 68.9. Đây là độ lệch chuẩn của Memory\_Bandwidth thực tế so với dự đoán.
-              \item Các hệ số ước lượng $\beta_i$ có giá trị như sau: $\beta_0 = -110.6$, $\beta_1 = 1.004$, $\beta_2 = 0.02735$, $\beta_3 = 0.0765$, $\beta_4 = 0.179$, $\beta_5 = 0.02137$.
+              \item Hệ số Multiple R-squared có giá trị là 0.8419. Điều này có nghĩa là 84.19\% sự biến thiên của biến phụ thuộc Memory\_Bandwidth có thể được giải thích bởi sự thay đổi của 5 biến độc lập trong mô hình. Ngoài ra, Hệ số Adjusted R-squared có giá trị là 0.8414 (rất gần với Multiple R-squared). Như vậy, mô hình hoạt động khá hiệu quả và không có biến nào bị đưa vào một cách không cần thiết.
+              \item Tất cả các biến dự đoán đều có p-values rất nhỏ ($\ll 0.05$) ngoại trừ biến Process. Điều này khẳng định rằng các biến Memory, Memory\_Speed, Memory\_Bus và L2\_Cache đều có ảnh hưởng đáng kể đến biến phụ thuộc Memory\_Bandwidth trong khi biến Process không có ảnh hưởng đáng kể. Điều này dẫn ta đến khả năng có thể cải thiện mô hình ở phần sau.
+              \item Chỉ số Residual Standard Error (RSE) là 35.73. Đây là độ lệch chuẩn của Memory\_Bandwidth thực tế so với dự đoán.
+              \item Các hệ số ước lượng $\beta_i$ có giá trị như sau: $\widehat{\beta_0} = -110.1$, $\widehat{\beta_1} = -0.294$, $\widehat{\beta_2} = 0.0104$, $\widehat{\beta_3} = 0.0881$, $\widehat{\beta_4} = 0.607$, $\widehat{\beta_5} = -0.0063$.
+              \item Mô hình dự đoán được tương đối giá trị Memory\_Bandwidth khi so sánh với giá trị thực tế, tuy nhiên vẫn có sự sai lệch nhất định (hình \ref{fig:kq2_hqtt}), đặc biệt có thể thấy rõ khi dự đoán các giá trị thấp hơn 50. Trong khi đó các giá trị lớn hơn 50 thì mô hình dự đoán khá chính xác.
           \end{itemize}
     \item \underline{\textbf{Kết luận:}} Đường thẳng hồi quy ước lượng của mô hình:
           \begin{equation*}
               \begin{split}
-                  \text{Memory\_Bandwidth} = & -110.6 + 1.004 \cdot \text{Process} + 0.02735 \cdot \text{Memory}    \\
-                                             & + 0.0765 \cdot \text{Memory\_Speed} + 0.179 \cdot \text{Memory\_Bus} \\
-                                             & + 0.02137 \cdot \text{L2\_Cache}
+                  \text{Memory\_Bandwidth} = & -110.1 - 0.294 \cdot \text{Process} + 0.0104 \cdot \text{Memory}     \\
+                                             & + 0.0881 \cdot \text{Memory\_Speed} + 0.607 \cdot \text{Memory\_Bus} \\
+                                             & - 0.0063 \cdot \text{L2\_Cache}
               \end{split}
           \end{equation*}
 \end{itemize}
@@ -357,7 +397,7 @@ summary((model))
 \subsubsection{Kiểm tra giả định của mô hình hồi quy.}
 
 \begin{itemize}
-    \item \textbf{Tính tuyến tính.}
+    \item \textbf{Kỳ vọng bằng 0.}
 
           {Ta dùng mô hình chẩn đoán Residuals-Fitted để kiểm tra bằng lệnh:
               \begin{lstlisting}[language=R, caption={Vẽ đồ thị Residuals-Fitted trong R}, captionpos=b]
@@ -370,13 +410,14 @@ summary((model))
                   \caption{Biểu đồ Residuals vs Fitted}
                   \label{fig:mh1_hqtt}
               \end{figure}
-              \underline{\textbf{Nhận xét:}} Đường xu hướng (màu đỏ) nhìn chung tương đối phẳng nhưng vẫn có xu hướng tăng lên theo chiều tăng của fitted values. Như vậy, mô hình chỉ có thể thỏa mãn tương đối tính tuyến tính.}
+              \underline{\textbf{Nhận xét:}} Đường xu hướng (màu đỏ) nhìn chung tương đối phẳng và gần như trùng với đường $y = 0$ . Như vậy, mô hình chỉ có thể tương đối thỏa mãn được tính chất kỳ vọng bằng 0.}
     \item \textbf{Sai số có phân phối chuẩn.}
 
           {Ta có thể sử dụng biểu đồ Q-Q plot để kiểm tra giả định phân phối chuẩn của phần dư như sau:
               \begin{lstlisting}[language=R, caption={Biểu đồ Q-Q plot cho phần dư của mô hình hồi quy tuyến tính}, captionpos=b]
 plot(model, which=2) 
               \end{lstlisting}
+              \newpage
               \underline{\textbf{Kết quả:}}
               \begin{figure} [H]
                   \centering
@@ -384,8 +425,16 @@ plot(model, which=2)
                   \caption{Biểu đồ Q-Q}
                   \label{fig:mh2_hqtt}
               \end{figure}
-              \underline{\textbf{Nhận xét:}} Biểu đồ Q-Q cho thấy phần lớn các điểm nằm sát đường chéo nên sai số của mô hình gần như là có phân phối chuẩn, đặc biệt là ở vùng trung tâm. Tuy nhiên, phần đuôi của đồ thị lại có xu hướng lệch lên so với đường tham chiếu.}
+              Để chắc chắn hơn, ta dùng kiểm định Shapiro-Wilk để kiểm tra:
+              \begin{figure}[H]
+                  \centering
+                  \includegraphics[width=0.6\linewidth]{graphics/hqtt_shapiro.png}
+                  \caption{Kết quả kiểm định Shapiro-Wilk cho sai số của mô hình}
+                  \label{fig:shapiro_wilk_hqtt}
+              \end{figure}
+              \underline{\textbf{Nhận xét:}} Biểu đồ Q-Q cho thấy phần lớn các điểm nằm sát đường chéo nên sai số của mô hình gần như là có phân phối chuẩn, đặc biệt là ở vùng trung tâm. Tuy nhiên, phần đuôi của đồ thị lại có xu hướng lệch lên so với đường tham chiếu. Shapiro-Wilk test cũng cho thấy p-value rất nhỏ (2.2e-16), điều này cho thấy sai số không hoàn toàn tuân theo phân phối chuẩn.}
     \item \textbf{Phương sai đồng nhất.}
+
 
           {Ta dùng mô hình chẩn đoán Scale-Location để kiểm tra bằng lệnh:
           \begin{lstlisting}[language=R, caption={Vẽ đồ thị Scale-Location trong R}, captionpos=b]          
@@ -398,7 +447,7 @@ plot(model, which=3) # Scale-Location
               \caption{Biểu đồ Scale-Location}
               \label{fig:mh3_hqtt}
           \end{figure}
-          \underline{\textbf{Nhận xét:}} Đường xu hướng (màu đỏ) có độ dốc lớn, các điểm có độ phân tán ngày càng cao. Có thể nhận định: mô hình không thỏa mãn tốt tính chất đồng nhất của phương sai.
+          \underline{\textbf{Nhận xét:}} Đường xu hướng (màu đỏ) có xu hướng lõm ở giữa, các điểm phân bố rất rộng và không đều,cho thấy rằng phương sai của sai số không đồng nhất.
     \item {\textbf{Tính độc lập của sai số.}}
 
           Ta dùng kiểm định Durbin-Watson để kiểm tra tính chất này:
@@ -409,14 +458,14 @@ durbinWatsonTest(model) #Kiem tra tinh doc lap cua sai so
           \begin{center}
               \begin{tcolorbox}
                   \begin{verbatim}
-durbinWatsonTest(model) # Kiem tra tinh doc lap cua sai so
- lag    Autocorrelation    D-W Statistic     p-value
-   1       0.47708         1.045552           0
-Alternative hypothesis: rho != 0
+> durbinWatsonTest(model)
+ lag Autocorrelation D-W Statistic p-value
+   1       0.2821306      1.435692       0
+ Alternative hypothesis: rho != 0
                     \end{verbatim}
               \end{tcolorbox}
           \end{center}
-          \underline{\textbf{Nhận xét:}} Tính độc lập của sai số không được thỏa mãn vì hệ số Tự tương quan là tương đối lớn (0.47708).
+          \underline{\textbf{Nhận xét:}} Mô hình có hệ số Autocorrelation (tự tương quan) là tương đối lớn (0.282) và p-value bằng 0. Do đó, mô hình vi phạm tính độc lập của sai số..
           }
     \item \textbf{Kiểm tra đa cộng tuyến.}
 
@@ -431,13 +480,29 @@ vif(model) #Kiểm tra đa cộng tuyến
           \underline{\textbf{Kết quả:}}
           \begin{tcolorbox}
               \begin{verbatim}
-vif(model) #Kiểm tra đa cộng tuyến
+> vif(model)
      Process       Memory Memory_Speed   Memory_Bus     L2_Cache 
-    1.858279     2.202248     1.995969     1.098141     2.065179
+    2.865039     1.882054     2.893043     1.353820     1.569410 
                     \end{verbatim}
           \end{tcolorbox}
           \underline{\textbf{Nhận xét:}} Có thể thấy, hầu hết các biến có chỉ số VIF tuyến ở mức thấp. Như vậy, mô hình có tính ổn định cao về mặt đa cộng tuyến.
+    \item \textbf{Kiểm tra các điểm ngoại lai.}
+          \begin{lstlisting}[language=R, caption={Vẽ đồ thị Cook's Distance trong R}, captionpos=b]
+plot(model, which=5) # Cook's Distance
+            \end{lstlisting}
+          \textbf{\underline{Kết quả:}}
+          \begin{figure} [H]
+              \centering
+              \includegraphics[width=0.5\linewidth]{graphics/cook_distance.png}
+              \caption{Biểu đồ Cook's Distance}
+              \label{fig:mh4_hqtt}
+          \end{figure}
+          %   \underline{\textbf{Nhận xét:}} Từ biểu đồ Cook's Distance, ta thấy rằng không có điểm dữ liệu nào vượt quá ngưỡng cảnh báo (thường là 4/n hoặc 1). Do đó, mô hình không có điểm ngoại lai đáng kể ảnh hưởng đến kết quả hồi quy.
+          \underline{\textbf{Nhận xét:}} Trong biểu đồ này, những điểm ngoại lai (có ảnh hưởng lớn đến mô hình) là những điểm nằm ngoài Cook's distance. Có thể thấy, không có điểm nào nằm ngoài vùng này, vì vậy mô hình không có điểm ngoại lai.
 \end{itemize}
+
+
+
 \subsubsection{Nhận xét về mô hình hồi quy tuyến tính.}
 
-Mô hình hồi quy tuyến tính được xây dựng nhìn chung có thể thỏa mãn tương đối một số giả định quan trọng nhưng cũng tồn tại nhiều hạn chế.
+Mô hình hồi quy tuyến tính được xây dựng nhìn chung có thể thỏa mãn tương đối một số giả định quan trọng nhưng cũng tồn tại nhiều hạn chế vì cơ bản nó vi phạm một số giả định như: sai số không có phân phối chuẩn, phương sai sai số không đồng nhất và sai số không độc lập. Điều này có thể ảnh hưởng đến độ tin cậy của các ước lượng hệ số hồi quy và các kiểm định giả thuyết liên quan. Tuy nhiên, mô hình vẫn cho thấy khả năng giải thích tốt sự biến thiên của biến phụ thuộc Memory\_Bandwidth thông qua các biến độc lập được chọn.
