@@ -68,3 +68,56 @@ clean_cache <- function(x) {
 }
 
 main_df$L2_Cache <- sapply(main_df$L2_Cache, clean_cache)
+
+# 
+# ### Load file
+# # main_df <- read.csv("./out.csv")
+# # main_df <- main_df[,-1]
+# 
+### ------------------ Clean 2
+
+numeric_data <- main_df[, c(
+  "Memory_Bandwidth",
+  "Process",
+  "Memory_Speed",
+  "Memory_Bus",
+  "L2_Cache"
+)]
+
+is_outlier <- function(x) {
+  if (all(is.na(x))) return(rep(FALSE, length(x)))
+  
+  Q1 <- quantile(x, 0.25, na.rm = TRUE)
+  Q3 <- quantile(x, 0.75, na.rm = TRUE)
+  IQR <- Q3 - Q1
+  
+  lower_bound <- Q1 - 1.5 * IQR
+  upper_bound <- Q3 + 1.5 * IQR
+  
+  return(x < lower_bound | x > upper_bound)
+}
+
+outlier_matrix <- sapply(numeric_data, is_outlier)
+rows_with_outliers <- rowSums(outlier_matrix) > 0
+main_df <- main_df[!rows_with_outliers, ]
+
+# 1. Tạo danh sách các giá trị muốn loại bỏ
+gia_tri_can_xoa <- c("Intel", "DDR2", "eDRAM", "GDDR2", "GDDR4", "GDDR5X")
+
+# 2. Viết hàm thay thế
+thay_the_na <- function(df, danh_sach_xoa) {
+  # Duyệt qua từng cột của dataframe
+  df[] <- lapply(df, function(x) {
+    # Nếu giá trị của x nằm trong danh sách xóa thì thay bằng NA, ngược lại giữ nguyên
+    replace(x, x %in% danh_sach_xoa, NA)
+  })
+  return(df)
+}
+
+# 3. Áp dụng hàm vào main_df
+main_df <- thay_the_na(main_df, gia_tri_can_xoa)
+
+# 4. Loại bỏ các dòng chứa NA (như ý bạn muốn)
+main_df <- na.omit(main_df)
+### ----------------------- Clean 2
+

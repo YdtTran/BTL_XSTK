@@ -17,8 +17,8 @@ bang_ket_qua <- data.frame(
   "tb"  = c(tb1, tb2),
   "s"   = c(s1, s2)
 )
-
 print(bang_ket_qua)
+
 # Bước 1: Chia khung hình thành 1 hàng, 2 cột
 par(mfrow = c(1, 2))
 
