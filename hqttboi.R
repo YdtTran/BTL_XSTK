@@ -1,56 +1,103 @@
+# ==============================================================================
+# 1. NAP THU VIEN VA CHUAN BI DU LIEU
+# ==============================================================================
 library(caret)
 library(car)
-# cố định cách chọn các dòng ngẫu nhiên
+library(ggplot2)
+
+# Co dinh hat giong ngau nhien de tai lap ket qua
 set.seed(111)
-# chọn dữ liệu cho train với biến mục tiêu là 'Memory_Bandwidth'
-train_index <- createDataPartition(main_df$Memory_Bandwidth, p = 0.8, 
-                                   list = FALSE)
-# tạo training_set bằng các dòng được chọn
+
+# Chia du lieu: 80% Train, 20% Test
+# 'list = FALSE' de tra ve ma tran chi so thay vi list
+train_index <- createDataPartition(main_df$Memory_Bandwidth, p = 0.8, list = FALSE)
+
 training_set <- main_df[train_index, ]
-# tạo testing_set bằng các dòng còn lại
-testing_set <- main_df[-train_index, ]
-# tạo mô hình hồi quy tuyến tính
-model<-lm(Memory_Bandwidth ~ Process + Memory + Memory_Speed + 
-            Memory_Bus + L2_Cache, training_set)
-summary((model))
+testing_set  <- main_df[-train_index, ]
 
-pred_values <- predict(model, newdata = testing_set)
+# ==============================================================================
+# 2. HUAN LUYEN MO HINH (TRAINING)
+# ==============================================================================
 
-# Tao df cho de nhin
-results_summary_display_original <- data.frame(
-  Memory_Bandwidth_Actual = testing_set$Memory_Bandwidth,
-  Memory_Bandwidth_Predict = pred_values,
-  Error_Original = testing_set$Memory_Bandwidth - pred_values # Tinh sai so
+# Xay dung mo hinh hoi quy tuyen tinh da bien
+model <- lm(
+  formula = Memory_Bandwidth ~ Process + Memory + Memory_Speed + Memory_Bus + L2_Cache, 
+  data    = training_set
 )
 
-head(results_summary_display_original, 10)
+# Xem tom tat thong so mo hinh
+summary(model)
 
+# ==============================================================================
+# 3. DU DOAN VA DANH GIA (PREDICTION & METRICS)
+# ==============================================================================
 
-ggplot(results_summary_display_original, aes(x = testing_set$Memory_Bandwidth, y = pred_values)) +
-  
-  # 1. Vẽ đường lý tưởng y = x (Màu đỏ, nét đứt)
-  # Bất kỳ điểm nào nằm trên đường này là dự đoán chính xác 100%
+# Du doan tren tap testing
+pred_values <- predict(model, newdata = testing_set)
+
+# Tao dataframe so sanh giua Thuc te va Du doan
+results_summary <- data.frame(
+  Actual    = testing_set$Memory_Bandwidth,
+  Predicted = pred_values,
+  Error     = testing_set$Memory_Bandwidth - pred_values
+)
+
+# Hien thi 10 dong dau tien
+print(head(results_summary, 10))
+
+# --- Tinh toan cac chi so danh gia ---
+
+# 1. Tinh RMSE (Can bac hai cua trung binh binh phuong sai so)
+# RMSE cang nho cang tot
+rmse_val <- sqrt(mean(results_summary$Error^2))
+print(paste("RMSE:", round(rmse_val, 4)))
+
+# 2. Tinh R-squared (He so xac dinh tren tap Test)
+# R2 cang gan 1 cang tot
+rss <- sum(results_summary$Error^2)             # Residual Sum of Squares
+tss <- sum((testing_set$Memory_Bandwidth - mean(testing_set$Memory_Bandwidth))^2) # Total Sum of Squares
+r2_val <- 1 - (rss / tss)
+print(paste("R-squared (Test set):", round(r2_val, 4)))
+
+# ==============================================================================
+# 4. TRUC QUAN HOA KET QUA (VISUALIZATION)
+# ==============================================================================
+
+ggplot(results_summary, aes(x = Actual, y = Predicted)) +
+  # Duong ly tuong y = x (Mau do, net dut)
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed", size = 1) +
   
-  # 2. Vẽ các điểm dữ liệu (Scatter plot)
-  # Mỗi điểm đại diện cho một mẫu kiểm tra
+  # Cac diem du lieu (Scatter plot)
   geom_point(color = "blue", alpha = 0.6, size = 2) +
   
-  # 3. Trang trí biểu đồ
-  labs(title = "Biểu đồ đánh giá mô hình: Thực tế vs Dự đoán",
-       subtitle = "Đường nét đứt đỏ là đường lý tưởng (y=x). Điểm càng gần đường đỏ càng tốt.",
-       x = "Giá trị Thực tế (Actual)",
-       y = "Giá trị Dự đoán (Predicted)") +
+  # Trang tri bieu do
+  labs(
+    title    = "Bieu do danh gia: Thuc te vs Du doan",
+    subtitle = "RMSE va R-squared the hien do chinh xac cua mo hinh",
+    x        = "Gia tri Thuc te (Actual)",
+    y        = "Gia tri Du doan (Predicted)"
+  ) +
   
-  # 4. Giữ tỷ lệ khung hình vuông vắn để dễ so sánh đường chéo
-  theme_minimal()
+  theme_minimal() +
+  coord_fixed() # Giu ty le khung hinh vuong
 
-plot(model, which=1) # Residuals vs Fitted
-plot(model, which=2) # Q-Q plot
-shapiro.test(model$residuals)
-plot(model, which=3)
-plot(model, which=5)
+# ==============================================================================
+# 5. KIEM TRA GIA DINH CUA MO HINH (DIAGNOSTICS)
+# ==============================================================================
 
-library(car)
-durbinWatsonTest(model)
-vif(model)
+# Thiet lap luoi do thi 2x2 de xem 4 bieu do residuals cung luc
+par(mfrow = c(2, 2)) 
+plot(model)
+par(mfrow = c(1, 1)) # Tra lai thiet lap mac dinh
+
+# Kiem tra phan phoi chuan cua phan du (Residuals)
+# Neu p-value > 0.05 => Phan du tuan theo phan phoi chuan (Tot)
+print(shapiro.test(model$residuals))
+
+# Kiem tra tu tuong quan (Autocorrelation) - Durbin Watson Test
+# Gia tri DW gan 2 la tot (khong co tu tuong quan)
+print(durbinWatsonTest(model))
+
+# Kiem tra da cong tuyen (Multicollinearity) - VIF
+# Neu VIF > 10 (hoac > 5) => Co dau hieu da cong tuyen
+print(vif(model))
